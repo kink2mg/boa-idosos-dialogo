@@ -26,7 +26,7 @@ const Accessories = () => {
       id: 1,
       nome: "MacBook Pro",
       preco: 8999.90,
-      precoAntigo: 9999.90,  // Preço original
+      precoAntigo: 9999.90,  
       imagem: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=500",
       descricao: "MacBook Pro com processador M1, 8GB RAM",
       emPromocao: true
@@ -43,7 +43,7 @@ const Accessories = () => {
       id: 3,
       nome: "Notebook Ultra",
       preco: 3299.90,
-      precoAntigo: 3999.90,  // Preço original
+      precoAntigo: 3999.90,  
       imagem: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500",
       descricao: "Notebook leve e portátil",
       emPromocao: true
@@ -66,7 +66,6 @@ const Accessories = () => {
       
       <main className="container mx-auto px-4 py-8">
         
-        {/* Promoção Relâmpago */}
         <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
           ⚡ Promoção Relâmpago ⚡
         </h2>
@@ -100,7 +99,7 @@ const Accessories = () => {
                     <p className="text-2xl font-bold text-primary">
                       R$ {produto.preco.toFixed(2).replace('.', ',')}
                     </p>
-                    <span className="text-sm font-semibold text-red-500">
+                    <span className="text-xs font-semibold text-orange-600">
                       {desconto}% OFF
                     </span>
                   </div>
@@ -122,7 +121,6 @@ const Accessories = () => {
           })}
         </div>
 
-        {/* Destaques Exclusivos */}
         <div className="mt-8">
           <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
             ✨ Destaques Exclusivos ✨
