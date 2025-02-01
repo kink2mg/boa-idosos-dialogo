@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Check, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePlanFormatter } from "@/hooks/usePlanFormatter";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 type PlanFeature = {
   text: string;
@@ -20,6 +21,9 @@ type PlanProps = {
   salesCount?: number;
   isLoading?: boolean;
   buttonVariant?: 'default' | 'orange' | 'premium';
+  className?: string;
+  buttonClassName?: string;
+  salesText?: string;
 };
 
 const PlanCard = ({ 
@@ -32,7 +36,10 @@ const PlanCard = ({
   isPopular = false,
   salesCount,
   isLoading = false,
-  buttonVariant = 'default'
+  buttonVariant = 'default',
+  className,
+  buttonClassName,
+  salesText
 }: PlanProps) => {
   const { formatPrice, formatSales } = usePlanFormatter();
 
@@ -51,6 +58,7 @@ const PlanCard = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
+      className={className}
     >
       <Card className="w-full max-w-sm bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
         <div className="p-6">
