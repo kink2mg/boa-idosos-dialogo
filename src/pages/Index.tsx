@@ -10,6 +10,7 @@ const Index = () => {
       category: "Plano Premium",
       price: 119.90,
       gb: 50,
+      sales: 1200, // Adicionei quantidade de vendas
       features: [
         { text: "Passaporte Américas para usar seu celular no exterior" },
         { text: "GB para redes sociais e vídeos" },
@@ -23,6 +24,7 @@ const Index = () => {
       category: "Plano Essencial",
       price: 54.90,
       gb: 25,
+      sales: 800, // Adicionei quantidade de vendas
       features: [
         { text: "5G mais rápido do Brasil" },
         { text: "Ligações ilimitadas" },
@@ -50,6 +52,11 @@ const Index = () => {
               {...plan} 
               isPopular={index === 0}
               className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              // Novas props adicionadas
+              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
+              salesText={plan.sales >= 1000 ? 
+                `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
+                `${plan.sales} vendas`}
             />
           ))}
         </div>
