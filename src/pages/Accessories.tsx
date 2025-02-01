@@ -54,7 +54,7 @@ const Accessories = () => {
         <div className="flex justify-between gap-6">
           {splitProducts.map((productGroup, index) => (
             <div key={index} className="flex-1">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
                 {productGroup.map((product) => (
                   <Card 
                     key={product.id} 
@@ -73,28 +73,4 @@ const Accessories = () => {
                     <CardContent className="p-4">
                       <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{product.name}</CardTitle>
                       <p className="text-gray-600 mb-2">{product.description}</p>
-                      <p className="text-2xl font-bold text-primary">
-                        R$ {product.price.toFixed(2)}
-                      </p>
-                    </CardContent>
-                    <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
-                      <Button 
-                        className="w-full text-white bg-blue-600 hover:bg-blue-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
-                        onClick={() => handleAddToCart(product.name)}
-                      >
-                        <ShoppingCart className="mr-2" />
-                        Compre Agora
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-    </div>
-  );
-};
-
-export default Accessories;
+                      <p className="text-2xl
