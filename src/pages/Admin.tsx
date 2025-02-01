@@ -117,19 +117,23 @@ const Admin = () => {
   const DynamicForm = () => {
     const commonFields = (
       <div className="space-y-4">
-        <Input
-          label="Título"
-          value={selectedItem?.nome || selectedItem?.title || ""}
-          onChange={e => setSelectedItem({...selectedItem, [activeSection === 'noticias' ? 'title' : 'nome']: e.target.value})}
-        />
+        <div>
+          <label className="text-sm font-medium">Título</label>
+          <Input
+            value={selectedItem?.nome || selectedItem?.title || ""}
+            onChange={e => setSelectedItem({...selectedItem, [activeSection === 'noticias' ? 'title' : 'nome']: e.target.value})}
+          />
+        </div>
 
         {activeSection !== 'noticias' && (
-          <Input
-            label="Preço"
-            type="number"
-            value={selectedItem?.preco || 0}
-            onChange={e => setSelectedItem({...selectedItem, preco: Number(e.target.value)})}
-          />
+          <div>
+            <label className="text-sm font-medium">Preço</label>
+            <Input
+              type="number"
+              value={selectedItem?.preco || 0}
+              onChange={e => setSelectedItem({...selectedItem, preco: Number(e.target.value)})}
+            />
+          </div>
         )}
 
         <div className="space-y-2">
@@ -171,22 +175,26 @@ const Admin = () => {
                   <span>Em Promoção</span>
                 </div>
 
-                <Input
-                  label="Preço Antigo"
-                  type="number"
-                  value={selectedItem?.precoAntigo || 0}
-                  onChange={e => setSelectedItem({...selectedItem, precoAntigo: Number(e.target.value)})}
-                />
+                <div>
+                  <label className="text-sm font-medium">Preço Antigo</label>
+                  <Input
+                    type="number"
+                    value={selectedItem?.precoAntigo || 0}
+                    onChange={e => setSelectedItem({...selectedItem, precoAntigo: Number(e.target.value)})}
+                  />
+                </div>
               </>
             )}
 
             {activeSection === 'noticias' && (
-              <Textarea
-                label="Conteúdo"
-                value={selectedItem?.content || ""}
-                onChange={e => setSelectedItem({...selectedItem, content: e.target.value})}
-                rows={6}
-              />
+              <div>
+                <label className="text-sm font-medium">Conteúdo</label>
+                <Textarea
+                  value={selectedItem?.content || ""}
+                  onChange={e => setSelectedItem({...selectedItem, content: e.target.value})}
+                  rows={6}
+                />
+              </div>
             )}
 
             <Button 
@@ -239,13 +247,15 @@ const Admin = () => {
               </h1>
             </div>
             <div className="flex gap-4">
-              <Input
-                placeholder={`Pesquisar ${activeSection}...`}
-                className="w-64"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                icon={<Search className="w-4 h-4" />}
-              />
+              <div className="relative w-64">
+                <Input
+                  placeholder={`Pesquisar ${activeSection}...`}
+                  className="w-full pr-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Search className="w-4 h-4 absolute right-3 top-3 text-gray-400" />
+              </div>
               <Button
                 className="bg-orange-600 hover:bg-orange-700"
                 onClick={() => {
