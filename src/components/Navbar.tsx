@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
+  const [activeButton, setActiveButton] = useState<string | null>(null);
+
   return (
     <nav className="bg-primary">
       <div className="container mx-auto px-4">
@@ -36,13 +39,19 @@ const Navbar = () => {
         <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
           <Button 
             variant="ghost" 
-            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            className={`text-white px-4 py-2 rounded-lg shadow-md transition ${
+              activeButton === "acessorios" ? "bg-green-600" : "bg-red-600 hover:bg-red-700"
+            }`}
+            onClick={() => setActiveButton("acessorios")}
           >
             ACESSÓRIOS
           </Button>
           <Button 
             variant="ghost" 
-            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            className={`text-white px-4 py-2 rounded-lg shadow-md transition ${
+              activeButton === "noticias" ? "bg-green-600" : "bg-red-600 hover:bg-red-700"
+            }`}
+            onClick={() => setActiveButton("noticias")}
           >
             NOTÍCIAS
           </Button>
