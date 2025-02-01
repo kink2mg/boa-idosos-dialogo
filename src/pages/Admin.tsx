@@ -32,6 +32,16 @@ interface News {
   content: string;
 }
 
+interface Plan {
+  id: number;
+  title: string;
+  category: string;
+  price: number;
+  gb: number;
+  features?: string[];
+  isPopular?: boolean;
+}
+
 const Admin = () => {
   // Estados principais
   const [activeSection, setActiveSection] = useState<"planos" | "acessorios" | "noticias">("planos");
@@ -40,7 +50,25 @@ const Admin = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Dados mockados
-  const [planos, setPlanos] = useState([...]); // Manter dados anteriores
+  const [planos, setPlanos] = useState<Plan[]>([
+    {
+      id: 1,
+      title: "NET PÓS",
+      category: "Para seu celular",
+      price: 119.90,
+      gb: 50,
+      isPopular: true,
+      features: ["Ligações ilimitadas", "5G incluso", "Roaming internacional"]
+    },
+    {
+      id: 2,
+      title: "NET CONTROLE",
+      category: "Para seu celular",
+      price: 54.90,
+      gb: 25,
+      features: ["Ligações ilimitadas", "4G+ disponível"]
+    }
+  ]);
 
   const [acessorios, setAcessorios] = useState<Product[]>([
     {
@@ -235,7 +263,37 @@ const Admin = () => {
           <Card>
             <div className="overflow-x-auto">
               {activeSection === 'planos' && (
-                // Tabela de Planos (manter implementação anterior)
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left">Título</th>
+                      <th className="px-6 py-3 text-left">Categoria</th>
+                      <th className="px-6 py-3 text-left">Preço</th>
+                      <th className="px-6 py-3 text-left">GB</th>
+                      <th className="px-6 py-3 text-left">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {planos.map(item => (
+                      <tr key={item.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4">{item.title}</td>
+                        <td className="px-6 py-4">{item.category}</td>
+                        <td className="px-6 py-4">R$ {item.price.toFixed(2).replace('.', ',')}</td>
+                        <td className="px-6 py-4">{item.gb} GB</td>
+                        <td className="px-6 py-4">
+                          <div className="flex gap-2">
+                            <Button variant="ghost" size="sm">
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm" className="text-red-600">
+                              <Trash className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               )}
 
               {activeSection === 'acessorios' && (
