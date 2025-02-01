@@ -7,7 +7,7 @@ const Index = () => {
   const plans = [
     {
       title: "NET PÓS",
-      category: "Para seu celular",
+      category: "Planos",
       price: 119.90,
       gb: 50,
       features: [
@@ -20,7 +20,7 @@ const Index = () => {
     },
     {
       title: "NET CONTROLE",
-      category: "Para seu celular",
+      category: "Planos",
       price: 54.90,
       gb: 25,
       features: [
