@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
 import PlanCard from "@/components/PlanCard";
+import { Button } from "@/components/ui/button";
+import { MessageCircle } from "lucide-react";
 
 const Index = () => {
   const plans = [
