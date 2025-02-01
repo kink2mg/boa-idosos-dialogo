@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const News = () => {
   const news = [
@@ -37,7 +38,7 @@ const News = () => {
                     className="w-full h-48 md:h-full object-cover"
                   />
                 </div>
-                <div className="md:w-2/3">
+                <div className="md:w-2/3 p-4">
                   <CardHeader>
                     <h2 className="text-2xl font-bold">{article.title}</h2>
                     <p className="text-gray-500">
@@ -47,6 +48,14 @@ const News = () => {
                   <CardContent>
                     <p className="text-gray-600">{article.content}</p>
                   </CardContent>
+                  <div className="mt-4">
+                    <Button 
+                      variant="ghost" 
+                      className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+                    >
+                      Ver mais
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
