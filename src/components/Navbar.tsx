@@ -1,5 +1,6 @@
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -10,7 +11,7 @@ const Navbar = () => {
             <Button variant="ghost" className="text-white lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
-            <a href="/" className="text-white text-2xl font-bold">Net</a>
+            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
           </div>
           
           <div className="flex items-center space-x-4">
@@ -37,12 +38,14 @@ const Navbar = () => {
           <Button 
             variant="ghost" 
             className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            onClick={() => window.location.href = '/accessories'}
           >
             ACESSÓRIOS
           </Button>
           <Button 
             variant="ghost" 
             className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            onClick={() => window.location.href = '/news'}
           >
             NOTÍCIAS
           </Button>
