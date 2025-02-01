@@ -68,7 +68,7 @@ const Accessories = () => {
                   onClick={() => handleAddToCart(product.name)}
                 >
                   <ShoppingCart className="mr-2" />
-                  Foi direcionado para Whatsapp 
+                  Compre Agora 
                 </Button>
               </CardFooter>
             </Card>
