@@ -39,41 +39,41 @@ const Accessories = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-600"> {/* Contêiner com fundo azul */}
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-extrabold text-center text-white mb-8">Acessórios</h1> {/* Texto branco */}
+        <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-12">Acessórios</h1>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product) => (
             <Card 
               key={product.id} 
-              className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+              className="overflow-hidden rounded-lg shadow-xl transition-shadow duration-300 ease-in-out hover:shadow-2xl"
             >
               <CardHeader className="relative">
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
+                  className="w-full h-60 object-cover rounded-t-lg transition-transform transform hover:scale-105"
                 />
-                <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
+                <div className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-md">
                   Promoção
                 </div>
               </CardHeader>
-              <CardContent className="p-4">
-                <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{product.name}</CardTitle>
-                <p className="text-gray-600 mb-2">{product.description}</p>
-                <p className="text-2xl font-bold text-primary">
+              <CardContent className="p-6">
+                <CardTitle className="text-2xl font-semibold text-gray-800 mb-3">{product.name}</CardTitle>
+                <p className="text-gray-600 text-sm mb-4">{product.description}</p>
+                <p className="text-2xl font-semibold text-gray-800">
                   R$ {product.price.toFixed(2)}
                 </p>
               </CardContent>
-              <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
+              <CardFooter className="p-6 bg-gray-100 rounded-b-lg">
                 <Button 
-                  className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
+                  className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-3 shadow-md hover:shadow-lg transition-all duration-200"
                   onClick={() => handleAddToCart(product.name)}
                 >
-                  <ShoppingCart className="mr-2" />
+                  <ShoppingCart className="mr-3" />
                   Compre Agora
                 </Button>
               </CardFooter>
