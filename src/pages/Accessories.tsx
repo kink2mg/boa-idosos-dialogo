@@ -107,9 +107,9 @@ const Accessories = () => {
           </div>
         </div>
 
-        {/* Destaques Para Você */}
+        {/* Destaque para você */}
         <div className="mt-8">
-          <h2 className="text-3xl font-semibold text-orange-600 mb-4">DESTAQUES PARA VOCÊ</h2>
+          <h2 className="text-3xl font-semibold text-orange-600 mb-4">Destaque para você</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtosRegulares.map((produto) => (
               <Card 
