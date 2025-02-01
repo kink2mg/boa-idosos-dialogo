@@ -9,12 +9,11 @@ const Accessories = () => {
   const { toast } = useToast();
   
   const [vendas, setVendas] = useState({
-    1: 1200, // Exemplo: 1,2 mil
-    2: 850,   // 850 vendas
-    3: 2000,  // 2,0 mil
+    1: 1200,
+    2: 850,
+    3: 2000,
   });
 
-  // Função para formatar o número de vendas em português
   const formatarVendas = (quantidade: number): string => {
     if (quantidade >= 1000) {
       return `${(quantidade / 1000).toFixed(1).replace('.', ',')} mil`;
@@ -64,11 +63,10 @@ const Accessories = () => {
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Acessórios</h1>
         
         {/* Produtos em Promoção */}
         <div>
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Promoções</h2>
+          <h2 className="text-3xl font-semibold text-orange-600 mb-4">Promoções</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtosEmPromocao.map((produto) => (
               <Card 
@@ -109,9 +107,9 @@ const Accessories = () => {
           </div>
         </div>
 
-        {/* Produtos Regulares */}
+        {/* Destaques Para Você */}
         <div className="mt-8">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Produtos Regulares</h2>
+          <h2 className="text-3xl font-semibold text-orange-600 mb-4">DESTAQUES PARA VOCÊ</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtosRegulares.map((produto) => (
               <Card 
