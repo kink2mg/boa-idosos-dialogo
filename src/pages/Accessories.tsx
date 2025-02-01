@@ -26,6 +26,7 @@ const Accessories = () => {
       id: 1,
       nome: "MacBook Pro",
       preco: 8999.90,
+      precoAntigo: 9999.90,  // Preço original
       imagem: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=500",
       descricao: "MacBook Pro com processador M1, 8GB RAM",
       emPromocao: true
@@ -42,6 +43,7 @@ const Accessories = () => {
       id: 3,
       nome: "Notebook Ultra",
       preco: 3299.90,
+      precoAntigo: 3999.90,  // Preço original
       imagem: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500",
       descricao: "Notebook leve e portátil",
       emPromocao: true
@@ -69,43 +71,55 @@ const Accessories = () => {
           ⚡ Promoção Relâmpago ⚡
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {produtosEmPromocao.map((produto) => (
-            <Card 
-              key={produto.id} 
-              className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
-            >
-              <CardHeader className="relative">
-                <img 
-                  src={produto.imagem} 
-                  alt={produto.nome} 
-                  className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
-                  Promoção
-                </div>
-              </CardHeader>
-              <CardContent className="p-4">
-                <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
-                <p className="text-gray-600 mb-2">{produto.descricao}</p>
-                <div className="flex justify-between items-center">
-                  <p className="text-2xl font-bold text-primary">
-                    R$ {produto.preco.toFixed(2).replace('.', ',')}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {produtosEmPromocao.map((produto) => {
+            const desconto = produto.precoAntigo ? ((1 - produto.preco / produto.precoAntigo) * 100).toFixed(0) : 0;
+            
+            return (
+              <Card 
+                key={produto.id} 
+                className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
+              >
+                <CardHeader className="relative">
+                  <img 
+                    src={produto.imagem} 
+                    alt={produto.nome} 
+                    className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
+                    Promoção
+                  </div>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
+                  <p className="text-gray-600 mb-2">{produto.descricao}</p>
+                  <div className="flex flex-col items-start">
+                    <p className="text-md text-gray-500 line-through">
+                      R$ {produto.precoAntigo?.toFixed(2).replace('.', ',')}
+                    </p>
+                    <p className="text-2xl font-bold text-primary">
+                      R$ {produto.preco.toFixed(2).replace('.', ',')}
+                    </p>
+                    <span className="text-sm font-semibold text-red-500">
+                      {desconto}% OFF
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-2">
+                    Vendas: {formatarVendas(vendas[produto.id])}
                   </p>
-                  <p className="text-sm text-gray-500">Vendas: {formatarVendas(vendas[produto.id])}</p>
-                </div>
-              </CardContent>
-              <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
-                <Button 
-                  className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
-                  onClick={() => adicionarAoCarrinho(produto.nome)}
-                >
-                  <ShoppingCart className="mr-2" />
-                  Comprar Agora
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+                </CardContent>
+                <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
+                  <Button 
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
+                    onClick={() => adicionarAoCarrinho(produto.nome)}
+                  >
+                    <ShoppingCart className="mr-2" />
+                    Comprar Agora
+                  </Button>
+                </CardFooter>
+              </Card>
+            );
+          })}
         </div>
 
         {/* Destaques Exclusivos */}
@@ -114,7 +128,7 @@ const Accessories = () => {
             ✨ Destaques Exclusivos ✨
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtosRegulares.map((produto) => (
               <Card 
                 key={produto.id} 
@@ -130,12 +144,10 @@ const Accessories = () => {
                 <CardContent className="p-4">
                   <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
                   <p className="text-gray-600 mb-2">{produto.descricao}</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-2xl font-bold text-primary">
-                      R$ {produto.preco.toFixed(2).replace('.', ',')}
-                    </p>
-                    <p className="text-sm text-gray-500">Vendas: {formatarVendas(vendas[produto.id])}</p>
-                  </div>
+                  <p className="text-2xl font-bold text-primary">
+                    R$ {produto.preco.toFixed(2).replace('.', ',')}
+                  </p>
+                  <p className="text-sm text-gray-500">Vendas: {formatarVendas(vendas[produto.id])}</p>
                 </CardContent>
                 <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
                   <Button 
