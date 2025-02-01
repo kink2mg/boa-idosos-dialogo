@@ -13,9 +13,20 @@ interface PlanProps {
   features: PlanFeature[];
   gb?: number;
   image?: string;
+  buttonClassName?: string; // Nova prop
+  salesText?: string; // Nova prop
 }
 
-const PlanCard = ({ title, category, price, features, gb, image }: PlanProps) => {
+const PlanCard = ({ 
+  title, 
+  category, 
+  price, 
+  features, 
+  gb, 
+  image,
+  buttonClassName = "bg-orange-500 hover:bg-orange-600", // Valor padrão
+  salesText // Nova prop
+}: PlanProps) => {
   return (
     <Card className="w-full max-w-sm bg-white rounded-lg shadow-lg overflow-hidden">
       <div className="p-6">
@@ -51,9 +62,16 @@ const PlanCard = ({ title, category, price, features, gb, image }: PlanProps) =>
           </div>
         </div>
         
-        <Button className="w-full bg-secondary text-black hover:bg-yellow-400">
-          Contrate
-        </Button>
+        <div className="space-y-2">
+          <Button className={`w-full text-white ${buttonClassName}`}>
+            Contrate
+          </Button>
+          {salesText && (
+            <div className="text-center text-sm text-gray-500">
+              {salesText}
+            </div>
+          )}
+        </div>
       </div>
     </Card>
   );
