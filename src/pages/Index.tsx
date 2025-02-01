@@ -9,7 +9,7 @@ const Index = () => {
       title: "NET PÓS",
       category: "Plano",
       price: 119.90,
-      gb: 50,
+      Mega: 50,
       features: [
         { text: "Passaporte Américas para usar seu celular no exterior como se estivesse no Brasil." },
         { text: "GB para curtir redes sociais e vídeos." },
