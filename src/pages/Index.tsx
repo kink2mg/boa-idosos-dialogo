@@ -12,12 +12,11 @@ const Index = () => {
       price: 119.90,
       mega: 50000,
       features: [
-        { text: "✓ Suporte 24h" },
-        { text: "✓ Instalação Inclusa" },
-        { text: "✓ IP Fixo" },
-        { text: "✓ TV HD Inclusa" },
-        { text: "✓ Passaporte Américas" },
-        { text: "✓ WhatsApp ilimitado" }
+        { text: "Suporte 24h" },
+        { text: "Instalação Inclusa" },
+        { text: "IP Fixo" },
+        { text: "TV HD Inclusa" },
+        { text: "WhatsApp ilimitado" }
       ],
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=500"
     },
@@ -28,12 +27,12 @@ const Index = () => {
       price: 54.90,
       mega: 25000,
       features: [
-        { text: "✓ Suporte 24h" },
-        { text: "✓ Instalação Inclusa" },
-        { text: "✓ IP Fixo" },
-        { text: "✓ TV HD Inclusa" },
-        { text: "✓ 5G mais rápido do Brasil" },
-        { text: "✓ Ligações ilimitadas" }
+        { text: "Suporte 24h" },
+        { text: "Instalação Inclusa" },
+        { text: "IP Fixo" },
+        { text: "TV HD Inclusa" },
+        { text: "5G mais rápido do Brasil" },
+        { text: "Ligações ilimitadas" }
       ],
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500"
     }
