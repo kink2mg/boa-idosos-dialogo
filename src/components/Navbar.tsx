@@ -14,10 +14,10 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white/10">
-              <Phone className="w-5 h-5" />
+            <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+              <Phone className="w-5 h-5 text-primary" />
             </Button>
-            <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white/10">
+            <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
               <img 
                 src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
                 alt="WhatsApp" 
@@ -26,17 +26,17 @@ const Navbar = () => {
             </Button>
             <Button 
               variant="secondary" 
-              className="bg-[#1EAEDB] text-white hover:bg-[#0FA0CE] border-none"
+              className="bg-green-500 text-white hover:bg-green-600 border-none"
             >
               Contrate
             </Button>
           </div>
         </div>
         
-        <div className="flex justify-between py-2 border-t border-red-700">
-          <a href="#celular" className="text-white hover:text-gray-200 text-sm">PARA SEU CELULAR</a>
-          <a href="#casa" className="text-white hover:text-gray-200 text-sm">PARA SUA CASA</a>
-          <a href="#empresa" className="text-white hover:text-gray-200 text-sm">PARA SUA EMPRESA</a>
+        <div className="flex justify-center py-2 border-t border-red-700">
+          <a href="#acessorios-noticias" className="text-white hover:text-gray-200 text-sm">
+            ACESSÓRIOS E NOTÍCIAS
+          </a>
         </div>
       </div>
     </nav>
