@@ -1,28 +1,19 @@
-import { useState } from "react";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <nav className="bg-primary">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Botão de menu hambúrguer com ícone menor */}
           <div className="flex items-center">
-            <Button 
-              variant="ghost" 
-              className="text-white lg:hidden ml-2"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            <Button variant="ghost" className="text-white lg:hidden">
+              <Menu className="w-6 h-6" />
             </Button>
             <Link to="/" className="text-white text-2xl font-bold">Net</Link>
           </div>
-
-          {/* Botões de contato e suporte */}
+          
           <div className="flex items-center space-x-4">
             <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
               <Phone className="w-5 h-5 text-primary" />
@@ -42,33 +33,33 @@ const Navbar = () => {
             </Button>
           </div>
         </div>
-
-        {/* Menu lateral (só aparece quando "isOpen" for true) */}
-        {isOpen && (
-          <div className="absolute top-16 left-0 w-64 bg-red-700 text-white shadow-lg p-4 flex flex-col space-y-4">
-            <Button 
-              variant="ghost" 
-              className="bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-              onClick={() => { window.location.href = '/'; setIsOpen(false); }}
-            >
-              PLANOS
-            </Button>
-            <Button 
-              variant="ghost" 
-              className="bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-              onClick={() => { window.location.href = '/accessories'; setIsOpen(false); }}
-            >
-              ACESSÓRIOS
-            </Button>
-            <Button 
-              variant="ghost" 
-              className="bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-              onClick={() => { window.location.href = '/news'; setIsOpen(false); }}
-            >
-              NOTÍCIAS
-            </Button>
-          </div>
-        )}
+        
+        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
+          {/* Botão Planos */}
+          <Button 
+            variant="ghost" 
+            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            onClick={() => window.location.href = '/'}
+          >
+            PLANOS
+          </Button>
+          {/* Botão Acessórios */}
+          <Button 
+            variant="ghost" 
+            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            onClick={() => window.location.href = '/accessories'}
+          >
+            ACESSÓRIOS
+          </Button>
+          {/* Botão Notícias */}
+          <Button 
+            variant="ghost" 
+            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            onClick={() => window.location.href = '/news'}
+          >
+            NOTÍCIAS
+          </Button>
+        </div>
       </div>
     </nav>
   );
