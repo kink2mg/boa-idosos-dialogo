@@ -20,7 +20,7 @@ const NotFound = () => {
           A URL <span className="font-mono text-red-500">{location.pathname}</span> não existe.
         </p>
         <Link to="/">
-          <button className="mt-6 px-6 py-2 bg-blue-600 text-white text-lg rounded-lg hover:bg-blue-700 transition">
+          <button className="mt-6 px-6 py-2 bg-red-600 text-white text-lg rounded-lg hover:bg-red-700 transition">
             Voltar para Home
           </button>
         </Link>
