@@ -43,6 +43,11 @@ const Accessories = () => {
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
+        {/* Contêiner para o título "Categorias" */}
+        <div className="mb-8 text-center">
+          <h1 className="text-4xl font-extrabold text-gray-800">Categorias</h1>
+        </div>
+
         <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Acessórios</h1>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
