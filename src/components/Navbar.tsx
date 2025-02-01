@@ -10,14 +10,14 @@ const Navbar = () => {
     <nav className="bg-primary">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          {/* Botão de menu hamburguer */}
+          {/* Botão de menu hambúrguer menor e mais na lateral */}
           <div className="flex items-center">
             <Button 
               variant="ghost" 
-              className="text-white lg:hidden"
+              className="text-white lg:hidden p-1 ml-2"
               onClick={() => setIsOpen(!isOpen)}
             >
-              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
             <Link to="/" className="text-white text-2xl font-bold">Net</Link>
           </div>
