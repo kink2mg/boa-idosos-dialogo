@@ -26,7 +26,9 @@ const News = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 py-10">
-        {/* Título removido */}
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">
+          Últimas
+        </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {news.map((article) => (
@@ -59,7 +61,7 @@ const News = () => {
                   <div className="mt-4">
                     <Button 
                       variant="ghost" 
-                      className="flex items-center gap-2 text-orange-500 px-4 py-2 rounded-lg hover:text-orange-600 transition"
+                      className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
                     >
                       Ver mais <FaArrowRight />
                     </Button>
