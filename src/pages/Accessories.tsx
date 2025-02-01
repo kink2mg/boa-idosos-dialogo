@@ -64,52 +64,56 @@ const Accessories = () => {
       
       <main className="container mx-auto px-4 py-8">
         
-        {/* Produtos em Promoção */}
-        <div>
-          <h2 className="text-3xl font-semibold text-orange-600 mb-4">Promoções</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {produtosEmPromocao.map((produto) => (
-              <Card 
-                key={produto.id} 
-                className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
-              >
-                <CardHeader className="relative">
-                  <img 
-                    src={produto.imagem} 
-                    alt={produto.nome} 
-                    className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
-                    Promoção
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
-                  <p className="text-gray-600 mb-2">{produto.descricao}</p>
-                  <div className="flex justify-between items-center">
-                    <p className="text-2xl font-bold text-primary">
-                      R$ {produto.preco.toFixed(2).replace('.', ',')}
-                    </p>
-                    <p className="text-sm text-gray-500">Vendas: {formatarVendas(vendas[produto.id])}</p>
-                  </div>
-                </CardContent>
-                <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
-                  <Button 
-                    className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
-                    onClick={() => adicionarAoCarrinho(produto.nome)}
-                  >
-                    <ShoppingCart className="mr-2" />
-                    Comprar Agora
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
+        {/* Promoção Relâmpago */}
+        <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
+          ⚡ Promoção Relâmpago ⚡
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {produtosEmPromocao.map((produto) => (
+            <Card 
+              key={produto.id} 
+              className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
+            >
+              <CardHeader className="relative">
+                <img 
+                  src={produto.imagem} 
+                  alt={produto.nome} 
+                  className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
+                  Promoção
+                </div>
+              </CardHeader>
+              <CardContent className="p-4">
+                <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
+                <p className="text-gray-600 mb-2">{produto.descricao}</p>
+                <div className="flex justify-between items-center">
+                  <p className="text-2xl font-bold text-primary">
+                    R$ {produto.preco.toFixed(2).replace('.', ',')}
+                  </p>
+                  <p className="text-sm text-gray-500">Vendas: {formatarVendas(vendas[produto.id])}</p>
+                </div>
+              </CardContent>
+              <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
+                <Button 
+                  className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
+                  onClick={() => adicionarAoCarrinho(produto.nome)}
+                >
+                  <ShoppingCart className="mr-2" />
+                  Comprar Agora
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
 
-        {/* Destaque para você */}
+        {/* Destaques Exclusivos */}
         <div className="mt-8">
-          <h2 className="text-3xl font-semibold text-orange-600 mb-4">Destaque para você</h2>
+          <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
+            ✨ Destaques Exclusivos ✨
+          </h2>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtosRegulares.map((produto) => (
               <Card 
