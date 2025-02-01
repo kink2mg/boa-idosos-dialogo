@@ -10,13 +10,12 @@ const Index = () => {
       category: "Plano Premium",
       price: 119.90,
       gb: 50,
-      sales: 1200,
+      sales: 1200, // Adicionei quantidade de vendas
       features: [
-        { text: "Roaming nas Américas incluído" },
-        { text: "Bônus de 15GB para streaming" },
-        { text: "Ligações internacionais ilimitadas" },
-        { text: "Wi-Fi hotspots em todo país" },
-        { text: "5G Ultra Velocidade" }
+        { text: "Passaporte Américas para usar seu celular no exterior" },
+        { text: "GB para redes sociais e vídeos" },
+        { text: "WhatsApp ilimitado" },
+        { text: "Internet de uso livre" }
       ],
       image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=500"
     },
@@ -25,13 +24,12 @@ const Index = () => {
       category: "Plano Essencial",
       price: 54.90,
       gb: 25,
-      sales: 800,
+      sales: 800, // Adicionei quantidade de vendas
       features: [
-        { text: "Cobertura nacional 4G/5G" },
-        { text: "WhatsApp e redes sociais ilimitados" },
-        { text: "10GB extra para primeiros 3 meses" },
-        { text: "Controle de gastos integrado" },
-        { text: "Assistência técnica 24h" }
+        { text: "5G mais rápido do Brasil" },
+        { text: "Ligações ilimitadas" },
+        { text: "YouTube ilimitado" },
+        { text: "+2GB bônus todo mês" }
       ],
       image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500"
     }
@@ -43,12 +41,8 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-12">
         <div className="mb-16 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Conecte-se ao Mundo
-          </h1>
-          <p className="text-lg text-gray-600 mx-auto max-w-xl">
-            Internet móvel de alta velocidade com a melhor relação custo-benefício do mercado
-          </p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Planos Net</h1>
+          <p className="text-lg text-gray-600">Escolha o plano perfeito para suas necessidades</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -57,22 +51,14 @@ const Index = () => {
               key={index} 
               {...plan} 
               isPopular={index === 0}
-              className="transform transition-all duration-300 hover:scale-[1.02]"
-              buttonClassName="bg-indigo-600 hover:bg-indigo-700 text-white"
-              salesText={
-                <span className="text-sm font-medium text-green-600">
-                  {plan.sales >= 1000 
-                    ? `+${(plan.sales/1000).toFixed(1).replace('.', ',')} mil clientes` 
-                    : `+${plan.sales} adesões recentes`}
-                </span>
-              }
+              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              // Novas props adicionadas
+              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
+              salesText={plan.sales >= 1000 ? 
+                `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
+                `${plan.sales} vendas`}
             />
           ))}
-        </div>
-
-        <div className="mt-12 text-center text-sm text-gray-500">
-          <p>*Todos os planos incluem proteção contra fraudes e suporte prioritário</p>
-          <p className="mt-2">Garantia de satisfação ou seu dinheiro de volta em 7 dias</p>
         </div>
       </main>
       
