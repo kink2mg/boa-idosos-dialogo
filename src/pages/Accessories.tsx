@@ -33,8 +33,8 @@ const Accessories = () => {
 
   const handleAddToCart = (productName: string) => {
     toast({
-      title: "Compre Agora",
-      description: `${productName} foi direcionado para Whatsapp.`
+      title: "Sucesso",
+      description: `${productName} Foi direcionado para Whatsapp.`
     });
   };
 
