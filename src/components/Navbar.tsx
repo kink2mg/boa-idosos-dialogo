@@ -29,7 +29,7 @@ const Navbar = () => {
               variant="secondary" 
               className="bg-green-500 text-white hover:bg-green-600 border-none"
             >
-              Contrate
+              Suporte
             </Button>
           </div>
         </div>
