@@ -1,4 +1,4 @@
-import { Menu, Phone, MessageCircle } from "lucide-react";
+import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
@@ -18,18 +18,25 @@ const Navbar = () => {
               <Phone className="w-5 h-5" />
             </Button>
             <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white/10">
-              <MessageCircle className="w-5 h-5" />
+              <img 
+                src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
+                alt="WhatsApp" 
+                className="w-5 h-5"
+              />
             </Button>
-            <Button variant="secondary" className="bg-secondary text-black hover:bg-yellow-400">
+            <Button 
+              variant="secondary" 
+              className="bg-[#1EAEDB] text-white hover:bg-[#0FA0CE] border-none"
+            >
               Contrate
             </Button>
           </div>
         </div>
         
         <div className="flex justify-between py-2 border-t border-red-700">
-          <a href="#celular" className="text-white hover:text-gray-200">PARA SEU CELULAR</a>
-          <a href="#casa" className="text-white hover:text-gray-200">PARA SUA CASA</a>
-          <a href="#empresa" className="text-white hover:text-gray-200">PARA SUA EMPRESA</a>
+          <a href="#celular" className="text-white hover:text-gray-200 text-sm">PARA SEU CELULAR</a>
+          <a href="#casa" className="text-white hover:text-gray-200 text-sm">PARA SUA CASA</a>
+          <a href="#empresa" className="text-white hover:text-gray-200 text-sm">PARA SUA EMPRESA</a>
         </div>
       </div>
     </nav>
