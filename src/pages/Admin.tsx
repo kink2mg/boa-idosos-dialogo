@@ -63,10 +63,49 @@ const Admin = () => {
     localStorage.setItem("primaryColor", primaryColor);
   }, [primaryColor]);
 
-  // Dados mockados (manter igual)
-  const [planos, setPlanos] = useState<Plan[]>([...]);
-  const [acessorios, setAcessorios] = useState<Product[]>([...]);
-  const [noticias, setNoticias] = useState<News[]>([...]);
+  // Dados mockados
+  const [planos, setPlanos] = useState<Plan[]>([
+    {
+      id: 1,
+      title: "NET PÓS",
+      category: "Para seu celular",
+      price: 119.90,
+      gb: 50,
+      features: ["5G Incluso", "Ligações Ilimitadas"],
+      isPopular: true
+    },
+    {
+      id: 2,
+      title: "NET CONTROLE",
+      category: "Para seu celular",
+      price: 54.90,
+      gb: 25,
+      features: ["4G + 5G", "Redes Sociais Ilimitadas"]
+    }
+  ]);
+
+  const [acessorios, setAcessorios] = useState<Product[]>([
+    {
+      id: 1,
+      nome: "MacBook Pro",
+      preco: 8999.90,
+      precoAntigo: 9999.90,
+      imagem: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      descricao: "MacBook Pro com processador M1, 8GB RAM",
+      emPromocao: true,
+      vendas: 1200
+    }
+  ]);
+
+  const [noticias, setNoticias] = useState<News[]>([
+    {
+      id: 1,
+      title: "Nova Tecnologia 5G Revoluciona Conectividade",
+      date: "2024-03-20",
+      image: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+      content: "A tecnologia 5G está transformando a maneira como nos conectamos..."
+    }
+  ]);
 
   // Estilos dinâmicos
   const dynamicStyles = `
