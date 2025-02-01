@@ -1,50 +1,148 @@
-const categories = [
-  {
-    title: "Destaques para Você",
-    products: [
-      { id: 1, name: "Nichos e Prateleiras", price: 120.00, sales: 14320, image: "URL_DA_IMAGEM" },
-      { id: 2, name: "Escorredor de Cozinha", price: 89.90, sales: 6400, image: "URL_DA_IMAGEM" },
-      { id: 3, name: "Acessórios de Pia", price: 45.90, sales: 11940, image: "URL_DA_IMAGEM" }
-    ]
-  },
-  {
-    title: "Descobertas do Dia",
-    products: [
-      { id: 4, name: "Colchão Solteiro", price: 599.00, sales: 104, image: "URL_DA_IMAGEM" },
-      { id: 5, name: "Parafusadeira 25V", price: 178.21, sales: 1700, image: "URL_DA_IMAGEM" }
-    ]
-  }
-];
+import Navbar from "@/components/Navbar";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
-return (
-  <div className="min-h-screen bg-gray-100">
-    <Navbar />
-    
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Categorias</h1>
+const Accessories = () => {
+  const { toast } = useToast();
+  
+  const [sales, setSales] = useState({
+    1: 120, // MacBook Pro
+    2: 85,  // Laptop Profissional
+    3: 200, // Notebook Ultra
+  });
+
+  const products = [
+    {
+      id: 1,
+      name: "MacBook Pro",
+      price: 8999.90,
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=500",
+      description: "MacBook Pro com processador M1, 8GB RAM",
+      isOnSale: true // Produto em promoção
+    },
+    {
+      id: 2,
+      name: "Laptop Profissional",
+      price: 4599.90,
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=500",
+      description: "Laptop para trabalho e estudos",
+      isOnSale: false // Produto sem promoção
+    },
+    {
+      id: 3,
+      name: "Notebook Ultra",
+      price: 3299.90,
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500",
+      description: "Notebook leve e portátil",
+      isOnSale: true // Produto em promoção
+    }
+  ];
+
+  const handleAddToCart = (productName: string) => {
+    toast({
+      title: "Sucesso",
+      description: `${productName} foi direcionado para o WhatsApp.`
+    });
+  };
+
+  const saleProducts = products.filter(product => product.isOnSale);
+  const regularProducts = products.filter(product => !product.isOnSale);
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
       
-      {categories.map((category) => (
-        <div key={category.title} className="mb-8">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">{category.title}</h2>
+      <main className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Acessórios</h1>
+        
+        {/* Produtos em Promoção */}
+        <div>
+          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Promoções</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {category.products.map((product) => (
-              <Card key={product.id} className="overflow-hidden rounded-lg shadow-lg">
+            {saleProducts.map((product) => (
+              <Card 
+                key={product.id} 
+                className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
+              >
                 <CardHeader className="relative">
-                  <img src={product.image} alt={product.name} className="w-full h-60 object-cover rounded-t-lg" />
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
+                    Promoção
+                  </div>
                 </CardHeader>
                 <CardContent className="p-4">
                   <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{product.name}</CardTitle>
-                  <p className="text-2xl font-bold text-primary">R$ {product.price.toFixed(2)}</p>
-                  <p className="text-sm text-gray-500 mt-2">Vendas: {product.sales}</p>
+                  <p className="text-gray-600 mb-2">{product.description}</p>
+                  <div className="flex justify-between items-center">
+                    <p className="text-2xl font-bold text-primary">
+                      R$ {product.price.toFixed(2)}
+                    </p>
+                    <p className="text-sm text-gray-500">Vendas: {sales[product.id]}</p>
+                  </div>
                 </CardContent>
                 <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
-                  <Button className="w-full bg-orange-600 text-white">Comprar</Button>
+                  <Button 
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
+                    onClick={() => handleAddToCart(product.name)}
+                  >
+                    <ShoppingCart className="mr-2" />
+                    Compre Agora
+                  </Button>
                 </CardFooter>
               </Card>
             ))}
           </div>
         </div>
-      ))}
-    </main>
-  </div>
-);
+
+        {/* Produtos Regulares */}
+        <div className="mt-8">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-4">Produtos Regulares</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {regularProducts.map((product) => (
+              <Card 
+                key={product.id} 
+                className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
+              >
+                <CardHeader className="relative">
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                    className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
+                  />
+                </CardHeader>
+                <CardContent className="p-4">
+                  <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{product.name}</CardTitle>
+                  <p className="text-gray-600 mb-2">{product.description}</p>
+                  <div className="flex justify-between items-center">
+                    <p className="text-2xl font-bold text-primary">
+                      R$ {product.price.toFixed(2)}
+                    </p>
+                    <p className="text-sm text-gray-500">Vendas: {sales[product.id]}</p>
+                  </div>
+                </CardContent>
+                <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
+                  <Button 
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
+                    onClick={() => handleAddToCart(product.name)}
+                  >
+                    <ShoppingCart className="mr-2" />
+                    Compre Agora
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Accessories;
