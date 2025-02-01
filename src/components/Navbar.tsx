@@ -35,6 +35,15 @@ const Navbar = () => {
         </div>
         
         <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
+          {/* Botão Planos */}
+          <Button 
+            variant="ghost" 
+            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            onClick={() => window.location.href = '/'}
+          >
+            PLANOS
+          </Button>
+          {/* Botão Acessórios */}
           <Button 
             variant="ghost" 
             className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
@@ -42,6 +51,7 @@ const Navbar = () => {
           >
             ACESSÓRIOS
           </Button>
+          {/* Botão Notícias */}
           <Button 
             variant="ghost" 
             className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
