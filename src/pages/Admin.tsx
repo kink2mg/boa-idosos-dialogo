@@ -116,9 +116,129 @@ const Admin = () => {
     }
   `;
 
-  const handleSaveItem = (itemData: any) => { ... }; // Manter igual
+  const handleSaveItem = (itemData: any) => {
+    const setters = {
+      planos: setPlanos,
+      acessorios: setAcessorios,
+      noticias: setNoticias
+    };
 
-  const DynamicForm = () => { ... }; // Manter igual
+    if (itemData.id) {
+      setters[activeSection](prev => 
+        prev.map(item => item.id === itemData.id ? itemData : item)
+      );
+    } else {
+      setters[activeSection](prev => [...prev, { ...itemData, id: Date.now() }]);
+    }
+    setIsModalOpen(false);
+  };
+
+  const DynamicForm = () => {
+    const commonFields = (
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">
+            {activeSection === 'noticias' ? 'Título' : 'Nome'}
+          </label>
+          <Input
+            value={selectedItem?.nome || selectedItem?.title || ""}
+            onChange={e => setSelectedItem({
+              ...selectedItem,
+              [activeSection === 'noticias' ? 'title' : 'nome']: e.target.value
+            })}
+          />
+        </div>
+
+        {activeSection !== 'noticias' && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Preço</label>
+            <Input
+              type="number"
+              value={selectedItem?.preco || selectedItem?.price || 0}
+              onChange={e => setSelectedItem({
+                ...selectedItem,
+                [activeSection === 'planos' ? 'price' : 'preco']: Number(e.target.value)
+              })}
+            />
+          </div>
+        )}
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Imagem</label>
+          <div className="flex gap-2">
+            <Input
+              value={selectedItem?.imagem || selectedItem?.image || ""}
+              onChange={e => setSelectedItem({
+                ...selectedItem,
+                [activeSection === 'noticias' ? 'image' : 'imagem']: e.target.value
+              })}
+              placeholder="Cole a URL da imagem"
+            />
+            <Button variant="outline">
+              <ImageIcon className="w-4 h-4 mr-2" />
+              Upload
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+
+    return (
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>
+            {selectedItem?.id ? "Editar" : "Novo"} {activeSection === 'noticias' ? "Notícia" : activeSection}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="grid grid-cols-2 gap-6">
+          {commonFields}
+
+          <div className="space-y-4">
+            {activeSection === 'acessorios' && (
+              <>
+                <div className="flex items-center gap-2">
+                  <Switch
+                    checked={selectedItem?.emPromocao || false}
+                    onCheckedChange={checked => setSelectedItem({...selectedItem, emPromocao: checked})}
+                  />
+                  <span>Em Promoção</span>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Preço Antigo</label>
+                  <Input
+                    type="number"
+                    value={selectedItem?.precoAntigo || 0}
+                    onChange={e => setSelectedItem({...selectedItem, precoAntigo: Number(e.target.value)})}
+                  />
+                </div>
+              </>
+            )}
+
+            {activeSection === 'noticias' && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Conteúdo</label>
+                <Textarea
+                  value={selectedItem?.content || ""}
+                  onChange={e => setSelectedItem({...selectedItem, content: e.target.value})}
+                  rows={6}
+                />
+              </div>
+            )}
+
+            <Button 
+              className="w-full"
+              style={{ backgroundColor: primaryColor }}
+              onClick={() => handleSaveItem(selectedItem)}
+            >
+              <Save className="w-4 h-4 mr-2" /> Salvar
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    );
+  };
 
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: `var(--primary-bg)` }}>
@@ -210,26 +330,107 @@ const Admin = () => {
               {/* Tabelas mantidas com substituição de cores */}
               {activeSection === 'planos' && (
                 <table className="w-full">
-                  ...
-                  <td className="px-6 py-4" style={{ color: primaryColor }}>
-                    R$ {item.price.toFixed(2).replace('.', ',')}
-                  </td>
-                  ...
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-4">Título</th>
+                      <th className="px-6 py-4">Preço</th>
+                      <th className="px-6 py-4">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {planos.map(item => (
+                      <tr key={item.id}>
+                        <td className="px-6 py-4">{item.title}</td>
+                        <td className="px-6 py-4" style={{ color: primaryColor }}>
+                          R$ {item.price.toFixed(2).replace('.', ',')}
+                        </td>
+                        <td className="px-6 py-4">
+                          <Button onClick={() => {
+                            setSelectedItem(item);
+                            setIsModalOpen(true);
+                          }}>
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button onClick={() => {
+                            setPlanos(prev => prev.filter(p => p.id !== item.id));
+                          }}>
+                            <Trash className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               )}
 
               {activeSection === 'acessorios' && (
                 <table className="w-full">
-                  ...
-                  <span style={{ color: primaryColor }}>
-                    R$ {item.preco.toFixed(2).replace('.', ',')}
-                  </span>
-                  ...
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-4">Nome</th>
+                      <th className="px-6 py-4">Preço</th>
+                      <th className="px-6 py-4">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {acessorios.map(item => (
+                      <tr key={item.id}>
+                        <td className="px-6 py-4">{item.nome}</td>
+                        <td className="px-6 py-4">
+                          <span style={{ color: primaryColor }}>
+                            R$ {item.preco.toFixed(2).replace('.', ',')}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <Button onClick={() => {
+                            setSelectedItem(item);
+                            setIsModalOpen(true);
+                          }}>
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button onClick={() => {
+                            setAcessorios(prev => prev.filter(a => a.id !== item.id));
+                          }}>
+                            <Trash className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </table>
               )}
 
               {activeSection === 'noticias' && (
-                <table className="w-full">...</table>
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <th className="px-6 py-4">Título</th>
+                      <th className="px-6 py-4">Data</th>
+                      <th className="px-6 py-4">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {noticias.map(item => (
+                      <tr key={item.id}>
+                        <td className="px-6 py-4">{item.title}</td>
+                        <td className="px-6 py-4">{item.date}</td>
+                        <td className="px-6 py-4">
+                          <Button onClick={() => {
+                            setSelectedItem(item);
+                            setIsModalOpen(true);
+                          }}>
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button onClick={() => {
+                            setNoticias(prev => prev.filter(n => n.id !== item.id));
+                          }}>
+                            <Trash className="w-4 h-4" />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               )}
             </div>
           </Card>
@@ -244,7 +445,9 @@ const Admin = () => {
   );
 };
 
-// Função auxiliar para formatar vendas (manter igual)
-const formatarVendas = (quantidade: number): string => { ... };
+// Função auxiliar para formatar vendas
+const formatarVendas = (quantidade: number): string => {
+  return quantidade.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
 
 export default Admin;
