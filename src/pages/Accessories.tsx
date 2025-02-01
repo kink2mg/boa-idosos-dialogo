@@ -92,21 +92,28 @@ const Accessories = () => {
                 <CardContent className="p-4">
                   <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
                   <p className="text-gray-600 mb-2">{produto.descricao}</p>
-                  <div className="flex flex-col items-start">
-                    <p className="text-md text-gray-500 line-through">
-                      R$ {produto.precoAntigo?.toFixed(2).replace('.', ',')}
+
+                  {/* Preço + Desconto + Vendas */}
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <p className="text-2xl font-bold text-primary">
+                        R$ {produto.preco.toFixed(2).replace('.', ',')}
+                      </p>
+                      <span className="text-xs font-semibold text-orange-600">
+                        {desconto}% OFF
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500">
+                      Vendas: {formatarVendas(vendas[produto.id])}
                     </p>
-                    <p className="text-2xl font-bold text-primary">
-                      R$ {produto.preco.toFixed(2).replace('.', ',')}
-                    </p>
-                    <span className="text-xs font-semibold text-orange-600">
-                      {desconto}% OFF
-                    </span>
                   </div>
-                  <p className="text-sm text-gray-500 mt-2">
-                    Vendas: {formatarVendas(vendas[produto.id])}
+
+                  {/* Preço Antigo */}
+                  <p className="text-md text-gray-500 line-through">
+                    R$ {produto.precoAntigo?.toFixed(2).replace('.', ',')}
                   </p>
                 </CardContent>
+
                 <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
                   <Button 
                     className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
