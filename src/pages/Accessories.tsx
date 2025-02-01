@@ -43,9 +43,10 @@ const Accessories = () => {
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
-        {/* Contêiner para o título "Categorias" */}
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-extrabold text-gray-800">Categorias</h1>
+        {/* Contêiner bonito para o título "Categorias" */}
+        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white p-6 rounded-xl shadow-xl mb-8">
+          <h1 className="text-4xl font-extrabold text-center">Categorias</h1>
+          <p className="mt-2 text-center text-lg">Explore nossos produtos e aproveite as promoções incríveis!</p>
         </div>
 
         <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Acessórios</h1>
