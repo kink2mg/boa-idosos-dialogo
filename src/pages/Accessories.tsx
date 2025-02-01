@@ -33,8 +33,8 @@ const Accessories = () => {
 
   const handleAddToCart = (productName: string) => {
     toast({
-      title: "Produto adicionado!",
-      description: `${productName} foi adicionado ao carrinho.`
+      title: "Compre Agora",
+      description: `${productName} foi direcionado para Whatsapp.`
     });
   };
 
@@ -68,7 +68,7 @@ const Accessories = () => {
                   onClick={() => handleAddToCart(product.name)}
                 >
                   <ShoppingCart className="mr-2" />
-                  Adicionar ao Carrinho
+                  Foi direcionado para Whatsapp 
                 </Button>
               </CardFooter>
             </Card>
