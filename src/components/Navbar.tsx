@@ -33,10 +33,13 @@ const Navbar = () => {
           </div>
         </div>
         
-        <div className="flex justify-center py-2 border-t border-red-700">
-          <a href="#acessorios-noticias" className="text-white hover:text-gray-200 text-sm">
-            ACESSÓRIOS E NOTÍCIAS
-          </a>
+        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
+          <Button variant="ghost" className="text-white hover:text-gray-200">
+            ACESSÓRIOS
+          </Button>
+          <Button variant="ghost" className="text-white hover:text-gray-200">
+            NOTÍCIAS
+          </Button>
         </div>
       </div>
     </nav>
