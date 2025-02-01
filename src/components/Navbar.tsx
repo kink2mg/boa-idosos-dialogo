@@ -36,13 +36,13 @@ const Navbar = () => {
         <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
           <Button 
             variant="ghost" 
-            className="text-white bg-red-600/80 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
           >
             ACESSÓRIOS
           </Button>
           <Button 
             variant="ghost" 
-            className="text-white bg-blue-600/80 px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
+            className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
           >
             NOTÍCIAS
           </Button>
