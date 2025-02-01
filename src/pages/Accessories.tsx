@@ -34,41 +34,47 @@ const Accessories = () => {
   const handleAddToCart = (productName: string) => {
     toast({
       title: "Sucesso",
-      description: `${productName} Foi direcionado para Whatsapp.`
+      description: `${productName} foi direcionado para o WhatsApp.`
     });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Acessórios</h1>
+        <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Acessórios</h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
-            <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <CardHeader>
+            <Card 
+              key={product.id} 
+              className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out"
+            >
+              <CardHeader className="relative">
                 <img 
                   src={product.image} 
                   alt={product.name} 
-                  className="w-full h-48 object-cover rounded-t-lg"
+                  className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
                 />
+                <div className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-md">
+                  Promoção
+                </div>
               </CardHeader>
-              <CardContent>
-                <CardTitle className="mb-2">{product.name}</CardTitle>
+              <CardContent className="p-4">
+                <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{product.name}</CardTitle>
                 <p className="text-gray-600 mb-2">{product.description}</p>
                 <p className="text-2xl font-bold text-primary">
                   R$ {product.price.toFixed(2)}
                 </p>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
                 <Button 
-                  className="w-full"
+                  className="w-full text-white bg-blue-600 hover:bg-blue-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
                   onClick={() => handleAddToCart(product.name)}
                 >
                   <ShoppingCart className="mr-2" />
-                  Compre Agora 
+                  Compre Agora
                 </Button>
               </CardFooter>
             </Card>
