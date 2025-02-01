@@ -149,10 +149,16 @@ const Accessories = () => {
                 <CardContent className="p-4">
                   <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
                   <p className="text-gray-600 mb-2">{produto.descricao}</p>
-                  <p className="text-2xl font-bold text-primary">
-                    R$ {produto.preco.toFixed(2).replace('.', ',')}
-                  </p>
-                  <p className="text-sm text-gray-500">Vendas: {formatarVendas(vendas[produto.id])}</p>
+
+                  {/* Preço + Quantidade de Vendas */}
+                  <div className="flex justify-between items-center">
+                    <p className="text-2xl font-bold text-primary">
+                      R$ {produto.preco.toFixed(2).replace('.', ',')}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Vendas: {formatarVendas(vendas[produto.id])}
+                    </p>
+                  </div>
                 </CardContent>
                 <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
                   <Button 
