@@ -1,73 +1,119 @@
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useState } from "react"; // Adicionado estado para menu mobile
+
+// Dados de configuração (podem vir de um arquivo de configuração ou API)
+const APP_CONFIG = {
+  whatsapp: {
+    number: process.env.REACT_APP_WHATSAPP_NUMBER || "5538998622897",
+    message: "Olá! Gostaria de saber mais sobre os planos."
+  },
+  company: {
+    name: "Net",
+    logo: "/logo.png"
+  }
+};
+
+// Itens de navegação centralizados para fácil manutenção
+const NAV_ITEMS = [
+  { path: "/", label: "PLANOS" },
+  { path: "/accessories", label: "ACESSÓRIOS" },
+  { path: "/news", label: "NOTÍCIAS" },
+];
 
 const Navbar = () => {
-  const whatsappNumber = "5538998622897"; // This would come from your admin settings
-  const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const whatsappUrl = `https://wa.me/${APP_CONFIG.whatsapp.number}?text=${encodeURIComponent(APP_CONFIG.whatsapp.message)}`;
 
   return (
     <nav className="bg-primary">
       <div className="container mx-auto px-4">
+        {/* Top Bar */}
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Button variant="ghost" className="text-white lg:hidden">
+          {/* Left Section */}
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              className="text-white lg:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Abrir menu"
+            >
               <Menu className="w-6 h-6" />
             </Button>
-            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
+            <Link to="/" className="text-white text-2xl font-bold flex items-center gap-2">
+              <img 
+                src={APP_CONFIG.company.logo} 
+                alt={APP_CONFIG.company.name} 
+                className="h-8 w-auto"
+              />
+              {APP_CONFIG.company.name}
+            </Link>
           </div>
-          
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
-              <Phone className="w-5 h-5 text-primary" />
-            </Button>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+
+          {/* Right Section */}
+          <div className="flex items-center gap-2">
+            <a href={`tel:${APP_CONFIG.whatsapp.number}`} aria-label="Ligar">
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white/20 hover:bg-white/30">
+                <Phone className="w-5 h-5" />
+              </Button>
+            </a>
+            
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white/20 hover:bg-white/30">
                 <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
+                  src="/whatsapp-icon.svg"  // Garanta que o caminho está correto
                   alt="WhatsApp" 
                   className="w-5 h-5"
                 />
               </Button>
             </a>
+            
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
-                className="bg-green-500 text-white hover:bg-green-600 border-none"
+                className="bg-green-500 text-white hover:bg-green-600"
               >
                 Suporte
               </Button>
             </a>
           </div>
         </div>
-        
-        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
-          <Link to="/">
-            <Button 
-              variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-            >
-              PLANOS
-            </Button>
-          </Link>
-          <Link to="/accessories">
-            <Button 
-              variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-            >
-              ACESSÓRIOS
-            </Button>
-          </Link>
-          <Link to="/news">
-            <Button 
-              variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-            >
-              NOTÍCIAS
-            </Button>
-          </Link>
+
+        {/* Navigation Links - Desktop */}
+        <div className="hidden lg:flex justify-center py-2 border-t border-red-700 gap-4">
+          {NAV_ITEMS.map((item) => (
+            <Link key={item.path} to={item.path}>
+              <Button 
+                variant="ghost" 
+                className="nav-button bg-red-600 text-white hover:bg-red-700"
+              >
+                {item.label}
+              </Button>
+            </Link>
+          ))}
         </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-red-700 flex flex-col gap-2">
+            {NAV_ITEMS.map((item) => (
+              <Link 
+                key={item.path} 
+                to={item.path}
+                className="text-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Button 
+                  variant="ghost" 
+                  className="w-full bg-red-600 text-white hover:bg-red-700"
+                >
+                  {item.label}
+                </Button>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </nav>
   );
