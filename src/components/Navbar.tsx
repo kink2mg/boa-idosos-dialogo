@@ -1,12 +1,12 @@
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState } from "react"; // Adicionado estado para menu mobile
+import { useState } from "react"; 
 
 // Dados de configuração (podem vir de um arquivo de configuração ou API)
 const APP_CONFIG = {
   whatsapp: {
-    number: process.env.REACT_APP_WHATSAPP_NUMBER || "5538998622897",
+    number: import.meta.env.VITE_WHATSAPP_NUMBER || "5538998622897",
     message: "Olá! Gostaria de saber mais sobre os planos."
   },
   company: {
