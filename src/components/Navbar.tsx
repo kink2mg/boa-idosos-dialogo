@@ -61,10 +61,10 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Botão de Compartilhar */}
+            {/* Botão de Compartilhar (verde) */}
             <Button 
               variant="secondary" 
-              className="bg-blue-500 text-white hover:bg-blue-600 border-none flex items-center gap-2"
+              className="bg-green-500 text-white hover:bg-green-600 border-none flex items-center gap-2"
               onClick={handleShare}
             >
               <Share2 className="w-5 h-5" />
