@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const instagramUrl = "https://www.instagram.com/seu_usuario"; // Substitua pelo nome de usuário correto
+  const instagramUrl = "https://www.instagram.com/m.vinizxxp1"; // Substitua pelo nome de usuário correto
 
   return (
     <nav className="bg-primary">
