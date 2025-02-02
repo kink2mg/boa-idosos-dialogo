@@ -107,15 +107,6 @@ const Admin = () => {
     }
   ]);
 
-  // Estilos dinâmicos
-  const dynamicStyles = `
-    :root {
-      --primary-color: ${primaryColor};
-      --primary-hover: ${primaryColor}CC;
-      --primary-bg: ${primaryColor}10;
-    }
-  `;
-
   const handleSaveItem = (itemData: any) => {
     const setters = {
       planos: setPlanos,
@@ -163,6 +154,20 @@ const Admin = () => {
           </div>
         )}
 
+        {activeSection === 'planos' && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Mega</label>
+            <Input
+              type="number"
+              value={selectedItem?.gb || 0}
+              onChange={e => setSelectedItem({
+                ...selectedItem,
+                gb: Number(e.target.value)
+              })}
+            />
+          </div>
+        )}
+
         <div className="space-y-2">
           <label className="text-sm font-medium">Imagem</label>
           <div className="flex gap-2">
@@ -180,6 +185,32 @@ const Admin = () => {
             </Button>
           </div>
         </div>
+
+        {activeSection === 'planos' && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Features</label>
+            <div className="flex gap-2">
+              <Input
+                value={selectedItem?.features?.join('\n') || ""}
+                onChange={e => setSelectedItem({
+                  ...selectedItem,
+                  features: e.target.value.split('\n').filter(f => f.trim())
+                })}
+                placeholder="Digite uma feature por linha"
+              />
+            </div>
+            <div className="flex items-center gap-2 mt-2">
+              <Switch
+                checked={selectedItem?.isPopular || false}
+                onCheckedChange={checked => setSelectedItem({
+                  ...selectedItem,
+                  isPopular: checked
+                })}
+              />
+              <span>Plano Popular</span>
+            </div>
+          </div>
+        )}
       </div>
     );
 
@@ -242,7 +273,13 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: `var(--primary-bg)` }}>
-      <style>{dynamicStyles}</style>
+      <style>{`
+        :root {
+          --primary-color: ${primaryColor};
+          --primary-hover: ${primaryColor}CC;
+          --primary-bg: ${primaryColor}10;
+        }
+      `}</style>
       
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-200 p-4">
