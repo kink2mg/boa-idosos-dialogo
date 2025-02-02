@@ -1,17 +1,33 @@
-import { Menu } from "lucide-react";
+import { Menu, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const whatsappNumber = "5538998622897"; // Número do WhatsApp
+  const whatsappNumber = "5538998622897";
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
-  const facebookUser = "marcosviniciusmg03"; // Nome de usuário do Facebook
+  const facebookUser = "marcosviniciusmg03";
   const facebookUrl = `https://www.facebook.com/${facebookUser}`;
 
-  const instagramUser = "m.vinizxxp1"; // Nome de usuário do Instagram
+  const instagramUser = "m.vinizxxp1";
   const instagramUrl = `https://www.instagram.com/${instagramUser}`;
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Confira este site!",
+          text: "Dá uma olhada nesse site incrível!",
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("Erro ao compartilhar:", error);
+      }
+    } else {
+      alert("Seu navegador não suporta compartilhamento nativo.");
+    }
+  };
 
   return (
     <nav className="bg-primary">
@@ -45,14 +61,15 @@ const Navbar = () => {
               </Button>
             </a>
 
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <Button 
-                variant="secondary" 
-                className="bg-green-500 text-white hover:bg-green-600 border-none"
-              >
-                Suporte
-              </Button>
-            </a>
+            {/* Botão de Compartilhar */}
+            <Button 
+              variant="secondary" 
+              className="bg-blue-500 text-white hover:bg-blue-600 border-none flex items-center gap-2"
+              onClick={handleShare}
+            >
+              <Share2 className="w-5 h-5" />
+              Compartilhar
+            </Button>
           </div>
         </div>
         
@@ -83,7 +100,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Contêiner da mensagem de boas-vindas com fundo laranja */}
         <div className="mt-4 flex justify-center">
           <div className="bg-orange-500 p-4 rounded-lg shadow-md text-center w-full max-w-md">
             <p className="text-lg font-semibold text-white">
