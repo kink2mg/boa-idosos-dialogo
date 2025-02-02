@@ -89,7 +89,7 @@ const PlanCard = ({
 
           {gb && (
             <div className="text-primary text-4xl font-bold mb-4">
-              {gb} Mega
+              {gb}GB
             </div>
           )}
 
