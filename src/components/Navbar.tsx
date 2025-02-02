@@ -83,13 +83,13 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Contêiner da mensagem de boas-vindas */}
+        {/* Contêiner da mensagem de boas-vindas com fundo laranja */}
         <div className="mt-4 flex justify-center">
-          <div className="bg-white p-4 rounded-lg shadow-md text-center w-full max-w-md">
-            <p className="text-lg font-semibold text-gray-800">
-              👋 Bem-vindo(a) à <span className="text-red-600 font-bold">Net</span>!
+          <div className="bg-orange-500 p-4 rounded-lg shadow-md text-center w-full max-w-md">
+            <p className="text-lg font-semibold text-white">
+              👋 Bem-vindo(a) à <span className="font-bold">Net</span>!
             </p>
-            <p className="text-gray-600">Conectando você ao melhor da internet! 🚀</p>
+            <p className="text-white">Conectando você ao melhor da internet! 🚀</p>
           </div>
         </div>
       </div>
