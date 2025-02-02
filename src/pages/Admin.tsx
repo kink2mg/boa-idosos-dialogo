@@ -1,356 +1,271 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Palette,
-  Save,
-  Rocket,
-  ShoppingBag,
-  Newspaper,
-  Settings,
-  Plus,
-  Trash2,
-  Link as LinkIcon,
-  Smartphone
-} from "lucide-react";
+import { Edit, Trash } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import PlanForm from "@/components/admin/PlanForm";
+import AccessoryForm from "@/components/admin/AccessoryForm";
+import NewsForm from "@/components/admin/NewsForm";
 
-interface ThemeConfig {
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
+interface PlanFeature {
   text: string;
-  glass: string;
+  info?: string;
 }
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
+interface Plan {
+  id: number;
+  title: string;
   category: string;
+  price: number;
+  precoAntigo?: number;
+  mega: number;
+  features: PlanFeature[];
+  imageUrl?: string;
+  videoUrl?: string;
+  isPopular?: boolean;
+  salesCount?: number;
+  description?: string;
+}
+
+interface Accessory {
+  id: number;
+  nome: string;
+  preco: number;
+  precoAntigo?: number;
+  descricao: string;
+  imagem: string;
+  videoUrl?: string;
+  categoria: string;
+  emPromocao: boolean;
+  quantidadeVendas: number;
+}
+
+interface NewsItem {
+  id: number;
+  title: string;
+  content: string;
+  date: string;
   image: string;
-  link: string;
-  featured: boolean;
+  videoUrl?: string;
+  category: string;
 }
 
 const Admin = () => {
   const { toast } = useToast();
-  const [theme, setTheme] = useState<ThemeConfig>({
-    primary: "#6366f1",
-    secondary: "#4f46e5",
-    accent: "#f59e0b",
-    background: "#0f172a",
-    text: "#f8fafc",
-    glass: "rgba(99, 102, 241, 0.1)"
-  });
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [accessories, setAccessories] = useState<Accessory[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [showPlanForm, setShowPlanForm] = useState(false);
+  const [showAccessoryForm, setShowAccessoryForm] = useState(false);
+  const [showNewsForm, setShowNewsForm] = useState(false);
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
-    name: "",
-    price: 0,
-    category: "plano",
-    image: "",
-    link: "",
-    featured: false
-  });
-
-  // Carregar dados iniciais
-  useEffect(() => {
-    const savedData = {
-      theme: localStorage.getItem("nebulaTheme"),
-      products: localStorage.getItem("nebulaProducts")
-    };
-
-    if (savedData.theme) setTheme(JSON.parse(savedData.theme));
-    if (savedData.products) setProducts(JSON.parse(savedData.products));
-  }, []);
-
-  // Salvar configurações
-  const saveAll = () => {
-    localStorage.setItem("nebulaTheme", JSON.stringify(theme));
-    localStorage.setItem("nebulaProducts", JSON.stringify(products));
-    toast({ title: "🪐 Configurações cósmicas salvas!" });
+  const handleAddPlan = (newPlan: Omit<Plan, "id">) => {
+    const plan = { ...newPlan, id: plans.length + 1 };
+    setPlans([...plans, plan]);
+    setShowPlanForm(false);
+    toast({
+      title: "Sucesso",
+      description: "Plano adicionado com sucesso!"
+    });
   };
 
-  // Gerar link automático
-  const generateLink = (name: string) => {
-    return `/${name.toLowerCase().replace(/ /g, '-')}`;
+  const handleAddAccessory = (newAccessory: Omit<Accessory, "id">) => {
+    const accessory = { ...newAccessory, id: accessories.length + 1 };
+    setAccessories([...accessories, accessory]);
+    setShowAccessoryForm(false);
+    toast({
+      title: "Sucesso",
+      description: "Acessório adicionado com sucesso!"
+    });
+  };
+
+  const handleAddNews = (newNews: Omit<NewsItem, "id">) => {
+    const newsItem = { ...newNews, id: news.length + 1 };
+    setNews([...news, newsItem]);
+    setShowNewsForm(false);
+    toast({
+      title: "Sucesso",
+      description: "Notícia adicionada com sucesso!"
+    });
+  };
+
+  const handleDeletePlan = (id: number) => {
+    setPlans(plans.filter(plan => plan.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Plano removido com sucesso!"
+    });
+  };
+
+  const handleDeleteAccessory = (id: number) => {
+    setAccessories(accessories.filter(acc => acc.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Acessório removido com sucesso!"
+    });
+  };
+
+  const handleDeleteNews = (id: number) => {
+    setNews(news.filter(item => item.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Notícia removida com sucesso!"
+    });
   };
 
   return (
-    <div className="min-h-screen" style={{ 
-      background: `linear-gradient(160deg, ${theme.background}, ${theme.primary}20)`,
-      color: theme.text
-    }}>
-      <div className="max-w-6xl mx-auto p-4">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-              Nebula Control Panel
-            </h1>
-            <p className="text-sm opacity-75">Gestão Intergaláctica de Produtos</p>
-          </div>
-          
-          <Button 
-            onClick={saveAll}
-            className="glass-effect"
-            style={{ backgroundColor: theme.accent }}
-          >
-            <Save size={18} className="mr-2" />
-            Salvar na Nuvem
-          </Button>
-        </div>
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
 
-        {/* Conteúdo Principal */}
-        <Tabs defaultValue="products">
-          <TabsList className="glass-effect border-none gap-2 mb-6">
-            <TabsTrigger value="products" className="data-[state=active]:bg-accent">
-              <ShoppingBag size={18} className="mr-2" />
-              Produtos
-            </TabsTrigger>
-            <TabsTrigger value="theme" className="data-[state=active]:bg-accent">
-              <Palette size={18} className="mr-2" />
-              Tema
-            </TabsTrigger>
-            <TabsTrigger value="mobile" className="data-[state=active]:bg-accent">
-              <Smartphone size={18} className="mr-2" />
-              Mobile
-            </TabsTrigger>
+        <Tabs defaultValue="plans" className="space-y-4">
+          <TabsList>
+            <TabsTrigger value="plans">Planos</TabsTrigger>
+            <TabsTrigger value="accessories">Acessórios</TabsTrigger>
+            <TabsTrigger value="news">Notícias</TabsTrigger>
           </TabsList>
 
-          {/* Seção de Produtos */}
-          <TabsContent value="products">
-            <Card className="glass-effect border-none">
-              <div className="p-6 space-y-8">
-                {/* Formulário de Novo Produto */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Nome do Produto"
-                    value={newProduct.name}
-                    onChange={(e) => setNewProduct({
-                      ...newProduct,
-                      name: e.target.value,
-                      link: generateLink(e.target.value)
-                    })}
-                    className="glass-input"
-                  />
-                  
-                  <input
-                    type="number"
-                    placeholder="Preço"
-                    value={newProduct.price}
-                    onChange={(e) => setNewProduct({
-                      ...newProduct, 
-                      price: Number(e.target.value)
-                    })}
-                    className="glass-input"
-                  />
+          <TabsContent value="plans">
+            <div className="space-y-4">
+              <Button onClick={() => setShowPlanForm(!showPlanForm)}>
+                {showPlanForm ? "Cancelar" : "Adicionar Novo Plano"}
+              </Button>
 
-                  <select
-                    value={newProduct.category}
-                    onChange={(e) => setNewProduct({
-                      ...newProduct, 
-                      category: e.target.value
-                    })}
-                    className="glass-input"
-                  >
-                    <option value="plano">Plano</option>
-                    <option value="acessorio">Acessório</option>
-                    <option value="noticia">Notícia</option>
-                  </select>
+              {showPlanForm && (
+                <Card className="p-6">
+                  <PlanForm onSubmit={handleAddPlan} />
+                </Card>
+              )}
 
-                  <input
-                    type="text"
-                    placeholder="URL da Imagem"
-                    value={newProduct.image}
-                    onChange={(e) => setNewProduct({
-                      ...newProduct, 
-                      image: e.target.value
-                    })}
-                    className="glass-input"
-                  />
-
-                  <div className="md:col-span-2 flex items-center gap-4">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={newProduct.featured}
-                        onChange={(e) => setNewProduct({
-                          ...newProduct, 
-                          featured: e.target.checked
-                        })}
-                        className="w-4 h-4 accent-indigo-500"
-                      />
-                      Destaque
-                    </label>
-                  </div>
-
-                  <Button
-                    onClick={() => {
-                      const product = { ...newProduct, id: Date.now().toString() };
-                      setProducts([...products, product]);
-                      setNewProduct({
-                        name: "",
-                        price: 0,
-                        category: "plano",
-                        image: "",
-                        link: "",
-                        featured: false
-                      });
-                    }}
-                    className="md:col-span-2 glass-effect hover:scale-[1.02] transition-transform"
-                    style={{ backgroundColor: theme.primary }}
-                  >
-                    <Rocket className="mr-2" />
-                    Lançar Produto
-                  </Button>
-                </div>
-
-                {/* Lista de Produtos */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {products.map((product) => (
-                    <Card 
-                      key={product.id}
-                      className="glass-effect border-none relative group overflow-hidden"
-                    >
-                      <div className="p-4">
-                        <div className="relative h-40 mb-4 rounded-xl overflow-hidden">
-                          <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                          />
-                          {product.featured && (
-                            <div className="absolute top-2 left-2 bg-accent px-3 py-1 rounded-full text-xs font-bold">
-                              ★ Destaque
-                            </div>
+              <div className="grid gap-4">
+                {plans.map((plan) => (
+                  <Card key={plan.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{plan.title}</h3>
+                        <p className="text-gray-500">{plan.category}</p>
+                        <p className="text-sm mt-2">{plan.description}</p>
+                        <div className="mt-2">
+                          <span className="font-bold">R$ {plan.price.toFixed(2)}</span>
+                          {plan.precoAntigo && (
+                            <span className="text-gray-500 line-through ml-2">
+                              R$ {plan.precoAntigo.toFixed(2)}
+                            </span>
                           )}
                         </div>
-
-                        <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-                        
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="text-lg font-bold">
-                            R$ {product.price.toFixed(2)}
-                          </span>
-                          <span className="text-sm px-2 py-1 rounded-full bg-primary/10">
-                            {product.category}
-                          </span>
-                        </div>
-
-                        <div className="flex gap-2">
-                          <a 
-                            href={product.link} 
-                            target="_blank"
-                            className="flex-1"
-                          >
-                            <Button 
-                              variant="outline" 
-                              className="w-full glass-effect flex items-center gap-2"
-                            >
-                              <LinkIcon size={16} />
-                              Visualizar
-                            </Button>
-                          </a>
-                          
-                          <Button
-                            variant="destructive"
-                            onClick={() => setProducts(products.filter(p => p.id !== product.id))}
-                            className="px-3"
-                          >
-                            <Trash2 size={18} />
-                          </Button>
-                        </div>
                       </div>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
-
-          {/* Seção de Tema */}
-          <TabsContent value="theme">
-            <Card className="glass-effect border-none p-6">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {Object.entries(theme).map(([key, value]) => (
-                  <div key={key} className="space-y-2">
-                    <label className="text-sm font-medium capitalize">{key}</label>
-                    <input
-                      type="color"
-                      value={value}
-                      onChange={(e) => setTheme({ ...theme, [key]: e.target.value })}
-                      className="w-full h-10 rounded-lg cursor-pointer border-none"
-                    />
-                    <div className="text-xs opacity-75">{value}</div>
-                  </div>
+                      <div className="flex space-x-2">
+                        <Button variant="outline" size="icon">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="destructive" 
+                          size="icon"
+                          onClick={() => handleDeletePlan(plan.id)}
+                        >
+                          <Trash className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
                 ))}
               </div>
-            </Card>
+            </div>
           </TabsContent>
 
-          {/* Seção Mobile */}
-          <TabsContent value="mobile">
-            <Card className="glass-effect border-none p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold">📱 Otimização Mobile</h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" id="pwa" className="w-4 h-4 accent-primary" />
-                      <label htmlFor="pwa">Ativar PWA</label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <input type="checkbox" id="offline" className="w-4 h-4 accent-primary" />
-                      <label htmlFor="offline">Suporte Offline</label>
-                    </div>
-                  </div>
-                </div>
+          <TabsContent value="accessories">
+            <div className="space-y-4">
+              <Button onClick={() => setShowAccessoryForm(!showAccessoryForm)}>
+                {showAccessoryForm ? "Cancelar" : "Adicionar Novo Acessório"}
+              </Button>
 
-                <div className="relative h-64 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl p-4">
-                  <div className="absolute inset-0 backdrop-blur-lg rounded-xl" />
-                  <div className="relative z-10">
-                    <h3 className="text-lg font-bold mb-2">📲 Preview Mobile</h3>
-                    <div className="space-y-2 text-sm">
-                      <p>• Layout Responsivo</p>
-                      <p>• Touch Optimized</p>
-                      <p>• Instant Updates</p>
+              {showAccessoryForm && (
+                <Card className="p-6">
+                  <AccessoryForm onSubmit={handleAddAccessory} />
+                </Card>
+              )}
+
+              <div className="grid gap-4">
+                {accessories.map((accessory) => (
+                  <Card key={accessory.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{accessory.nome}</h3>
+                        <p className="text-gray-500">{accessory.categoria}</p>
+                        <p className="text-sm mt-2">{accessory.descricao}</p>
+                        <div className="mt-2">
+                          <span className="font-bold">R$ {accessory.preco.toFixed(2)}</span>
+                          {accessory.precoAntigo && (
+                            <span className="text-gray-500 line-through ml-2">
+                              R$ {accessory.precoAntigo.toFixed(2)}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button variant="outline" size="icon">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="destructive" 
+                          size="icon"
+                          onClick={() => handleDeleteAccessory(accessory.id)}
+                        >
+                          <Trash className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </Card>
+                ))}
               </div>
-            </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="news">
+            <div className="space-y-4">
+              <Button onClick={() => setShowNewsForm(!showNewsForm)}>
+                {showNewsForm ? "Cancelar" : "Adicionar Nova Notícia"}
+              </Button>
+
+              {showNewsForm && (
+                <Card className="p-6">
+                  <NewsForm onSubmit={handleAddNews} />
+                </Card>
+              )}
+
+              <div className="grid gap-4">
+                {news.map((item) => (
+                  <Card key={item.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{item.title}</h3>
+                        <p className="text-gray-500">{item.category}</p>
+                        <p className="text-sm mt-2">{item.content}</p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          {new Date(item.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button variant="outline" size="icon">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="destructive" 
+                          size="icon"
+                          onClick={() => handleDeleteNews(item.id)}
+                        >
+                          <Trash className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
-
-      <style jsx global>{`
-        .glass-effect {
-          backdrop-filter: blur(12px);
-          background: ${theme.glass};
-          border: 1px solid ${theme.primary}20;
-          box-shadow: 0 8px 32px ${theme.primary}10;
-        }
-
-        .glass-input {
-          background: ${theme.primary}10;
-          border: 1px solid ${theme.primary}20;
-          color: ${theme.text};
-          padding: 0.75rem;
-          border-radius: 0.5rem;
-          transition: all 0.3s ease;
-        }
-
-        .glass-input:focus {
-          outline: none;
-          border-color: ${theme.primary};
-          box-shadow: 0 0 0 2px ${theme.primary}40;
-        }
-      `}</style>
     </div>
   );
 };
