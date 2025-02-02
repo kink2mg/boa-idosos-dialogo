@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [username, setUsername] = useState("Visitante");
-
   const whatsappNumber = "5538998622897"; // Número do WhatsApp
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -86,18 +83,14 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Frase de boas-vindas personalizada */}
-        <div className="text-center mt-4">
-          <p className="text-white text-lg font-semibold">
-            👋 Olá, {username}! Seja bem-vindo(a)!
-          </p>
-          <input
-            type="text"
-            placeholder="Digite seu nome..."
-            className="mt-2 px-4 py-2 rounded-lg text-black"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+        {/* Contêiner da mensagem de boas-vindas */}
+        <div className="mt-4 flex justify-center">
+          <div className="bg-white p-4 rounded-lg shadow-md text-center w-full max-w-md">
+            <p className="text-lg font-semibold text-gray-800">
+              👋 Bem-vindo(a) à <span className="text-red-600 font-bold">Net</span>!
+            </p>
+            <p className="text-gray-600">Conectando você ao melhor da internet! 🚀</p>
+          </div>
         </div>
       </div>
     </nav>
