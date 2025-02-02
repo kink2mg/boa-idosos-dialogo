@@ -1,4 +1,4 @@
-import { Menu } from "lucide-react";
+import { Menu, Phone, Facebook, Instagram, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -32,24 +32,36 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
+            {/* Ícone de Telefone */}
+            <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+              <Phone className="w-5 h-5 text-primary" />
+            </Button>
+
             {/* Botão do Facebook */}
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="secondary" className="bg-blue-600 text-white hover:bg-blue-700">
-                Facebook
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <Facebook className="w-5 h-5 text-blue-600" />
               </Button>
             </a>
 
             {/* Botão do Instagram */}
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="secondary" className="bg-pink-600 text-white hover:bg-pink-700">
-                Instagram
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <Instagram className="w-5 h-5 text-pink-600" />
               </Button>
             </a>
 
-            {/* Botão do WhatsApp - Suporte */}
+            {/* Botão do WhatsApp */}
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <MessageCircle className="w-5 h-5 text-green-500" />
+              </Button>
+            </a>
+
+            {/* Botão de Suporte via WhatsApp */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="secondary" className="bg-green-500 text-white hover:bg-green-600 border-none">
-                WhatsApp
+                Suporte
               </Button>
             </a>
           </div>
