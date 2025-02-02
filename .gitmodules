@@ -1,0 +1,3 @@
+[submodule "internet-vermelho"]
+  path = internet-vermelho
+  url = <URL_DO_SEU_SUBMÓDULO>
