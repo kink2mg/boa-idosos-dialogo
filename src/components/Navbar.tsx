@@ -31,14 +31,18 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button 
-              variant="ghost" 
-              className="text-white rounded-full w-10 h-10 p-0 bg-white"
-              aria-label="Telefone"
-            >
-              <Phone className="w-5 h-5 text-primary" />
-            </Button>
+            {/* Botão de ligar */}
+            <a href="tel:+5538998622897">
+              <Button 
+                variant="ghost" 
+                className="text-white rounded-full w-10 h-10 p-0 bg-white"
+                aria-label="Ligar"
+              >
+                <Phone className="w-5 h-5 text-primary" />
+              </Button>
+            </a>
 
+            {/* Botão do WhatsApp */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="ghost" 
@@ -53,6 +57,7 @@ const Navbar = () => {
               </Button>
             </a>
 
+            {/* Botão de suporte */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
