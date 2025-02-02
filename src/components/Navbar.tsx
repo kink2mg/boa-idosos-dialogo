@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const whatsappNumber = "5538998622897"; // Número do WhatsApp
+  const whatsappNumber = "5538998622897"; // This would come from your admin settings
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const facebookUrl = "https://www.facebook.com/seuPerfilOuPagina"; // Substitua pelo link correto
 
   return (
     <nav className="bg-primary">
@@ -19,8 +20,7 @@ const Navbar = () => {
           </div>
           
           <div className="flex items-center space-x-4">
-            {/* Botão Facebook (usando ícone do WhatsApp) */}
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
@@ -29,7 +29,6 @@ const Navbar = () => {
                 />
               </Button>
             </a>
-            {/* Botão WhatsApp */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
                 <img 
@@ -39,7 +38,6 @@ const Navbar = () => {
                 />
               </Button>
             </a>
-            {/* Botão Suporte */}
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
@@ -76,20 +74,6 @@ const Navbar = () => {
               NOTÍCIAS
             </Button>
           </Link>
-        </div>
-
-        {/* Botões Facebook e Instagram na parte inferior */}
-        <div className="flex justify-center space-x-4 mt-4">
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="ghost" className="text-white">
-              Facebook
-            </Button>
-          </a>
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-            <Button variant="ghost" className="text-white">
-              Instagram
-            </Button>
-          </a>
         </div>
       </div>
     </nav>
