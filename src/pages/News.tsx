@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const News = () => {
   const news = [
@@ -30,7 +31,6 @@ const News = () => {
           {news.map((article) => (
             <Card key={article.id} className="overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow bg-white">
               <div className="flex flex-col md:flex-row">
-                {/* Imagem */}
                 <div className="md:w-1/3">
                   <img 
                     src={article.image} 
@@ -39,7 +39,6 @@ const News = () => {
                   />
                 </div>
                 
-                {/* Conteúdo */}
                 <div className="md:w-2/3 p-6 flex flex-col justify-between">
                   <CardHeader>
                     <h2 className="text-2xl font-semibold text-gray-900 leading-tight">
@@ -55,12 +54,14 @@ const News = () => {
                     </p>
                   </CardContent>
                   <div className="mt-4">
-                    <Button 
-                      variant="ghost" 
-                      className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
-                    >
-                      Ver mais <FaArrowRight />
-                    </Button>
+                    <Link to={`/news/${article.id}`}>
+                      <Button 
+                        variant="ghost" 
+                        className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
+                      >
+                        Ver mais <FaArrowRight />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>

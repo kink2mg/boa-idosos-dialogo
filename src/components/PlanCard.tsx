@@ -53,6 +53,10 @@ const PlanCard = ({
     return <LoadingSkeleton />;
   }
 
+  const whatsappNumber = "5511999999999"; // This would come from your admin settings
+  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -118,12 +122,14 @@ const PlanCard = ({
           </div>
 
           <div className="space-y-2">
-            <Button 
-              className={`w-full text-white ${buttonClasses[buttonVariant]} ${buttonClassName}`}
-              aria-label={`Contratar plano ${title}`}
-            >
-              Contrate Agora
-            </Button>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <Button 
+                className={`w-full text-white ${buttonClasses[buttonVariant]} ${buttonClassName}`}
+                aria-label={`Contratar plano ${title}`}
+              >
+                Contrate Agora
+              </Button>
+            </a>
             
             {salesCount && (
               <div className="text-center text-sm text-gray-500">

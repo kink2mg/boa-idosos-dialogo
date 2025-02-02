@@ -10,7 +10,7 @@ const Index = () => {
       category: "Plano Premium",
       price: 119.90,
       gb: 50,
-      sales: 1200, // Adicionei quantidade de vendas
+      sales: 1200,
       features: [
         { text: "Passaporte Américas para usar seu celular no exterior" },
         { text: "GB para redes sociais e vídeos" },
@@ -24,7 +24,7 @@ const Index = () => {
       category: "Plano Essencial",
       price: 54.90,
       gb: 25,
-      sales: 800, // Adicionei quantidade de vendas
+      sales: 800,
       features: [
         { text: "5G mais rápido do Brasil" },
         { text: "Ligações ilimitadas" },
@@ -40,11 +40,6 @@ const Index = () => {
       <Navbar />
       
       <main className="container mx-auto px-4 py-12">
-        <div className="mb-16 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Planos Net</h1>
-          <p className="text-lg text-gray-600">Escolha o plano perfeito para suas necessidades</p>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {plans.map((plan, index) => (
             <PlanCard 
@@ -52,7 +47,6 @@ const Index = () => {
               {...plan} 
               isPopular={index === 0}
               className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              // Novas props adicionadas
               buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
@@ -63,9 +57,15 @@ const Index = () => {
       </main>
       
       <div className="fixed bottom-6 right-6 animate-bounce">
-        <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-          <MessageCircle className="w-7 h-7" />
-        </Button>
+        <a 
+          href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de suporte.")}`}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+            <MessageCircle className="w-7 h-7" />
+          </Button>
+        </a>
       </div>
     </div>
   );
