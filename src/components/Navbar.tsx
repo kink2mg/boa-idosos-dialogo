@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const instagramUrl = "https://www.instagram.com/seu_perfil"; // Substitua pelo seu link do Instagram
+  const whatsappNumber = "5538998622897"; // Número do WhatsApp
+  const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+  const instagramUrl = "https://www.instagram.com/seu_perfil"; // Substitua pelo seu Instagram
 
   return (
     <nav className="bg-primary">
@@ -29,12 +33,12 @@ const Navbar = () => {
                 />
               </Button>
             </a>
-            <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
-                className="bg-pink-500 text-white hover:bg-pink-600 border-none"
+                className="bg-green-500 text-white hover:bg-green-600 border-none"
               >
-                Instagram
+                Suporte
               </Button>
             </a>
           </div>
