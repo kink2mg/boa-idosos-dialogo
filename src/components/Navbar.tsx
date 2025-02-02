@@ -23,7 +23,7 @@ const Navbar = () => {
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
                 <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
+                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
                   alt="Facebook" 
                   className="w-5 h-5"
                 />
