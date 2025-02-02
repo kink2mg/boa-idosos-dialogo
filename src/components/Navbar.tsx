@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [username, setUsername] = useState("Visitante");
+
   const whatsappNumber = "5538998622897"; // Número do WhatsApp
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   const facebookUser = "marcosviniciusmg03"; // Nome de usuário do Facebook
-  const facebookUrl = `https://www.facebook.com/${facebookUser}`; // Link do Facebook
+  const facebookUrl = `https://www.facebook.com/${facebookUser}`;
 
   const instagramUser = "m.vinizxxp1"; // Nome de usuário do Instagram
-  const instagramUrl = `https://www.instagram.com/${instagramUser}`; // Link do Instagram
+  const instagramUrl = `https://www.instagram.com/${instagramUser}`;
 
   return (
     <nav className="bg-primary">
@@ -81,6 +84,20 @@ const Navbar = () => {
               NOTÍCIAS
             </Button>
           </Link>
+        </div>
+
+        {/* Frase de boas-vindas personalizada */}
+        <div className="text-center mt-4">
+          <p className="text-white text-lg font-semibold">
+            👋 Olá, {username}! Seja bem-vindo(a)!
+          </p>
+          <input
+            type="text"
+            placeholder="Digite seu nome..."
+            className="mt-2 px-4 py-2 rounded-lg text-black"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
       </div>
     </nav>
