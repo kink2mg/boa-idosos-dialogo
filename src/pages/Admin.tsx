@@ -1,54 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react";
+import { Edit, Trash, Palette, Save } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import PlanForm from "@/components/admin/PlanForm";
 import AccessoryForm from "@/components/admin/AccessoryForm";
 import NewsForm from "@/components/admin/NewsForm";
 
+// Interfaces
 interface PlanFeature {
   text: string;
   info?: string;
 }
 
 interface Plan {
-  id: number;
+  id: string;
   title: string;
   category: string;
   price: number;
   precoAntigo?: number;
-  mega: number;
   features: PlanFeature[];
   imageUrl?: string;
-  videoUrl?: string;
   isPopular?: boolean;
   salesCount?: number;
   description?: string;
+  color?: string;
 }
 
 interface Accessory {
-  id: number;
+  id: string;
   nome: string;
   preco: number;
   precoAntigo?: number;
   descricao: string;
   imagem: string;
-  videoUrl?: string;
   categoria: string;
   emPromocao: boolean;
   quantidadeVendas: number;
+  color?: string;
 }
 
 interface NewsItem {
-  id: number;
+  id: string;
   title: string;
   content: string;
   date: string;
   image: string;
-  videoUrl?: string;
   category: string;
+  color?: string;
+}
+
+interface ThemeConfig {
+  primaryColor: string;
+  secondaryColor: string;
+  textColor: string;
+  backgroundColor: string;
 }
 
 const Admin = () => {
@@ -56,116 +63,160 @@ const Admin = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [accessories, setAccessories] = useState<Accessory[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
-  const [showPlanForm, setShowPlanForm] = useState(false);
-  const [showAccessoryForm, setShowAccessoryForm] = useState(false);
-  const [showNewsForm, setShowNewsForm] = useState(false);
+  const [themeConfig, setThemeConfig] = useState<ThemeConfig>({
+    primaryColor: "#2563eb",
+    secondaryColor: "#1e40af",
+    textColor: "#1f2937",
+    backgroundColor: "#f3f4f6"
+  });
 
-  const handleAddPlan = (newPlan: Omit<Plan, "id">) => {
-    const plan = { ...newPlan, id: plans.length + 1 };
-    setPlans([...plans, plan]);
-    setShowPlanForm(false);
+  // Carregar configurações do localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("themeConfig");
+    if (savedTheme) {
+      setThemeConfig(JSON.parse(savedTheme));
+    }
+  }, []);
+
+  // Salvar configurações
+  const saveConfig = () => {
+    localStorage.setItem("themeConfig", JSON.stringify(themeConfig));
     toast({
-      title: "Sucesso",
-      description: "Plano adicionado com sucesso!"
+      title: "Configurações salvas",
+      description: "As alterações foram armazenadas com sucesso!"
     });
   };
 
-  const handleAddAccessory = (newAccessory: Omit<Accessory, "id">) => {
-    const accessory = { ...newAccessory, id: accessories.length + 1 };
-    setAccessories([...accessories, accessory]);
-    setShowAccessoryForm(false);
-    toast({
-      title: "Sucesso",
-      description: "Acessório adicionado com sucesso!"
-    });
-  };
+  // Handlers genéricos
+  const createHandler = <T extends { id: string }>(state: T[], setState: React.Dispatch<React.SetStateAction<T[]>>) => 
+    (newItem: Omit<T, "id">) => {
+      const item = { ...newItem, id: Date.now().toString() } as T;
+      setState([...state, item]);
+      toast({ title: "Sucesso", description: "Item adicionado!" });
+    };
 
-  const handleAddNews = (newNews: Omit<NewsItem, "id">) => {
-    const newsItem = { ...newNews, id: news.length + 1 };
-    setNews([...news, newsItem]);
-    setShowNewsForm(false);
-    toast({
-      title: "Sucesso",
-      description: "Notícia adicionada com sucesso!"
-    });
-  };
+  const deleteHandler = <T extends { id: string }>(state: T[], setState: React.Dispatch<React.SetStateAction<T[]>>) => 
+    (id: string) => {
+      setState(state.filter(item => item.id !== id));
+      toast({ title: "Sucesso", description: "Item removido!" });
+    };
 
-  const handleDeletePlan = (id: number) => {
-    setPlans(plans.filter(plan => plan.id !== id));
-    toast({
-      title: "Sucesso",
-      description: "Plano removido com sucesso!"
-    });
-  };
-
-  const handleDeleteAccessory = (id: number) => {
-    setAccessories(accessories.filter(acc => acc.id !== id));
-    toast({
-      title: "Sucesso",
-      description: "Acessório removido com sucesso!"
-    });
-  };
-
-  const handleDeleteNews = (id: number) => {
-    setNews(news.filter(item => item.id !== id));
-    toast({
-      title: "Sucesso",
-      description: "Notícia removida com sucesso!"
-    });
-  };
+  // Handlers específicos
+  const handleAddPlan = createHandler(plans, setPlans);
+  const handleAddAccessory = createHandler(accessories, setAccessories);
+  const handleAddNews = createHandler(news, setNews);
+  const handleDeletePlan = deleteHandler(plans, setPlans);
+  const handleDeleteAccessory = deleteHandler(accessories, setAccessories);
+  const handleDeleteNews = deleteHandler(news, setNews);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen p-8" style={{ backgroundColor: themeConfig.backgroundColor }}>
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold" style={{ color: themeConfig.textColor }}>
+            Painel Administrativo
+          </h1>
+          <Button onClick={saveConfig} className="gap-2">
+            <Save size={18} />
+            Salvar Configurações
+          </Button>
+        </div>
 
-        <Tabs defaultValue="plans" className="space-y-4">
-          <TabsList>
+        <Tabs defaultValue="config" className="space-y-4">
+          <TabsList style={{ 
+            backgroundColor: themeConfig.primaryColor,
+            color: themeConfig.textColor
+          }}>
+            <TabsTrigger value="config" className="gap-2">
+              <Palette size={16} /> Tema
+            </TabsTrigger>
             <TabsTrigger value="plans">Planos</TabsTrigger>
             <TabsTrigger value="accessories">Acessórios</TabsTrigger>
             <TabsTrigger value="news">Notícias</TabsTrigger>
           </TabsList>
 
+          {/* Seção de Configurações de Tema */}
+          <TabsContent value="config">
+            <Card className="p-6 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label>Cor Primária</label>
+                  <input
+                    type="color"
+                    value={themeConfig.primaryColor}
+                    onChange={(e) => setThemeConfig({...themeConfig, primaryColor: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label>Cor Secundária</label>
+                  <input
+                    type="color"
+                    value={themeConfig.secondaryColor}
+                    onChange={(e) => setThemeConfig({...themeConfig, secondaryColor: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label>Cor do Texto</label>
+                  <input
+                    type="color"
+                    value={themeConfig.textColor}
+                    onChange={(e) => setThemeConfig({...themeConfig, textColor: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label>Cor de Fundo</label>
+                  <input
+                    type="color"
+                    value={themeConfig.backgroundColor}
+                    onChange={(e) => setThemeConfig({...themeConfig, backgroundColor: e.target.value})}
+                  />
+                </div>
+              </div>
+            </Card>
+          </TabsContent>
+
+          {/* Seção de Planos */}
           <TabsContent value="plans">
             <div className="space-y-4">
-              <Button onClick={() => setShowPlanForm(!showPlanForm)}>
-                {showPlanForm ? "Cancelar" : "Adicionar Novo Plano"}
-              </Button>
-
-              {showPlanForm && (
-                <Card className="p-6">
-                  <PlanForm onSubmit={handleAddPlan} />
-                </Card>
-              )}
-
+              <PlanForm onSubmit={handleAddPlan} />
+              
               <div className="grid gap-4">
                 {plans.map((plan) => (
-                  <Card key={plan.id} className="p-6">
+                  <Card key={plan.id} className="p-6" style={{ borderColor: themeConfig.primaryColor }}>
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-xl font-semibold">{plan.title}</h3>
-                        <p className="text-gray-500">{plan.category}</p>
-                        <p className="text-sm mt-2">{plan.description}</p>
-                        <div className="mt-2">
-                          <span className="font-bold">R$ {plan.price.toFixed(2)}</span>
-                          {plan.precoAntigo && (
-                            <span className="text-gray-500 line-through ml-2">
-                              R$ {plan.precoAntigo.toFixed(2)}
-                            </span>
-                          )}
+                        <h3 className="text-xl font-semibold" style={{ color: themeConfig.textColor }}>
+                          {plan.title}
+                        </h3>
+                        <p style={{ color: themeConfig.primaryColor }}>{plan.category}</p>
+                        <div className="mt-4 space-y-2">
+                          <Button 
+                            variant="outline" 
+                            style={{ 
+                              backgroundColor: themeConfig.secondaryColor,
+                              color: 'white'
+                            }}
+                          >
+                            Editar
+                          </Button>
+                          <Button 
+                            variant="destructive" 
+                            className="ml-2"
+                            onClick={() => handleDeletePlan(plan.id)}
+                          >
+                            Excluir
+                          </Button>
                         </div>
                       </div>
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="icon">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          variant="destructive" 
-                          size="icon"
-                          onClick={() => handleDeletePlan(plan.id)}
-                        >
-                          <Trash className="w-4 h-4" />
-                        </Button>
+                      <div className="text-right">
+                        <p className="text-2xl font-bold" style={{ color: themeConfig.primaryColor }}>
+                          R$ {plan.price.toFixed(2)}
+                        </p>
+                        {plan.precoAntigo && (
+                          <p className="line-through text-gray-500">
+                            R$ {plan.precoAntigo.toFixed(2)}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </Card>
@@ -174,45 +225,38 @@ const Admin = () => {
             </div>
           </TabsContent>
 
+          {/* Seção de Acessórios */}
           <TabsContent value="accessories">
             <div className="space-y-4">
-              <Button onClick={() => setShowAccessoryForm(!showAccessoryForm)}>
-                {showAccessoryForm ? "Cancelar" : "Adicionar Novo Acessório"}
-              </Button>
-
-              {showAccessoryForm && (
-                <Card className="p-6">
-                  <AccessoryForm onSubmit={handleAddAccessory} />
-                </Card>
-              )}
-
-              <div className="grid gap-4">
+              <AccessoryForm onSubmit={handleAddAccessory} />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {accessories.map((accessory) => (
-                  <Card key={accessory.id} className="p-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-xl font-semibold">{accessory.nome}</h3>
-                        <p className="text-gray-500">{accessory.categoria}</p>
-                        <p className="text-sm mt-2">{accessory.descricao}</p>
-                        <div className="mt-2">
-                          <span className="font-bold">R$ {accessory.preco.toFixed(2)}</span>
-                          {accessory.precoAntigo && (
-                            <span className="text-gray-500 line-through ml-2">
-                              R$ {accessory.precoAntigo.toFixed(2)}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="icon">
-                          <Edit className="w-4 h-4" />
+                  <Card key={accessory.id} className="p-6" style={{ 
+                    backgroundColor: themeConfig.primaryColor + '10',
+                    borderColor: themeConfig.primaryColor
+                  }}>
+                    <div className="space-y-4">
+                      <img 
+                        src={accessory.imagem} 
+                        alt={accessory.nome} 
+                        className="w-full h-48 object-cover rounded-lg"
+                      />
+                      <h3 className="text-xl font-semibold" style={{ color: themeConfig.textColor }}>
+                        {accessory.nome}
+                      </h3>
+                      <div className="flex justify-between">
+                        <Button 
+                          variant="outline"
+                          style={{ color: themeConfig.primaryColor }}
+                        >
+                          Editar
                         </Button>
                         <Button 
-                          variant="destructive" 
-                          size="icon"
+                          variant="destructive"
                           onClick={() => handleDeleteAccessory(accessory.id)}
                         >
-                          <Trash className="w-4 h-4" />
+                          Excluir
                         </Button>
                       </div>
                     </div>
@@ -222,41 +266,39 @@ const Admin = () => {
             </div>
           </TabsContent>
 
+          {/* Seção de Notícias */}
           <TabsContent value="news">
             <div className="space-y-4">
-              <Button onClick={() => setShowNewsForm(!showNewsForm)}>
-                {showNewsForm ? "Cancelar" : "Adicionar Nova Notícia"}
-              </Button>
-
-              {showNewsForm && (
-                <Card className="p-6">
-                  <NewsForm onSubmit={handleAddNews} />
-                </Card>
-              )}
-
+              <NewsForm onSubmit={handleAddNews} />
+              
               <div className="grid gap-4">
                 {news.map((item) => (
                   <Card key={item.id} className="p-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-xl font-semibold">{item.title}</h3>
-                        <p className="text-gray-500">{item.category}</p>
-                        <p className="text-sm mt-2">{item.content}</p>
-                        <p className="text-sm text-gray-500 mt-2">
-                          {new Date(item.date).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="icon">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          variant="destructive" 
-                          size="icon"
-                          onClick={() => handleDeleteNews(item.id)}
-                        >
-                          <Trash className="w-4 h-4" />
-                        </Button>
+                    <div className="flex gap-4">
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="w-32 h-32 object-cover rounded-lg"
+                      />
+                      <div className="flex-1">
+                        <h3 className="text-xl font-semibold" style={{ color: themeConfig.textColor }}>
+                          {item.title}
+                        </h3>
+                        <p className="text-sm mt-2 text-gray-600">{item.content.substring(0, 100)}...</p>
+                        <div className="mt-4 flex gap-2">
+                          <Button 
+                            variant="outline"
+                            style={{ color: themeConfig.primaryColor }}
+                          >
+                            Editar
+                          </Button>
+                          <Button 
+                            variant="destructive"
+                            onClick={() => handleDeleteNews(item.id)}
+                          >
+                            Excluir
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </Card>
