@@ -1,23 +1,31 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { Plus, Edit, Trash, Image as ImageIcon } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Edit, Trash } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import PlanForm from "@/components/admin/PlanForm";
+import AccessoryForm from "@/components/admin/AccessoryForm";
+import NewsForm from "@/components/admin/NewsForm";
+
+interface PlanFeature {
+  text: string;
+  info?: string;
+}
 
 interface Plan {
   id: number;
   title: string;
   category: string;
   price: number;
+  precoAntigo?: number;
   mega: number;
-  features: string[];
+  features: PlanFeature[];
   imageUrl?: string;
   videoUrl?: string;
   isPopular?: boolean;
+  salesCount?: number;
+  description?: string;
 }
 
 interface Accessory {
@@ -25,149 +33,84 @@ interface Accessory {
   nome: string;
   preco: number;
   precoAntigo?: number;
-  imagem: string;
   descricao: string;
+  imagem: string;
+  videoUrl?: string;
+  categoria: string;
+  emPromocao: boolean;
+  quantidadeVendas: number;
 }
 
 interface NewsItem {
   id: number;
   title: string;
+  content: string;
   date: string;
   image: string;
-  content: string;
+  videoUrl?: string;
+  category: string;
 }
 
 const Admin = () => {
   const { toast } = useToast();
-  const [plans, setPlans] = useState<Plan[]>([
-    { 
-      id: 1, 
-      title: "NET PÓS", 
-      category: "Para seu celular", 
-      price: 119.90, 
-      mega: 50,
-      features: ["Passaporte Américas", "WhatsApp ilimitado"],
-      isPopular: true
-    },
-    { 
-      id: 2, 
-      title: "NET CONTROLE", 
-      category: "Para seu celular", 
-      price: 54.90, 
-      mega: 25,
-      features: ["5G mais rápido", "Ligações ilimitadas"]
-    }
-  ]);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [accessories, setAccessories] = useState<Accessory[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [showPlanForm, setShowPlanForm] = useState(false);
+  const [showAccessoryForm, setShowAccessoryForm] = useState(false);
+  const [showNewsForm, setShowNewsForm] = useState(false);
 
-  const [accessories, setAccessories] = useState<Accessory[]>([
-    {
-      id: 1,
-      nome: "MacBook Pro",
-      preco: 8999.90,
-      precoAntigo: 9999.90,
-      imagem: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-      descricao: "MacBook Pro com processador M1, 8GB RAM"
-    }
-  ]);
-
-  const [news, setNews] = useState<NewsItem[]>([
-    {
-      id: 1,
-      title: "Nova Tecnologia 5G",
-      date: "2024-03-20",
-      image: "https://images.unsplash.com/photo-1501854140801-50d01698950b",
-      content: "A tecnologia 5G está transformando a maneira como nos conectamos..."
-    }
-  ]);
-
-  // Form states
-  const [newPlan, setNewPlan] = useState<Partial<Plan>>({
-    title: "",
-    category: "",
-    price: 0,
-    mega: 0,
-    features: [],
-    isPopular: false
-  });
-
-  const [newAccessory, setNewAccessory] = useState<Partial<Accessory>>({
-    nome: "",
-    preco: 0,
-    descricao: ""
-  });
-
-  const [newNewsItem, setNewNewsItem] = useState<Partial<NewsItem>>({
-    title: "",
-    content: "",
-    date: new Date().toISOString().split('T')[0]
-  });
-
-  const handleAddPlan = () => {
-    if (!newPlan.title || !newPlan.category || !newPlan.price || !newPlan.mega) {
-      toast({
-        title: "Erro",
-        description: "Por favor, preencha todos os campos obrigatórios",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setPlans(prev => [...prev, { ...newPlan as Plan, id: prev.length + 1, features: newPlan.features || [] }]);
-    setNewPlan({
-      title: "",
-      category: "",
-      price: 0,
-      mega: 0,
-      features: [],
-      isPopular: false
-    });
+  const handleAddPlan = (newPlan: Omit<Plan, "id">) => {
+    const plan = { ...newPlan, id: plans.length + 1 };
+    setPlans([...plans, plan]);
+    setShowPlanForm(false);
     toast({
       title: "Sucesso",
       description: "Plano adicionado com sucesso!"
     });
   };
 
-  const handleAddAccessory = () => {
-    if (!newAccessory.nome || !newAccessory.preco || !newAccessory.descricao) {
-      toast({
-        title: "Erro",
-        description: "Por favor, preencha todos os campos obrigatórios",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setAccessories(prev => [...prev, { ...newAccessory as Accessory, id: prev.length + 1 }]);
-    setNewAccessory({
-      nome: "",
-      preco: 0,
-      descricao: ""
-    });
+  const handleAddAccessory = (newAccessory: Omit<Accessory, "id">) => {
+    const accessory = { ...newAccessory, id: accessories.length + 1 };
+    setAccessories([...accessories, accessory]);
+    setShowAccessoryForm(false);
     toast({
       title: "Sucesso",
       description: "Acessório adicionado com sucesso!"
     });
   };
 
-  const handleAddNews = () => {
-    if (!newNewsItem.title || !newNewsItem.content) {
-      toast({
-        title: "Erro",
-        description: "Por favor, preencha todos os campos obrigatórios",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setNews(prev => [...prev, { ...newNewsItem as NewsItem, id: prev.length + 1 }]);
-    setNewNewsItem({
-      title: "",
-      content: "",
-      date: new Date().toISOString().split('T')[0]
-    });
+  const handleAddNews = (newNews: Omit<NewsItem, "id">) => {
+    const newsItem = { ...newNews, id: news.length + 1 };
+    setNews([...news, newsItem]);
+    setShowNewsForm(false);
     toast({
       title: "Sucesso",
       description: "Notícia adicionada com sucesso!"
+    });
+  };
+
+  const handleDeletePlan = (id: number) => {
+    setPlans(plans.filter(plan => plan.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Plano removido com sucesso!"
+    });
+  };
+
+  const handleDeleteAccessory = (id: number) => {
+    setAccessories(accessories.filter(acc => acc.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Acessório removido com sucesso!"
+    });
+  };
+
+  const handleDeleteNews = (id: number) => {
+    setNews(news.filter(item => item.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Notícia removida com sucesso!"
     });
   };
 
@@ -183,225 +126,142 @@ const Admin = () => {
             <TabsTrigger value="news">Notícias</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="plans" className="space-y-4">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Adicionar Novo Plano</h2>
-              <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">Título</Label>
-                    <Input
-                      id="title"
-                      value={newPlan.title}
-                      onChange={(e) => setNewPlan(prev => ({ ...prev, title: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Categoria</Label>
-                    <Input
-                      id="category"
-                      value={newPlan.category}
-                      onChange={(e) => setNewPlan(prev => ({ ...prev, category: e.target.value }))}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="price">Preço</Label>
-                    <Input
-                      id="price"
-                      type="number"
-                      value={newPlan.price}
-                      onChange={(e) => setNewPlan(prev => ({ ...prev, price: Number(e.target.value) }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="mega">Mega</Label>
-                    <Input
-                      id="mega"
-                      type="number"
-                      value={newPlan.mega}
-                      onChange={(e) => setNewPlan(prev => ({ ...prev, mega: Number(e.target.value) }))}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="imageUrl">URL da Imagem</Label>
-                  <Input
-                    id="imageUrl"
-                    type="url"
-                    value={newPlan.imageUrl}
-                    onChange={(e) => setNewPlan(prev => ({ ...prev, imageUrl: e.target.value }))}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="videoUrl">URL do Vídeo</Label>
-                  <Input
-                    id="videoUrl"
-                    type="url"
-                    value={newPlan.videoUrl}
-                    onChange={(e) => setNewPlan(prev => ({ ...prev, videoUrl: e.target.value }))}
-                  />
-                </div>
-                <Button onClick={handleAddPlan}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Adicionar Plano
-                </Button>
-              </div>
-            </Card>
+          <TabsContent value="plans">
+            <div className="space-y-4">
+              <Button onClick={() => setShowPlanForm(!showPlanForm)}>
+                {showPlanForm ? "Cancelar" : "Adicionar Novo Plano"}
+              </Button>
 
-            <div className="grid gap-4">
-              {plans.map((plan) => (
-                <Card key={plan.id} className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-semibold">{plan.title}</h3>
-                      <p className="text-gray-500">{plan.category}</p>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="text-xl font-bold">
-                        R$ {plan.price.toFixed(2)}
-                      </div>
-                      <div className="text-primary font-bold">
-                        {plan.mega} Mega
+              {showPlanForm && (
+                <Card className="p-6">
+                  <PlanForm onSubmit={handleAddPlan} />
+                </Card>
+              )}
+
+              <div className="grid gap-4">
+                {plans.map((plan) => (
+                  <Card key={plan.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{plan.title}</h3>
+                        <p className="text-gray-500">{plan.category}</p>
+                        <p className="text-sm mt-2">{plan.description}</p>
+                        <div className="mt-2">
+                          <span className="font-bold">R$ {plan.price.toFixed(2)}</span>
+                          {plan.precoAntigo && (
+                            <span className="text-gray-500 line-through ml-2">
+                              R$ {plan.precoAntigo.toFixed(2)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <div className="flex space-x-2">
                         <Button variant="outline" size="icon">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="destructive" size="icon">
+                        <Button 
+                          variant="destructive" 
+                          size="icon"
+                          onClick={() => handleDeletePlan(plan.id)}
+                        >
                           <Trash className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           </TabsContent>
 
-          <TabsContent value="accessories" className="space-y-4">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Adicionar Novo Acessório</h2>
-              <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="nome">Nome</Label>
-                    <Input
-                      id="nome"
-                      value={newAccessory.nome}
-                      onChange={(e) => setNewAccessory(prev => ({ ...prev, nome: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="preco">Preço</Label>
-                    <Input
-                      id="preco"
-                      type="number"
-                      value={newAccessory.preco}
-                      onChange={(e) => setNewAccessory(prev => ({ ...prev, preco: Number(e.target.value) }))}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="descricao">Descrição</Label>
-                  <Textarea
-                    id="descricao"
-                    value={newAccessory.descricao}
-                    onChange={(e) => setNewAccessory(prev => ({ ...prev, descricao: e.target.value }))}
-                  />
-                </div>
-                <Button onClick={handleAddAccessory}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Adicionar Acessório
-                </Button>
-              </div>
-            </Card>
+          <TabsContent value="accessories">
+            <div className="space-y-4">
+              <Button onClick={() => setShowAccessoryForm(!showAccessoryForm)}>
+                {showAccessoryForm ? "Cancelar" : "Adicionar Novo Acessório"}
+              </Button>
 
-            <div className="grid gap-4">
-              {accessories.map((accessory) => (
-                <Card key={accessory.id} className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-semibold">{accessory.nome}</h3>
-                      <p className="text-gray-500">{accessory.descricao}</p>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                      <div className="text-xl font-bold">
-                        R$ {accessory.preco.toFixed(2)}
+              {showAccessoryForm && (
+                <Card className="p-6">
+                  <AccessoryForm onSubmit={handleAddAccessory} />
+                </Card>
+              )}
+
+              <div className="grid gap-4">
+                {accessories.map((accessory) => (
+                  <Card key={accessory.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{accessory.nome}</h3>
+                        <p className="text-gray-500">{accessory.categoria}</p>
+                        <p className="text-sm mt-2">{accessory.descricao}</p>
+                        <div className="mt-2">
+                          <span className="font-bold">R$ {accessory.preco.toFixed(2)}</span>
+                          {accessory.precoAntigo && (
+                            <span className="text-gray-500 line-through ml-2">
+                              R$ {accessory.precoAntigo.toFixed(2)}
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <div className="flex space-x-2">
                         <Button variant="outline" size="icon">
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button variant="destructive" size="icon">
+                        <Button 
+                          variant="destructive" 
+                          size="icon"
+                          onClick={() => handleDeleteAccessory(accessory.id)}
+                        >
                           <Trash className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           </TabsContent>
 
-          <TabsContent value="news" className="space-y-4">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Adicionar Nova Notícia</h2>
-              <div className="grid gap-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="newsTitle">Título</Label>
-                    <Input
-                      id="newsTitle"
-                      value={newNewsItem.title}
-                      onChange={(e) => setNewNewsItem(prev => ({ ...prev, title: e.target.value }))}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="newsDate">Data</Label>
-                    <Input
-                      id="newsDate"
-                      type="date"
-                      value={newNewsItem.date}
-                      onChange={(e) => setNewNewsItem(prev => ({ ...prev, date: e.target.value }))}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="newsContent">Conteúdo</Label>
-                  <Textarea
-                    id="newsContent"
-                    value={newNewsItem.content}
-                    onChange={(e) => setNewNewsItem(prev => ({ ...prev, content: e.target.value }))}
-                  />
-                </div>
-                <Button onClick={handleAddNews}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Adicionar Notícia
-                </Button>
-              </div>
-            </Card>
+          <TabsContent value="news">
+            <div className="space-y-4">
+              <Button onClick={() => setShowNewsForm(!showNewsForm)}>
+                {showNewsForm ? "Cancelar" : "Adicionar Nova Notícia"}
+              </Button>
 
-            <div className="grid gap-4">
-              {news.map((item) => (
-                <Card key={item.id} className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-xl font-semibold">{item.title}</h3>
-                      <p className="text-gray-500">{new Date(item.date).toLocaleDateString()}</p>
-                    </div>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="icon">
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button variant="destructive" size="icon">
-                        <Trash className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
+              {showNewsForm && (
+                <Card className="p-6">
+                  <NewsForm onSubmit={handleAddNews} />
                 </Card>
-              ))}
+              )}
+
+              <div className="grid gap-4">
+                {news.map((item) => (
+                  <Card key={item.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{item.title}</h3>
+                        <p className="text-gray-500">{item.category}</p>
+                        <p className="text-sm mt-2">{item.content}</p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          {new Date(item.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex space-x-2">
+                        <Button variant="outline" size="icon">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="destructive" 
+                          size="icon"
+                          onClick={() => handleDeleteNews(item.id)}
+                        >
+                          <Trash className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </div>
           </TabsContent>
         </Tabs>
