@@ -1,17 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tudo em um Só Lugar</title>
-    <meta name="description" content="Gerencie sua loja online com um painel moderno, ágil e intuitivo, feito para otimizar sua experiência de vendas" />
+    <title>HubCommerce - Gestão Completa para E-commerce</title>
+    <meta name="description" content="Plataforma integrada de gestão para e-commerce com painel inteligente, análise de dados em tempo real e automação de vendas" />
     <meta name="author" content="m.vinizxxp1" />
     <meta property="og:image" content="/og-image.png" />
-  </head>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 
-  <body>
-    <div id="root"></div>
+<body class="bg-gradient-to-br from-gray-900 to-blue-900 text-gray-100">
+    <header class="container mx-auto px-6 py-8">
+        <nav class="flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-400">HubCommerce</div>
+            <ul class="flex space-x-8">
+                <li><a href="#features" class="hover:text-blue-400 transition">Recursos</a></li>
+                <li><a href="#benefits" class="hover:text-blue-400 transition">Vantagens</a></li>
+                <li><a href="#contact" class="hover:text-blue-400 transition">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6">
+        <!-- Hero Section -->
+        <section class="py-20 text-center">
+            <h1 class="text-5xl font-bold mb-6 leading-tight">
+                Transforme sua Gestão de E-commerce
+                <span class="text-blue-400 block mt-4">Tudo Integrado em Uma Plataforma</span>
+            </h1>
+            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                Automatize vendas, gerencie estoques, analise desempenho e integre marketplaces 
+                com nossa solução inteligente para resultados extraordinários
+            </p>
+            <div class="space-x-6">
+                <button class="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-lg font-semibold transition-all transform hover:scale-105">
+                    Iniciar Teste Gratuito
+                </button>
+                <button class="border border-blue-400 hover:bg-blue-900 px-8 py-4 rounded-lg transition">
+                    Ver Demonstração
+                </button>
+            </div>
+        </section>
+
+        <!-- Destaques -->
+        <section class="grid md:grid-cols-3 gap-12 py-20">
+            <div class="bg-gray-800 p-8 rounded-xl hover:transform hover:scale-105 transition">
+                <i class="fas fa-rocket text-4xl text-blue-400 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">Otimização Inteligente</h3>
+                <p class="text-gray-400">
+                    Machine Learning aplicado à gestão de estoque e precificação dinâmica
+                </p>
+            </div>
+            
+            <div class="bg-gray-800 p-8 rounded-xl hover:transform hover:scale-105 transition">
+                <i class="fas fa-chart-line text-4xl text-blue-400 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">Análise em Tempo Real</h3>
+                <p class="text-gray-400">
+                    Dashboard interativo com 50+ métricas essenciais para e-commerce
+                </p>
+            </div>
+            
+            <div class="bg-gray-800 p-8 rounded-xl hover:transform hover:scale-105 transition">
+                <i class="fas fa-cogs text-4xl text-blue-400 mb-6"></i>
+                <h3 class="text-2xl font-bold mb-4">Integração Total</h3>
+                <p class="text-gray-400">
+                    Conecte com marketplaces, ERPs e sistemas de logística automaticamente
+                </p>
+            </div>
+        </section>
+
+        <!-- Recursos -->
+        <section class="py-20" id="features">
+            <h2 class="text-4xl font-bold text-center mb-16">Recursos Exclusivos</h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div class="flex items-start space-x-6">
+                        <i class="fas fa-brain text-2xl text-blue-400 mt-2"></i>
+                        <div>
+                            <h4 class="text-xl font-bold mb-3">IA Predict</h4>
+                            <p class="text-gray-400">
+                                Previsões de demanda com 95% de precisão usando inteligência artificial
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Mais itens similares -->
+                </div>
+                
+                <div class="bg-gray-800 rounded-xl p-8">
+                    <div class="aspect-video bg-gray-700 rounded-lg mb-6"></div>
+                    <h4 class="text-xl font-bold mb-4">Gestão Multi-canais</h4>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-center space-x-3">
+                            <i class="fas fa-check-circle text-blue-400"></i>
+                            <span>Integração com 15+ marketplaces</span>
+                        </li>
+                        <!-- Mais itens -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estatísticas -->
+        <section class="py-20 text-center bg-gray-800 rounded-3xl">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-4xl font-bold text-blue-400 mb-2">+85%</div>
+                    <div class="text-gray-400">Aumento de eficiência</div>
+                </div>
+                <!-- Mais estatísticas -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 py-12 mt-20">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <div class="mb-8 space-x-6">
+                <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-blue-400"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-blue-400"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="mb-4">© 2024 HubCommerce. Todos os direitos reservados.</div>
+            <div class="text-sm">Desenvolvido com <i class="fas fa-heart text-red-500"></i> por m.vinizxxp1</div>
+        </div>
+    </footer>
+
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
-  </body>
+</body>
 </html>
