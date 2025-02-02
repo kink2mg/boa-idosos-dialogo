@@ -3,7 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  
+  const whatsappNumber = "5538998622897"; // Número do WhatsApp
+  const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
   const facebookUser = "marcosviniciusmg03"; // Nome de usuário do Facebook
   const facebookUrl = `https://www.facebook.com/${facebookUser}`; // Link do Facebook
 
@@ -37,6 +40,16 @@ const Navbar = () => {
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
                   alt="Instagram" 
+                  className="w-5 h-5"
+                />
+              </Button>
+            </a>
+
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <img 
+                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
+                  alt="WhatsApp" 
                   className="w-5 h-5"
                 />
               </Button>
