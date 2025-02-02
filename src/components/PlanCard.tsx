@@ -15,7 +15,7 @@ type PlanProps = {
   category: string;
   price: number;
   features: PlanFeature[];
-  gb?: number;
+  mega?: number;
   image?: string;
   isPopular?: boolean;
   salesCount?: number;
@@ -31,12 +31,12 @@ const PlanCard = ({
   category,
   price,
   features,
-  gb,
+  mega,
   image,
   isPopular = false,
   salesCount,
   isLoading = false,
-  buttonVariant = 'default',
+  buttonVariant = 'orange',
   className,
   buttonClassName,
   salesText
@@ -44,7 +44,7 @@ const PlanCard = ({
   const { formatPrice, formatSales } = usePlanFormatter();
 
   const buttonClasses = {
-    default: 'bg-primary hover:bg-primary-dark',
+    default: 'bg-primary hover:bg-primary/90',
     orange: 'bg-orange-500 hover:bg-orange-600',
     premium: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'
   };
@@ -87,9 +87,9 @@ const PlanCard = ({
             </div>
           )}
 
-          {gb && (
+          {mega && (
             <div className="text-primary text-4xl font-bold mb-4">
-              {gb}GB
+              {mega} Mega
             </div>
           )}
 
@@ -119,7 +119,7 @@ const PlanCard = ({
 
           <div className="space-y-2">
             <Button 
-              className={`w-full text-white ${buttonClasses[buttonVariant]}`}
+              className={`w-full text-white ${buttonClasses[buttonVariant]} ${buttonClassName}`}
               aria-label={`Contratar plano ${title}`}
             >
               Contrate Agora

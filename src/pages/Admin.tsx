@@ -15,6 +15,8 @@ interface Plan {
   price: number;
   mega: number;
   features: string[];
+  imageUrl?: string;
+  videoUrl?: string;
   isPopular?: boolean;
 }
 
@@ -222,6 +224,24 @@ const Admin = () => {
                       onChange={(e) => setNewPlan(prev => ({ ...prev, mega: Number(e.target.value) }))}
                     />
                   </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="imageUrl">URL da Imagem</Label>
+                  <Input
+                    id="imageUrl"
+                    type="url"
+                    value={newPlan.imageUrl}
+                    onChange={(e) => setNewPlan(prev => ({ ...prev, imageUrl: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="videoUrl">URL do Vídeo</Label>
+                  <Input
+                    id="videoUrl"
+                    type="url"
+                    value={newPlan.videoUrl}
+                    onChange={(e) => setNewPlan(prev => ({ ...prev, videoUrl: e.target.value }))}
+                  />
                 </div>
                 <Button onClick={handleAddPlan}>
                   <Plus className="w-4 h-4 mr-2" />
