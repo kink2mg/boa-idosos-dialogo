@@ -6,8 +6,10 @@ const Navbar = () => {
   const whatsappNumber = "5538998622897"; // Número do WhatsApp
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-  
-  const facebookUrl = "https://www.facebook.com/seuPerfilOuPagina"; // Link do Facebook
+
+  const facebookUser = "seuPerfilOuPagina"; // Nome de usuário do Facebook
+  const facebookUrl = `https://www.facebook.com/${facebookUser}`; // Link do Facebook
+
   const instagramUser = "seuPerfilInstagram"; // Nome de usuário do Instagram
   const instagramUrl = `https://www.instagram.com/${instagramUser}`; // Link do Instagram
 
