@@ -1,9 +1,18 @@
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
-  const instagramUrl = "https://www.instagram.com/m.vinizxxp1"; // Substitua pelo nome de usuário correto
+  const instagramUrl = "https://www.instagram.com/seu_usuario"; // Substitua pelo nome de usuário correto
+  const [iconLoaded, setIconLoaded] = useState(false);
+
+  useEffect(() => {
+    // Preload da imagem para evitar delay na troca de página
+    const img = new Image();
+    img.src = "/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png";
+    img.onload = () => setIconLoaded(true);
+  }, []);
 
   return (
     <nav className="bg-primary">
@@ -13,7 +22,7 @@ const Navbar = () => {
             <Button variant="ghost" className="text-white lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
-            <Link to="/" className="text-white text-2xl font-bold">NETMAX</Link>
+            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
           </div>
           
           <div className="flex items-center space-x-4">
@@ -22,11 +31,13 @@ const Navbar = () => {
             </Button>
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
-                <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
-                  alt="Instagram" 
-                  className="w-5 h-5"
-                />
+                {iconLoaded && (
+                  <img 
+                    src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
+                    alt="Instagram" 
+                    className="w-5 h-5"
+                  />
+                )}
               </Button>
             </a>
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
