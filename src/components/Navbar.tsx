@@ -46,16 +46,6 @@ const Navbar = () => {
             </a>
 
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
-                <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
-                  alt="WhatsApp" 
-                  className="w-5 h-5"
-                />
-              </Button>
-            </a>
-
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
                 className="bg-green-500 text-white hover:bg-green-600 border-none"
