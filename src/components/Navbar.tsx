@@ -1,18 +1,9 @@
-import { Menu, Phone } from "lucide-react";
+import { Menu, Phone, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 const Navbar = () => {
-  const instagramUrl = "https://www.instagram.com/seu_usuario"; // Substitua pelo nome de usuário correto
-  const [iconLoaded, setIconLoaded] = useState(false);
-
-  useEffect(() => {
-    // Preload da imagem para evitar delay na troca de página
-    const img = new Image();
-    img.src = "/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png";
-    img.onload = () => setIconLoaded(true);
-  }, []);
+  const instagramUrl = "https://www.instagram.com/seu_perfil"; // Substitua pelo link do Instagram
 
   return (
     <nav className="bg-primary">
@@ -31,21 +22,15 @@ const Navbar = () => {
             </Button>
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
-                {iconLoaded && (
-                  <img 
-                    src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png" 
-                    alt="Instagram" 
-                    className="w-5 h-5"
-                  />
-                )}
+                <Instagram className="w-5 h-5 text-primary" />
               </Button>
             </a>
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
-                className="bg-green-500 text-white hover:bg-green-600 border-none"
+                className="bg-pink-500 text-white hover:bg-pink-600 border-none"
               >
-                Suporte
+                Instagram
               </Button>
             </a>
           </div>
