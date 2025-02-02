@@ -56,12 +56,11 @@ const Navbar = () => {
           </div>
         </div>
         
-        {/* Contêiner com fundo branco acinzentado */}
-        <div className="flex justify-center py-2 border-t border-gray-300 space-x-4 bg-gray-100">
+        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
           <Link to="/">
             <Button 
               variant="ghost" 
-              className="text-gray-800 bg-gray-100 px-4 py-2 rounded-lg shadow-md hover:bg-gray-200 transition"
+              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
             >
               PLANOS
             </Button>
@@ -69,7 +68,7 @@ const Navbar = () => {
           <Link to="/accessories">
             <Button 
               variant="ghost" 
-              className="text-gray-800 bg-gray-100 px-4 py-2 rounded-lg shadow-md hover:bg-gray-200 transition"
+              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
             >
               ACESSÓRIOS
             </Button>
@@ -77,14 +76,14 @@ const Navbar = () => {
           <Link to="/news">
             <Button 
               variant="ghost" 
-              className="text-gray-800 bg-gray-100 px-4 py-2 rounded-lg shadow-md hover:bg-gray-200 transition"
+              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
             >
               NOTÍCIAS
             </Button>
           </Link>
         </div>
 
-        {/* Contêiner da mensagem de boas-vindas */}
+        {/* Contêiner da mensagem de boas-vindas com fundo laranja */}
         <div className="mt-4 flex justify-center">
           <div className="bg-orange-500 p-4 rounded-lg shadow-md text-center w-full max-w-md">
             <p className="text-lg font-semibold text-white">
