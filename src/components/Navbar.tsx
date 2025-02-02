@@ -3,10 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const whatsappNumber = "5538998622897"; // This would come from your admin settings
+  const whatsappNumber = "5538998622897"; // Número do WhatsApp
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-  const facebookUrl = "https://www.facebook.com/seuPerfilOuPagina"; // Substitua pelo link correto
+  
+  const facebookUrl = "https://www.facebook.com/seuPerfilOuPagina"; // Link do Facebook
+  const instagramUser = "seuPerfilInstagram"; // Nome de usuário do Instagram
+  const instagramUrl = `https://www.instagram.com/${instagramUser}`; // Link do Instagram
 
   return (
     <nav className="bg-primary">
@@ -29,6 +32,17 @@ const Navbar = () => {
                 />
               </Button>
             </a>
+
+            <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <img 
+                  src="/lovable-uploads/instagram-icon.png" 
+                  alt="Instagram" 
+                  className="w-5 h-5"
+                />
+              </Button>
+            </a>
+
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
                 <img 
@@ -38,6 +52,7 @@ const Navbar = () => {
                 />
               </Button>
             </a>
+
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="secondary" 
