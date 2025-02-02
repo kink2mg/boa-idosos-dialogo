@@ -36,7 +36,7 @@ const Navbar = () => {
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
                 <img 
-                  src="/lovable-uploads/instagram-icon.png" 
+                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
                   alt="Instagram" 
                   className="w-5 h-5"
                 />
