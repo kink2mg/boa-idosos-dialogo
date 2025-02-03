@@ -53,8 +53,8 @@ const PlanCard = ({
     return <LoadingSkeleton />;
   }
 
-  const whatsappNumber = "5511999999999"; // This would come from your admin settings
-  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${price ? formatPrice(price) : 'Preço indisponível'}/mês.`;
+  const whatsappNumber = "5538998622897"; // This would come from your admin settings
+  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -115,7 +115,7 @@ const PlanCard = ({
             <div className="text-sm text-gray-500">Por apenas</div>
             <div className="flex items-baseline">
               <span className="text-3xl font-bold text-primary">
-                {price ? formatPrice(price) : 'Preço indisponível'}
+                {formatPrice(price)}
               </span>
               <span className="text-gray-500 ml-2">/mês</span>
             </div>
@@ -133,7 +133,7 @@ const PlanCard = ({
             
             {salesCount && (
               <div className="text-center text-sm text-gray-500">
-                {salesText || formatSales(salesCount)} na última semana
+                {formatSales(salesCount)} na última semana
               </div>
             )}
           </div>
