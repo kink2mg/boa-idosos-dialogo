@@ -36,7 +36,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
+    <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <main className="container mx-auto px-4 py-12">
@@ -46,8 +46,8 @@ const Index = () => {
               key={index} 
               {...plan} 
               isPopular={index === 0}
-              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              buttonClassName="bg-gray-700 hover:bg-gray-800 text-white"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
@@ -62,8 +62,8 @@ const Index = () => {
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-            <MessageCircle className="w-7 h-7" />
+          <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+            <MessageCircle className="w-8 h-8" /> {/* Ícone aumentado */}
           </Button>
         </a>
       </div>
