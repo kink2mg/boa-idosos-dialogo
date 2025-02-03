@@ -4,8 +4,54 @@ import NavbarConfig from "@/components/admin/NavbarConfig";
 import PlansConfig from "@/components/admin/PlansConfig";
 import AccessoryForm from "@/components/admin/AccessoryForm";
 import NewsForm from "@/components/admin/NewsForm";
+import { useToast } from "@/components/ui/use-toast";
+
+interface Accessory {
+  id: number;
+  nome: string;
+  preco: number;
+  precoAntigo?: number;
+  descricao: string;
+  imagem: string;
+  videoUrl?: string;
+  categoria: string;
+  emPromocao: boolean;
+  quantidadeVendas: number;
+}
+
+interface NewsItem {
+  id: number;
+  title: string;
+  content: string;
+  date: string;
+  image: string;
+  videoUrl?: string;
+  category: string;
+}
 
 const Admin = () => {
+  const { toast } = useToast();
+  const [accessories, setAccessories] = useState<Accessory[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
+
+  const handleAddAccessory = (newAccessory: Omit<Accessory, "id">) => {
+    const accessory = { ...newAccessory, id: accessories.length + 1 };
+    setAccessories([...accessories, accessory]);
+    toast({
+      title: "Sucesso",
+      description: "Acessório adicionado com sucesso!"
+    });
+  };
+
+  const handleAddNews = (newNews: Omit<NewsItem, "id">) => {
+    const newsItem = { ...newNews, id: news.length + 1 };
+    setNews([...news, newsItem]);
+    toast({
+      title: "Sucesso",
+      description: "Notícia adicionada com sucesso!"
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
@@ -28,11 +74,11 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="accessories">
-            < AccessoryForm />
+            <AccessoryForm onSubmit={handleAddAccessory} />
           </TabsContent>
 
           <TabsContent value="news">
-            < NewsForm />
+            <NewsForm onSubmit={handleAddNews} />
           </TabsContent>
         </Tabs>
       </div>
