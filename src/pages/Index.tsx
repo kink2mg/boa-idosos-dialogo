@@ -23,7 +23,7 @@ const Index = () => {
       title: "NET CONTROLE",
       category: "Plano Essencial",
       price: 54.90,
-      gb: 25,
+      mega: 25,
       sales: 800,
       features: [
         { text: "5G mais rápido do Brasil" },
