@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
 import type { SiteSettings, ThemeColors, ContactInfo, SupabaseSiteSettings } from "@/types/site-settings";
+import type { Json } from "@/integrations/supabase/types";
 
 const defaultThemeColors: ThemeColors = {
   text: "#000000",
@@ -43,17 +44,16 @@ const SiteSettingsForm = () => {
       if (data) {
         const transformedData: SiteSettings = {
           id: data.id,
-          theme_colors: data.theme_colors as ThemeColors || defaultThemeColors,
-          contact_info: data.contact_info as ContactInfo || defaultContactInfo,
+          theme_colors: (data.theme_colors as unknown as ThemeColors) || defaultThemeColors,
+          contact_info: (data.contact_info as unknown as ContactInfo) || defaultContactInfo,
         };
         setSettings(transformedData);
       } else {
-        // Se não houver configurações, criar uma nova entrada com valores padrão
         const { data: newSettings, error: createError } = await supabase
           .from("site_settings")
           .insert([{
-            theme_colors: defaultThemeColors,
-            contact_info: defaultContactInfo,
+            theme_colors: defaultThemeColors as unknown as Json,
+            contact_info: defaultContactInfo as unknown as Json,
           }])
           .select()
           .single();
@@ -63,8 +63,8 @@ const SiteSettingsForm = () => {
         if (newSettings) {
           setSettings({
             id: newSettings.id,
-            theme_colors: newSettings.theme_colors as ThemeColors,
-            contact_info: newSettings.contact_info as ContactInfo,
+            theme_colors: (newSettings.theme_colors as unknown as ThemeColors),
+            contact_info: (newSettings.contact_info as unknown as ContactInfo),
           });
         }
       }
