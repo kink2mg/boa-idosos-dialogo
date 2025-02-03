@@ -5,7 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
-import type { SiteSettings, SupabaseSiteSettings, supabaseSettingsToSettings, settingsToSupabaseSettings } from "@/types/site-settings";
+import { 
+  type SiteSettings, 
+  type SupabaseSiteSettings, 
+  supabaseSettingsToSettings, 
+  settingsToSupabaseSettings 
+} from "@/types/site-settings";
 
 const defaultThemeColors = {
   text: "#000000",
