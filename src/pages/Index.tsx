@@ -36,7 +36,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#A5CAD2] to-[#5E72EB]">
       <Navbar />
       
       <main className="container mx-auto px-4 py-12">
@@ -46,8 +46,8 @@ const Index = () => {
               key={index} 
               {...plan} 
               isPopular={index === 0}
-              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
+              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl bg-white shadow-md rounded-lg border border-[#0D0745]"
+              buttonClassName="bg-[#FF7B89] hover:bg-[#EE4392] text-white"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
@@ -62,7 +62,7 @@ const Index = () => {
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+          <Button className="bg-gradient-to-r from-[#FF9190] to-[#FEC195] hover:from-[#EE4392] hover:to-[#FF7B89] text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
             <MessageCircle className="w-7 h-7" />
           </Button>
         </a>
