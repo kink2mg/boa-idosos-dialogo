@@ -58,7 +58,7 @@ const Index = () => {
       
       <div className="fixed bottom-6 right-6 animate-bounce">
         <a 
-          href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de suporte.")}`}
+          href={`https://wa.me/5538998622897?text=${encodeURIComponent("Olá! Gostaria de suporte.")}`}
           target="_blank" 
           rel="noopener noreferrer"
         >
