@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
-import type { SiteSettings, SupabaseSiteSettings, ThemeColors, ContactInfo } from "@/types/site-settings";
+import type { SiteSettings, ThemeColors, ContactInfo, SupabaseSiteSettings } from "@/types/site-settings";
 
 const defaultThemeColors: ThemeColors = {
   text: "#000000",
@@ -43,8 +43,8 @@ const SiteSettingsForm = () => {
       if (data) {
         const transformedData: SiteSettings = {
           id: data.id,
-          theme_colors: data.theme_colors as unknown as ThemeColors || defaultThemeColors,
-          contact_info: data.contact_info as unknown as ContactInfo || defaultContactInfo,
+          theme_colors: data.theme_colors as ThemeColors || defaultThemeColors,
+          contact_info: data.contact_info as ContactInfo || defaultContactInfo,
         };
         setSettings(transformedData);
       } else {
@@ -63,8 +63,8 @@ const SiteSettingsForm = () => {
         if (newSettings) {
           setSettings({
             id: newSettings.id,
-            theme_colors: newSettings.theme_colors as unknown as ThemeColors,
-            contact_info: newSettings.contact_info as unknown as ContactInfo,
+            theme_colors: newSettings.theme_colors as ThemeColors,
+            contact_info: newSettings.contact_info as ContactInfo,
           });
         }
       }
