@@ -103,7 +103,7 @@ const Navbar = () => {
         <div className="mt-4 flex justify-center">
           <div className="bg-gray-100 p-4 rounded-lg shadow-md text-center w-full max-w-md">
             <p className="text-lg font-semibold text-gray-700">
-              👋 Bem-vindo(a) à <span className="font-bold text-orange-500">Net</span>!
+              👋 Bem-vindo(a) à <span className="font-bold text-orange-500">NETMAX</span>!
             </p>
             <p className="text-gray-600">Conectando você ao melhor da internet! 🚀</p>
           </div>
