@@ -9,6 +9,10 @@ import { Database } from "@/integrations/supabase/types";
 
 type SiteSettings = Database['public']['Tables']['site_settings']['Row'];
 type Plan = Database['public']['Tables']['plans']['Row'];
+type PlanFeature = {
+  text: string;
+  info?: string;
+};
 
 const Index = () => {
   const { data: settings } = useQuery({
@@ -60,6 +64,13 @@ const Index = () => {
 
   const colors = themeColors || defaultColors;
 
+  const transformFeatures = (features: any[]): PlanFeature[] => {
+    return features?.map(feature => ({
+      text: feature.title || feature.text,
+      info: feature.info
+    })) || [];
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen" style={{ background: colors.background }}>
@@ -99,7 +110,7 @@ const Index = () => {
               category={plan.category}
               price={plan.price}
               mega={plan.mega}
-              features={plan.features as { title: string; included: boolean }[]}
+              features={transformFeatures(plan.features as any[])}
               image={plan.image_url}
               isPopular={plan.is_popular}
               salesCount={plan.sales_count}
