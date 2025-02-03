@@ -133,7 +133,7 @@ const PlanCard = ({
             
             {salesCount && (
               <div className="text-center text-sm text-gray-500">
-                {formatSales(salesCount)} na última semana
+                {salesText || formatSales(salesCount)} na última semana
               </div>
             )}
           </div>
