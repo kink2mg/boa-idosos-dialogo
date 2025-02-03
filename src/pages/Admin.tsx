@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NavbarConfig from "@/components/admin/NavbarConfig";
 import PlansConfig from "@/components/admin/PlansConfig";
 import AccessoryForm from "@/components/admin/AccessoryForm";
-import AccessoryForm from "@/components/admin/NewsForm";
+import NewsForm from "@/components/admin/NewsForm";
 
 const Admin = () => {
   return (
