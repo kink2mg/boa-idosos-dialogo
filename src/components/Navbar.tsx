@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { Menu, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const whatsappNumber = "5538998622897";
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -37,23 +34,15 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Button
-              variant="ghost"
-              className="text-gray-700 lg:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)} // Alterna o estado do menu
-            >
+            <Button variant="ghost" className="text-gray-700 lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
             <Link to="/" className="text-orange-500 text-2xl font-bold">NETMAX</Link>
           </div>
           
           <div className="flex items-center space-x-4">
-            {/* Botão do Facebook */}
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-              <Button 
-                variant="ghost" 
-                className={`bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0 ${isMenuOpen ? 'hidden' : ''}`}
-              >
+              <Button variant="ghost" className="bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0">
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
                   alt="Facebook" 
@@ -62,12 +51,8 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Botão do Instagram */}
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              <Button 
-                variant="ghost" 
-                className={`bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0 ${isMenuOpen ? 'hidden' : ''}`}
-              >
+              <Button variant="ghost" className="bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0">
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
                   alt="Instagram" 
@@ -76,7 +61,7 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Botão de Compartilhar (não escondido, mas mantém o efeito de hover) */}
+            {/* Botão de Compartilhar (laranja) */}
             <Button 
               variant="secondary" 
               className="bg-orange-500 text-white hover:bg-orange-600 border-none flex items-center gap-2"
@@ -88,8 +73,7 @@ const Navbar = () => {
           </div>
         </div>
         
-        {/* Os botões de navegação vão sumir quando o menu estiver aberto */}
-        <div className={`flex justify-center py-2 border-t border-gray-300 space-x-4 ${isMenuOpen ? 'hidden' : ''}`}>
+        <div className="flex justify-center py-2 border-t border-gray-300 space-x-4">
           <Link to="/">
             <Button 
               variant="ghost" 
