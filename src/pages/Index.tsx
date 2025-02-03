@@ -8,7 +8,7 @@ const Index = () => {
     {
       title: "NET FAMÍLIA",
       category: "Plano Premium",
-      price: 119.90,
+      price: 50.90,
       mega: 50,
       sales: 1200,
       features: [
@@ -22,8 +22,8 @@ const Index = () => {
     {
       title: "NET CONTROLE",
       category: "Plano Essencial",
-      price: 54.90,
-      mega: 25,
+      price: 100.99,
+      mega: 100,
       sales: 800,
       features: [
         { text: "5G mais rápido do Brasil" },
