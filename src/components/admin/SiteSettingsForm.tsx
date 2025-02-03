@@ -28,10 +28,6 @@ const SiteSettingsForm = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchSettings();
-  }, []);
-
   const fetchSettings = async () => {
     try {
       const { data, error } = await supabase
@@ -44,19 +40,18 @@ const SiteSettingsForm = () => {
       if (data) {
         const transformedData: SiteSettings = {
           id: data.id,
-          theme_colors: (data.theme_colors as unknown) as ThemeColors || defaultThemeColors,
-          contact_info: (data.contact_info as unknown) as ContactInfo || defaultContactInfo,
+          theme_colors: data.theme_colors as ThemeColors || defaultThemeColors,
+          contact_info: data.contact_info as ContactInfo || defaultContactInfo,
         };
         setSettings(transformedData);
       } else {
-        const defaultSettings = {
-          theme_colors: defaultThemeColors as unknown as Json,
-          contact_info: defaultContactInfo as unknown as Json,
-        };
-
+        // Se não existir configurações, cria uma nova com valores padrão
         const { data: newSettings, error: createError } = await supabase
           .from("site_settings")
-          .insert([defaultSettings])
+          .insert([{
+            theme_colors: defaultThemeColors,
+            contact_info: defaultContactInfo,
+          }])
           .select()
           .single();
 
@@ -65,8 +60,8 @@ const SiteSettingsForm = () => {
         if (newSettings) {
           setSettings({
             id: newSettings.id,
-            theme_colors: (newSettings.theme_colors as unknown) as ThemeColors,
-            contact_info: (newSettings.contact_info as unknown) as ContactInfo,
+            theme_colors: newSettings.theme_colors as ThemeColors,
+            contact_info: newSettings.contact_info as ContactInfo,
           });
         }
       }
@@ -82,19 +77,21 @@ const SiteSettingsForm = () => {
     }
   };
 
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!settings?.id) return;
 
     try {
-      const updateData = {
-        theme_colors: settings.theme_colors as unknown as Json,
-        contact_info: settings.contact_info as unknown as Json,
-      };
-
       const { error } = await supabase
         .from("site_settings")
-        .update(updateData)
+        .update({
+          theme_colors: settings.theme_colors,
+          contact_info: settings.contact_info,
+        })
         .eq("id", settings.id);
 
       if (error) throw error;
@@ -114,11 +111,19 @@ const SiteSettingsForm = () => {
   };
 
   if (loading) {
-    return <div className="p-4">Carregando...</div>;
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-lg">Carregando configurações...</div>
+      </div>
+    );
   }
 
   if (!settings) {
-    return <div className="p-4">Nenhuma configuração encontrada.</div>;
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-lg">Nenhuma configuração encontrada.</div>
+      </div>
+    );
   }
 
   return (
