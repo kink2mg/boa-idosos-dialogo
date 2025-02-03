@@ -4,7 +4,8 @@ import NavbarConfig from "@/components/admin/NavbarConfig";
 import PlansConfig from "@/components/admin/PlansConfig";
 import AccessoryForm from "@/components/admin/AccessoryForm";
 import NewsForm from "@/components/admin/NewsForm";
-import { useToast } from "@/components/ui/use-toast";
+import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
+import { useToast } from "@/hooks/use-toast";
 
 interface Accessory {
   id: number;
@@ -57,13 +58,18 @@ const Admin = () => {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
 
-        <Tabs defaultValue="navbar" className="space-y-4">
+        <Tabs defaultValue="settings" className="space-y-4">
           <TabsList>
+            <TabsTrigger value="settings">Configurações</TabsTrigger>
             <TabsTrigger value="navbar">Navbar</TabsTrigger>
             <TabsTrigger value="plans">Planos</TabsTrigger>
             <TabsTrigger value="accessories">Acessórios</TabsTrigger>
             <TabsTrigger value="news">Notícias</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="settings">
+            <SiteSettingsForm />
+          </TabsContent>
 
           <TabsContent value="navbar">
             <NavbarConfig />
