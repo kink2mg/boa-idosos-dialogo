@@ -23,6 +23,8 @@ interface Accessory {
   categoria: string;
   emPromocao: boolean;
   quantidadeVendas: number;
+  created_at: string;
+  updated_at: string;
 }
 
 interface NewsItem {
@@ -41,8 +43,6 @@ const Admin = () => {
   const [accessories, setAccessories] = useState<Accessory[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedAccessory, setSelectedAccessory] = useState<Accessory | null>(null);
-  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
   const [showAccessoryForm, setShowAccessoryForm] = useState(false);
   const [showNewsForm, setShowNewsForm] = useState(false);
 
@@ -113,7 +113,23 @@ const Admin = () => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setAccessories(data || []);
+      
+      const formattedAccessories: Accessory[] = data.map(item => ({
+        id: item.id,
+        nome: item.nome,
+        preco: item.preco,
+        precoAntigo: item.preco_antigo,
+        descricao: item.descricao,
+        imagem: item.imagem,
+        videoUrl: item.video_url,
+        categoria: item.categoria,
+        emPromocao: item.em_promocao,
+        quantidadeVendas: item.quantidade_vendas,
+        created_at: item.created_at,
+        updated_at: item.updated_at
+      }));
+      
+      setAccessories(formattedAccessories);
     } catch (error) {
       console.error("Error fetching accessories:", error);
       toast({
@@ -132,7 +148,18 @@ const Admin = () => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setNews(data || []);
+
+      const formattedNews: NewsItem[] = data.map(item => ({
+        id: item.id,
+        title: item.title,
+        content: item.content,
+        date: new Date(item.created_at).toISOString().split('T')[0],
+        image: item.image_url || '',
+        videoUrl: item.video_url,
+        category: item.category || ''
+      }));
+
+      setNews(formattedNews);
     } catch (error) {
       console.error("Error fetching news:", error);
       toast({
@@ -143,17 +170,42 @@ const Admin = () => {
     }
   };
 
-  const handleAddAccessory = async (newAccessory: Omit<Accessory, "id">) => {
+  const handleAddAccessory = async (newAccessory: Omit<Accessory, "id" | "created_at" | "updated_at">) => {
     try {
       const { data, error } = await supabase
         .from("accessories")
-        .insert([newAccessory])
+        .insert([{
+          nome: newAccessory.nome,
+          preco: newAccessory.preco,
+          preco_antigo: newAccessory.precoAntigo,
+          descricao: newAccessory.descricao,
+          imagem: newAccessory.imagem,
+          video_url: newAccessory.videoUrl,
+          categoria: newAccessory.categoria,
+          em_promocao: newAccessory.emPromocao,
+          quantidade_vendas: newAccessory.quantidadeVendas
+        }])
         .select()
         .single();
 
       if (error) throw error;
 
-      setAccessories([data, ...accessories]);
+      const formattedAccessory: Accessory = {
+        id: data.id,
+        nome: data.nome,
+        preco: data.preco,
+        precoAntigo: data.preco_antigo,
+        descricao: data.descricao,
+        imagem: data.imagem,
+        videoUrl: data.video_url,
+        categoria: data.categoria,
+        emPromocao: data.em_promocao,
+        quantidadeVendas: data.quantidade_vendas,
+        created_at: data.created_at,
+        updated_at: data.updated_at
+      };
+
+      setAccessories([formattedAccessory, ...accessories]);
       setShowAccessoryForm(false);
       toast({
         title: "Sucesso",
@@ -173,13 +225,29 @@ const Admin = () => {
     try {
       const { data, error } = await supabase
         .from("news")
-        .insert([newNews])
+        .insert([{
+          title: newNews.title,
+          content: newNews.content,
+          image_url: newNews.image,
+          video_url: newNews.videoUrl,
+          category: newNews.category
+        }])
         .select()
         .single();
 
       if (error) throw error;
 
-      setNews([data, ...news]);
+      const formattedNews: NewsItem = {
+        id: data.id,
+        title: data.title,
+        content: data.content,
+        date: new Date(data.created_at).toISOString().split('T')[0],
+        image: data.image_url || '',
+        videoUrl: data.video_url,
+        category: data.category || ''
+      };
+
+      setNews([formattedNews, ...news]);
       setShowNewsForm(false);
       toast({
         title: "Sucesso",
