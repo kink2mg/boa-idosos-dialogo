@@ -30,19 +30,21 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-primary">
+    <nav className="bg-gradient-to-r from-[#051A2D] to-[#0D0745] text-white shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Button variant="ghost" className="text-white lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
-            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
+            <Link to="/" className="text-white text-2xl font-bold tracking-wide">
+              Net<span className="text-[#438BD3]">.</span>
+            </Link>
           </div>
           
           <div className="flex items-center space-x-4">
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+              <Button className="rounded-full w-10 h-10 bg-[#5E72EB] hover:bg-[#438BD3] shadow-[0_0_10px_#438BD3]">
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
                   alt="Facebook" 
@@ -52,7 +54,7 @@ const Navbar = () => {
             </a>
 
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+              <Button className="rounded-full w-10 h-10 bg-[#EE4392] hover:bg-[#FF9DDA] shadow-[0_0_10px_#FF9DDA]">
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
                   alt="Instagram" 
@@ -61,10 +63,9 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Botão de Compartilhar (verde) */}
+            {/* Botão de Compartilhar */}
             <Button 
-              variant="secondary" 
-              className="bg-green-500 text-white hover:bg-green-600 border-none flex items-center gap-2"
+              className="bg-[#5E72EB] hover:bg-[#438BD3] text-white shadow-[0_0_10px_#438BD3] flex items-center gap-2"
               onClick={handleShare}
             >
               <Share2 className="w-5 h-5" />
@@ -73,35 +74,28 @@ const Navbar = () => {
           </div>
         </div>
         
-        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
+        {/* Navegação */}
+        <div className="flex justify-center py-2 border-t border-[#5E72EB] space-x-4">
           <Link to="/">
-            <Button 
-              variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-            >
+            <Button className="text-white bg-[#438BD3] px-4 py-2 rounded-lg shadow-[0_0_10px_#438BD3] hover:bg-[#5E72EB] transition">
               PLANOS
             </Button>
           </Link>
           <Link to="/accessories">
-            <Button 
-              variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-            >
+            <Button className="text-white bg-[#438BD3] px-4 py-2 rounded-lg shadow-[0_0_10px_#438BD3] hover:bg-[#5E72EB] transition">
               ACESSÓRIOS
             </Button>
           </Link>
           <Link to="/news">
-            <Button 
-              variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
-            >
+            <Button className="text-white bg-[#438BD3] px-4 py-2 rounded-lg shadow-[0_0_10px_#438BD3] hover:bg-[#5E72EB] transition">
               NOTÍCIAS
             </Button>
           </Link>
         </div>
 
+        {/* Mensagem de boas-vindas */}
         <div className="mt-4 flex justify-center">
-          <div className="bg-orange-500 p-4 rounded-lg shadow-md text-center w-full max-w-md">
+          <div className="bg-[#FF9190]/90 p-4 rounded-lg shadow-[0_0_15px_#FF9190] text-center w-full max-w-md backdrop-blur-lg">
             <p className="text-lg font-semibold text-white">
               👋 Bem-vindo(a) à <span className="font-bold">Net</span>!
             </p>
