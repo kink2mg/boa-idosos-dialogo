@@ -36,7 +36,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#051A2D] to-[#0D0745] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
       <Navbar />
       
       <main className="container mx-auto px-4 py-12">
@@ -46,8 +46,8 @@ const Index = () => {
               key={index} 
               {...plan} 
               isPopular={index === 0}
-              className="transform transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-[#0D0745]/80 backdrop-blur-lg border border-[#5E72EB] shadow-[0_0_20px_#438BD3] rounded-xl p-6"
-              buttonClassName="bg-[#5E72EB] hover:bg-[#438BD3] text-white shadow-[0_0_10px_#438BD3]"
+              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
@@ -56,13 +56,13 @@ const Index = () => {
         </div>
       </main>
       
-      <div className="fixed bottom-6 right-6 animate-pulse">
+      <div className="fixed bottom-6 right-6 animate-bounce">
         <a 
           href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de suporte.")}`}
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <Button className="bg-[#438BD3] hover:bg-[#5E72EB] text-white shadow-[0_0_15px_#438BD3] rounded-full w-16 h-16 flex items-center justify-center">
+          <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
             <MessageCircle className="w-7 h-7" />
           </Button>
         </a>
