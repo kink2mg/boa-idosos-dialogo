@@ -9,12 +9,6 @@ import { Accessory } from "./AccessoryForm"; // Interface dos acessórios
 const Accessories = () => {
   const { toast } = useToast();
   
-  const [vendas, setVendas] = useState<Record<number, number>>({
-    1: 1200,
-    2: 850,
-    3: 2000,
-  });
-
   const formatarVendas = (quantidade: number): string =>
     quantidade >= 1000 ? `${(quantidade / 1000).toFixed(1).replace(".", ",")} mil` : quantidade.toString();
 
@@ -131,8 +125,10 @@ const Accessories = () => {
       <main className="container mx-auto px-4 py-8 space-y-12">
         {/* Seção de Promoções */}
         <section>
-          <div className="bg-white border border-gray-300 rounded-lg p-4 mb-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">⚡ Promoções Imperdíveis</h2>
+          <div className="bg-gray-100 rounded-lg p-4 mb-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-orange-600">
+              ⚡ Promoções Imperdíveis
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtos
@@ -143,8 +139,10 @@ const Accessories = () => {
 
         {/* Seção de Todos os Produtos */}
         <section>
-          <div className="bg-white border border-gray-300 rounded-lg p-4 mb-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">🛒 Nossos Acessórios</h2>
+          <div className="bg-gray-100 rounded-lg p-4 mb-6 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-orange-600">
+              🛒 Nossos Acessórios
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {produtos.map(produto => <ProdutoCard key={produto.id} produto={produto} />)}
