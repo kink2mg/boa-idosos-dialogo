@@ -1,40 +1,26 @@
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FaArrowRight, FaShareAlt } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const News = () => {
   const news = [
-    // ... (mantenha seu array de notícias original)
-  ];
-
-  const handleShare = async (article: { id: number; title: string }) => {
-    try {
-      const shareUrl = `${window.location.origin}/news/${article.id}`;
-      
-      if (navigator.share) {
-        await navigator.share({
-          title: article.title,
-          text: `Confira esta notícia: ${article.title}`,
-          url: shareUrl,
-        });
-      } else if (navigator.clipboard) {
-        await navigator.clipboard.writeText(shareUrl);
-        alert('Link copiado para a área de transferência! 📋');
-      } else {
-        throw new Error('Navegador não suporta compartilhamento');
-      }
-    } catch (error) {
-      const input = document.createElement('input');
-      input.value = `${window.location.origin}/news/${article.id}`;
-      document.body.appendChild(input);
-      input.select();
-      document.execCommand('copy');
-      document.body.removeChild(input);
-      alert('Link copiado para a área de transferência! 📋');
+    {
+      id: 1,
+      title: "Nova Tecnologia 5G Revoluciona Conectividade",
+      date: "2024-03-20",
+      image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80",
+      content: "A tecnologia 5G está transformando a maneira como nos conectamos, oferecendo velocidades até 100 vezes mais rápidas que o 4G..."
+    },
+    {
+      id: 2,
+      title: "Avanços em Inteligência Artificial",
+      date: "2024-03-19",
+      image: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=800&q=80",
+      content: "Pesquisadores desenvolvem novos algoritmos de IA que prometem revolucionar diversos setores da indústria..."
     }
-  };
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -67,27 +53,15 @@ const News = () => {
                       {article.content}
                     </p>
                   </CardContent>
-                  <div className="mt-4 flex justify-between items-center gap-2">
-                    <Link 
-                      to={`/news/${article.id}`} 
-                      className="flex-1"
-                    >
+                  <div className="mt-4">
+                    <Link to={`/news/${article.id}`}>
                       <Button 
                         variant="ghost" 
-                        className="w-full flex items-center justify-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
+                        className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition"
                       >
                         Ver mais <FaArrowRight />
                       </Button>
                     </Link>
-                    
-                    <Button 
-                      onClick={() => handleShare(article)}
-                      variant="ghost"
-                      className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                      aria-label="Compartilhar notícia"
-                    >
-                      <FaShareAlt className="text-lg" />
-                    </Button>
                   </div>
                 </div>
               </div>
