@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
-import type { SiteSettings, ThemeColors, ContactInfo } from "@/types/site-settings";
+import type { SiteSettings, ThemeColors, ContactInfo, SupabaseSiteSettings } from "@/types/site-settings";
 import type { Json } from "@/integrations/supabase/types";
 
 const defaultThemeColors: ThemeColors = {
@@ -40,18 +40,20 @@ const SiteSettingsForm = () => {
       if (data) {
         const transformedData: SiteSettings = {
           id: data.id,
-          theme_colors: data.theme_colors as ThemeColors || defaultThemeColors,
-          contact_info: data.contact_info as ContactInfo || defaultContactInfo,
+          theme_colors: data.theme_colors as ThemeColors,
+          contact_info: data.contact_info as ContactInfo,
         };
         setSettings(transformedData);
       } else {
         // Se não existir configurações, cria uma nova com valores padrão
+        const defaultSettings = {
+          theme_colors: defaultThemeColors as unknown as Json,
+          contact_info: defaultContactInfo as unknown as Json,
+        };
+
         const { data: newSettings, error: createError } = await supabase
           .from("site_settings")
-          .insert([{
-            theme_colors: defaultThemeColors,
-            contact_info: defaultContactInfo,
-          }])
+          .insert([defaultSettings])
           .select()
           .single();
 
@@ -86,12 +88,14 @@ const SiteSettingsForm = () => {
     if (!settings?.id) return;
 
     try {
+      const updateData = {
+        theme_colors: settings.theme_colors as unknown as Json,
+        contact_info: settings.contact_info as unknown as Json,
+      };
+
       const { error } = await supabase
         .from("site_settings")
-        .update({
-          theme_colors: settings.theme_colors,
-          contact_info: settings.contact_info,
-        })
+        .update(updateData)
         .eq("id", settings.id);
 
       if (error) throw error;
