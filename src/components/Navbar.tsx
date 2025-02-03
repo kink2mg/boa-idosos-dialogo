@@ -52,8 +52,7 @@ const Navbar = () => {
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="ghost" 
-                className="bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0"
-                disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
+                className={`bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0 ${isMenuOpen ? 'hidden' : ''}`}
               >
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
@@ -67,8 +66,7 @@ const Navbar = () => {
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 variant="ghost" 
-                className="bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0"
-                disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
+                className={`bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0 ${isMenuOpen ? 'hidden' : ''}`}
               >
                 <img 
                   src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
@@ -78,12 +76,11 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Botão de Compartilhar (laranja) */}
+            {/* Botão de Compartilhar (não escondido, mas mantém o efeito de hover) */}
             <Button 
               variant="secondary" 
               className="bg-orange-500 text-white hover:bg-orange-600 border-none flex items-center gap-2"
               onClick={handleShare}
-              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               <Share2 className="w-5 h-5" />
               Compartilhar
@@ -91,13 +88,12 @@ const Navbar = () => {
           </div>
         </div>
         
-        {/* Os botões de navegação vão ser desabilitados quando o menu estiver aberto */}
-        <div className="flex justify-center py-2 border-t border-gray-300 space-x-4">
+        {/* Os botões de navegação vão sumir quando o menu estiver aberto */}
+        <div className={`flex justify-center py-2 border-t border-gray-300 space-x-4 ${isMenuOpen ? 'hidden' : ''}`}>
           <Link to="/">
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
-              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               PLANOS
             </Button>
@@ -106,7 +102,6 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
-              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               ACESSÓRIOS
             </Button>
@@ -115,7 +110,6 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
-              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               NOTÍCIAS
             </Button>
