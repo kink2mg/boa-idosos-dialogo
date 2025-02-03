@@ -5,10 +5,9 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
-import type { SiteSettings, ThemeColors, ContactInfo, SupabaseSiteSettings } from "@/types/site-settings";
-import type { Json } from "@/integrations/supabase/types";
+import type { SiteSettings, SupabaseSiteSettings, supabaseSettingsToSettings, settingsToSupabaseSettings } from "@/types/site-settings";
 
-const defaultThemeColors: ThemeColors = {
+const defaultThemeColors = {
   text: "#000000",
   buttons: "#ea580c",
   primary: "#ea580c",
@@ -16,7 +15,7 @@ const defaultThemeColors: ThemeColors = {
   background: "#ffffff"
 };
 
-const defaultContactInfo: ContactInfo = {
+const defaultContactInfo = {
   logo_url: "",
   whatsapp: "5538998622897",
   share_text: "Clique aqui",
@@ -38,17 +37,12 @@ const SiteSettingsForm = () => {
       if (error) throw error;
 
       if (data) {
-        const transformedData: SiteSettings = {
-          id: data.id,
-          theme_colors: data.theme_colors as ThemeColors,
-          contact_info: data.contact_info as ContactInfo,
-        };
+        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
         setSettings(transformedData);
       } else {
-        // Se não existir configurações, cria uma nova com valores padrão
         const defaultSettings = {
-          theme_colors: defaultThemeColors as unknown as Json,
-          contact_info: defaultContactInfo as unknown as Json,
+          theme_colors: defaultThemeColors,
+          contact_info: defaultContactInfo,
         };
 
         const { data: newSettings, error: createError } = await supabase
@@ -60,11 +54,8 @@ const SiteSettingsForm = () => {
         if (createError) throw createError;
 
         if (newSettings) {
-          setSettings({
-            id: newSettings.id,
-            theme_colors: newSettings.theme_colors as ThemeColors,
-            contact_info: newSettings.contact_info as ContactInfo,
-          });
+          const transformedNewSettings = supabaseSettingsToSettings(newSettings as SupabaseSiteSettings);
+          setSettings(transformedNewSettings);
         }
       }
     } catch (error) {
@@ -88,10 +79,7 @@ const SiteSettingsForm = () => {
     if (!settings?.id) return;
 
     try {
-      const updateData = {
-        theme_colors: settings.theme_colors as unknown as Json,
-        contact_info: settings.contact_info as unknown as Json,
-      };
+      const updateData = settingsToSupabaseSettings(settings);
 
       const { error } = await supabase
         .from("site_settings")
