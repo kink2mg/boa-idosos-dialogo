@@ -37,7 +37,7 @@ const Navbar = () => {
             <Button variant="ghost" className="text-gray-700 lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
-            <Link to="/" className="text-orange-500 text-2xl font-bold">Net</Link>
+            <Link to="/" className="text-orange-500 text-2xl font-bold">NETMAX</Link>
           </div>
           
           <div className="flex items-center space-x-4">
