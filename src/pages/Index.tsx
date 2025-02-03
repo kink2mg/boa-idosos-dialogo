@@ -6,7 +6,7 @@ import { MessageCircle } from "lucide-react";
 const Index = () => {
   const plans = [
     {
-      title: "NET PÓS",
+      title: "NET FAMÍLIA",
       category: "Plano Premium",
       price: 119.90,
       mega: 50,
