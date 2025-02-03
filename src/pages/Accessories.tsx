@@ -10,7 +10,7 @@ const Accessories = () => {
   const { toast } = useToast();
   
   const formatarVendas = (quantidade: number): string =>
-    quantidade >= 1000 ? `${(quantidade / 1000).toFixed(1).replace(".", ",")} MIL` : quantidade.toString();
+    quantidade >= 1000 ? `${(quantidade / 1000).toFixed(1).replace(".", ",")} mil` : quantidade.toString();
 
   const produtos: Accessory[] = [
     {
@@ -20,7 +20,7 @@ const Accessories = () => {
       precoAntigo: 9999.9,
       descricao: "MacBook Pro com processador M1, 8GB RAM",
       imagem: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-      categoria: "ELETRÔNICOS",
+      categoria: "Eletrônicos",
       emPromocao: true,
       quantidadeVendas: 1200,
       videoUrl: "https://youtube.com/watch?v=exemplo1",
@@ -31,7 +31,7 @@ const Accessories = () => {
       preco: 4599.9,
       descricao: "Laptop para trabalho e estudos",
       imagem: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-      categoria: "INFORMÁTICA",
+      categoria: "Informática",
       emPromocao: false,
       quantidadeVendas: 850,
     },
@@ -42,7 +42,7 @@ const Accessories = () => {
       precoAntigo: 3999.9,
       descricao: "Notebook leve e portátil",
       imagem: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      categoria: "PROMOÇÕES",
+      categoria: "Promoções",
       emPromocao: true,
       quantidadeVendas: 2000,
       videoUrl: "https://youtube.com/watch?v=exemplo2",
@@ -51,8 +51,8 @@ const Accessories = () => {
 
   const adicionarAoCarrinho = (nomeProduto: string) => {
     toast({
-      title: "✅ SUCESSO",
-      description: `${nomeProduto} ADICIONADO AO CARRINHO!`,
+      title: "✅ Sucesso",
+      description: `${nomeProduto} adicionado ao carrinho!`,
     });
   };
 
@@ -72,7 +72,7 @@ const Accessories = () => {
             />
             {produto.emPromocao && (
               <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
-                PROMOÇÃO
+                Promoção
               </div>
             )}
           </div>
@@ -94,12 +94,12 @@ const Accessories = () => {
                 </span>
                 {desconto && <span className="text-sm font-semibold text-orange-600">{desconto}% OFF</span>}
               </div>
-              <span className="text-sm text-gray-500">🚀 {formatarVendas(produto.quantidadeVendas)}</span>
+              <span className="text-sm text-gray-500">{formatarVendas(produto.quantidadeVendas)}</span>
             </div>
 
             {produto.precoAntigo && (
               <p className="text-sm text-gray-500 line-through">
-                DE R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
+                De R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
               </p>
             )}
           </div>
@@ -111,7 +111,7 @@ const Accessories = () => {
             onClick={() => adicionarAoCarrinho(produto.nome)}
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            COMPRAR AGORA
+            Comprar Agora
           </Button>
         </CardFooter>
       </Card>
@@ -127,7 +127,7 @@ const Accessories = () => {
         <section>
           <div className="bg-gray-100 rounded-lg p-4 mb-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-orange-600 uppercase">
-              ⚡ PROMOÇÕES IMPERDÍVEIS
+              PROMOÇÕES IMPERDÍVEIS
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -141,7 +141,7 @@ const Accessories = () => {
         <section>
           <div className="bg-gray-100 rounded-lg p-4 mb-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-orange-600 uppercase">
-              🛒 NOSSOS ACESSÓRIOS
+              NOSSOS ACESSÓRIOS
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
