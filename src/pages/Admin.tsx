@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NavbarConfig from "@/components/admin/NavbarConfig";
 import PlansConfig from "@/components/admin/PlansConfig";
+import AccessoryForm from "@/components/admin/AccessoryForm";
 
 const Admin = () => {
   return (
@@ -26,7 +27,7 @@ const Admin = () => {
           </TabsContent>
 
           <TabsContent value="accessories">
-            <div>Configuração de Acessórios</div>
+            < AccessoryForm />
           </TabsContent>
 
           <TabsContent value="news">
