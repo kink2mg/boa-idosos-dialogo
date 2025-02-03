@@ -1,4 +1,4 @@
-import { Menu, Share2 } from "lucide-react";
+import { Menu, Share2, Facebook, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -30,82 +30,90 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-primary">
+    <nav className="bg-gradient-to-r from-gray-900 to-emerald-900 backdrop-blur-lg border-b border-emerald-500/20">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Button variant="ghost" className="text-white lg:hidden">
-              <Menu className="w-6 h-6" />
+        {/* Top Bar */}
+        <div className="flex items-center justify-between h-20">
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="ghost" 
+              className="text-emerald-400 lg:hidden hover:bg-emerald-500/10"
+            >
+              <Menu className="w-7 h-7" />
             </Button>
-            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
+            <Link 
+              to="/" 
+              className="text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-emerald-500 text-3xl font-bold tracking-wide"
+            >
+              Net
+            </Link>
           </div>
           
-          <div className="flex items-center space-x-4">
+          {/* Social and Actions */}
+          <div className="flex items-center gap-3">
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
-                <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
-                  alt="Facebook" 
-                  className="w-5 h-5"
-                />
+              <Button 
+                variant="ghost" 
+                className="rounded-full w-12 h-12 p-0 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 hover:border-lime-400/50 transition-all"
+              >
+                <Facebook className="w-6 h-6 text-lime-400" />
               </Button>
             </a>
 
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
-                <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
-                  alt="Instagram" 
-                  className="w-5 h-5"
-                />
+              <Button 
+                variant="ghost" 
+                className="rounded-full w-12 h-12 p-0 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 hover:border-lime-400/50 transition-all"
+              >
+                <Instagram className="w-6 h-6 text-lime-400" />
               </Button>
             </a>
 
-            {/* Botão de Compartilhar (verde) */}
             <Button 
-              variant="secondary" 
-              className="bg-green-500 text-white hover:bg-green-600 border-none flex items-center gap-2"
               onClick={handleShare}
+              className="bg-gradient-to-r from-lime-400 to-emerald-500 hover:from-lime-450 hover:to-emerald-600 text-gray-900 px-6 py-3 rounded-full font-semibold shadow-lg hover:shadow-emerald-500/30 transition-all group"
             >
-              <Share2 className="w-5 h-5" />
+              <Share2 className="w-5 h-5 mr-2 transition-transform group-hover:rotate-12" />
               Compartilhar
             </Button>
           </div>
         </div>
-        
-        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
+
+        {/* Navigation Menu */}
+        <div className="flex justify-center py-3 space-x-4 border-t border-emerald-500/10">
           <Link to="/">
             <Button 
               variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+              className="bg-emerald-500/10 backdrop-blur-sm border border-emerald-500/20 text-lime-400 px-6 py-3 rounded-xl hover:bg-emerald-500/20 hover:border-lime-400/50 hover:scale-105 transition-all"
             >
-              PLANOS
+              🌟 PLANOS
             </Button>
           </Link>
           <Link to="/accessories">
             <Button 
               variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+              className="bg-emerald-500/10 backdrop-blur-sm border border-emerald-500/20 text-lime-400 px-6 py-3 rounded-xl hover:bg-emerald-500/20 hover:border-lime-400/50 hover:scale-105 transition-all"
             >
-              ACESSÓRIOS
+              🛍️ ACESSÓRIOS
             </Button>
           </Link>
           <Link to="/news">
             <Button 
               variant="ghost" 
-              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
+              className="bg-emerald-500/10 backdrop-blur-sm border border-emerald-500/20 text-lime-400 px-6 py-3 rounded-xl hover:bg-emerald-500/20 hover:border-lime-400/50 hover:scale-105 transition-all"
             >
-              NOTÍCIAS
+              📰 NOTÍCIAS
             </Button>
           </Link>
         </div>
 
-        <div className="mt-4 flex justify-center">
-          <div className="bg-orange-500 p-4 rounded-lg shadow-md text-center w-full max-w-md">
-            <p className="text-lg font-semibold text-white">
-              👋 Bem-vindo(a) à <span className="font-bold">Net</span>!
+        {/* Welcome Banner */}
+        <div className="mt-4 flex justify-center animate-float">
+          <div className="bg-gradient-to-r from-emerald-500/30 to-lime-400/30 p-4 rounded-2xl backdrop-blur-sm border border-emerald-500/20 text-center max-w-md">
+            <p className="text-lg font-bold bg-gradient-to-r from-lime-300 to-emerald-400 bg-clip-text text-transparent">
+              👋 Bem-vindo(a) à <span className="font-black">Net</span>!
             </p>
-            <p className="text-white">Conectando você ao melhor da internet! 🚀</p>
+            <p className="text-lime-100 mt-1">Conexão ultrarrápida com tecnologia de ponta 🚀</p>
           </div>
         </div>
       </div>
