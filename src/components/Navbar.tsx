@@ -1,4 +1,4 @@
-import { Menu, Share2, Facebook, Instagram } from "lucide-react";
+import { Menu, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -30,92 +30,82 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 backdrop-blur-lg border-b border-slate-700">
+    <nav className="bg-primary">
       <div className="container mx-auto px-4">
-        {/* Top Navigation */}
-        <div className="flex items-center justify-between h-20">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost" 
-              className="text-white lg:hidden hover:bg-white/10 transition-all duration-300"
-            >
-              <Menu className="w-7 h-7" />
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Button variant="ghost" className="text-white lg:hidden">
+              <Menu className="w-6 h-6" />
             </Button>
-            <Link 
-              to="/" 
-              className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 text-3xl font-bold tracking-wide hover:scale-105 transition-transform"
-            >
-              Net
-            </Link>
+            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
           </div>
           
-          {/* Social and Share */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center space-x-4">
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
-              <Button 
-                variant="ghost" 
-                className="rounded-full w-12 h-12 p-0 bg-white/5 backdrop-blur-sm border border-white/20 hover:bg-white/10 hover:border-cyan-400/50 transition-all duration-300"
-              >
-                <Facebook className="w-6 h-6 text-cyan-400" />
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <img 
+                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
+                  alt="Facebook" 
+                  className="w-5 h-5"
+                />
               </Button>
             </a>
 
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
-              <Button 
-                variant="ghost" 
-                className="rounded-full w-12 h-12 p-0 bg-white/5 backdrop-blur-sm border border-white/20 hover:bg-white/10 hover:border-purple-400/50 transition-all duration-300"
-              >
-                <Instagram className="w-6 h-6 text-purple-400" />
+              <Button variant="ghost" className="text-white rounded-full w-10 h-10 p-0 bg-white">
+                <img 
+                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
+                  alt="Instagram" 
+                  className="w-5 h-5"
+                />
               </Button>
             </a>
 
+            {/* Botão de Compartilhar (verde) */}
             <Button 
+              variant="secondary" 
+              className="bg-green-500 text-white hover:bg-green-600 border-none flex items-center gap-2"
               onClick={handleShare}
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 group"
             >
-              <Share2 className="w-5 h-5 mr-2 transition-transform group-hover:rotate-12" />
+              <Share2 className="w-5 h-5" />
               Compartilhar
             </Button>
           </div>
         </div>
-
-        {/* Main Navigation */}
-        <div className="flex justify-center py-3 space-x-4 border-t border-white/10">
+        
+        <div className="flex justify-center py-2 border-t border-red-700 space-x-4">
           <Link to="/">
             <Button 
               variant="ghost" 
-              className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-xl hover:bg-white/20 hover:border-cyan-400/50 hover:scale-105 transition-all duration-300"
+              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
             >
-              🌟 PLANOS PREMIUM
+              PLANOS
             </Button>
           </Link>
           <Link to="/accessories">
             <Button 
               variant="ghost" 
-              className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-xl hover:bg-white/20 hover:border-purple-400/50 hover:scale-105 transition-all duration-300"
+              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
             >
-              🛍️ ACESSÓRIOS
+              ACESSÓRIOS
             </Button>
           </Link>
           <Link to="/news">
             <Button 
               variant="ghost" 
-              className="bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-xl hover:bg-white/20 hover:border-blue-400/50 hover:scale-105 transition-all duration-300"
+              className="text-white bg-red-600 px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition"
             >
-              📰 NOTÍCIAS
+              NOTÍCIAS
             </Button>
           </Link>
         </div>
 
-        {/* Welcome Banner */}
-        <div className="mt-6 flex justify-center animate-float">
-          <div className="bg-gradient-to-r from-cyan-500/30 to-blue-600/30 p-5 rounded-2xl shadow-2xl backdrop-blur-sm border border-white/20 w-full max-w-2xl text-center">
-            <p className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 mb-2">
-              🚀 Bem-vindo(a) à Net!
+        <div className="mt-4 flex justify-center">
+          <div className="bg-orange-500 p-4 rounded-lg shadow-md text-center w-full max-w-md">
+            <p className="text-lg font-semibold text-white">
+              👋 Bem-vindo(a) à <span className="font-bold">Net</span>!
             </p>
-            <p className="text-cyan-100 text-lg">
-              Conexão ultrarrápida | Tecnologia de ponta | Suporte 24/7
-            </p>
+            <p className="text-white">Conectando você ao melhor da internet! 🚀</p>
           </div>
         </div>
       </div>
