@@ -7,23 +7,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { Plus, Trash } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-
-interface PlanFeature {
-  text: string;
-  info?: string;
-}
-
-interface Plan {
-  id: string;
-  title: string;
-  category: string;
-  price: number;
-  mega: number;
-  features: PlanFeature[];
-  image_url?: string;
-  is_popular: boolean;
-  sales_count: number;
-}
+import { Plan, SupabasePlan, supabasePlanToPlan, planToSupabasePlan } from "@/types/plans";
 
 const PlansConfig = () => {
   const { toast } = useToast();
@@ -46,7 +30,8 @@ const PlansConfig = () => {
       if (error) throw error;
 
       if (data) {
-        setPlans(data as Plan[]);
+        const formattedPlans = data.map((plan: SupabasePlan) => supabasePlanToPlan(plan));
+        setPlans(formattedPlans);
       }
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -61,7 +46,7 @@ const PlansConfig = () => {
   };
 
   const handleAddPlan = async () => {
-    const newPlan = {
+    const newPlan: Omit<Plan, 'id' | 'created_at' | 'updated_at'> = {
       title: "Novo Plano",
       category: "",
       price: 0,
@@ -74,15 +59,16 @@ const PlansConfig = () => {
     try {
       const { data, error } = await supabase
         .from("plans")
-        .insert([newPlan])
+        .insert([planToSupabasePlan(newPlan as Plan)])
         .select()
         .single();
 
       if (error) throw error;
 
       if (data) {
-        setPlans([data as Plan, ...plans]);
-        setSelectedPlan(data as Plan);
+        const formattedPlan = supabasePlanToPlan(data as SupabasePlan);
+        setPlans([formattedPlan, ...plans]);
+        setSelectedPlan(formattedPlan);
         toast({
           title: "Sucesso",
           description: "Plano criado com sucesso!",
@@ -102,7 +88,7 @@ const PlansConfig = () => {
     try {
       const { error } = await supabase
         .from("plans")
-        .update(updatedPlan)
+        .update(planToSupabasePlan(updatedPlan))
         .eq("id", updatedPlan.id);
 
       if (error) throw error;
