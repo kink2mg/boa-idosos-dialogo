@@ -41,33 +41,31 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 bg-background p-6 rounded-lg shadow-lg">
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="nome" className="text-text">Nome do Acessório</Label>
+          <Label htmlFor="nome">Nome do Acessório</Label>
           <Input
             id="nome"
             value={accessory.nome}
             onChange={(e) => setAccessory(prev => ({ ...prev, nome: e.target.value }))}
             required
-            className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="categoria" className="text-text">Categoria</Label>
+          <Label htmlFor="categoria">Categoria</Label>
           <Input
             id="categoria"
             value={accessory.categoria}
             onChange={(e) => setAccessory(prev => ({ ...prev, categoria: e.target.value }))}
             required
-            className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
           />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="preco" className="text-text">Preço Atual (R$)</Label>
+          <Label htmlFor="preco">Preço Atual (R$)</Label>
           <Input
             id="preco"
             type="number"
@@ -75,36 +73,33 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
             value={accessory.preco}
             onChange={(e) => setAccessory(prev => ({ ...prev, preco: Number(e.target.value) }))}
             required
-            className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="precoAntigo" className="text-text">Preço Antigo (R$)</Label>
+          <Label htmlFor="precoAntigo">Preço Antigo (R$)</Label>
           <Input
             id="precoAntigo"
             type="number"
             step="0.01"
             value={accessory.precoAntigo}
             onChange={(e) => setAccessory(prev => ({ ...prev, precoAntigo: Number(e.target.value) }))}
-            className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="descricao" className="text-text">Descrição</Label>
+        <Label htmlFor="descricao">Descrição</Label>
         <Textarea
           id="descricao"
           value={accessory.descricao}
           onChange={(e) => setAccessory(prev => ({ ...prev, descricao: e.target.value }))}
           rows={3}
           required
-          className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="imagem" className="text-text">URL da Imagem</Label>
+        <Label htmlFor="imagem">URL da Imagem</Label>
         <Input
           id="imagem"
           type="url"
@@ -112,19 +107,17 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
           onChange={(e) => setAccessory(prev => ({ ...prev, imagem: e.target.value }))}
           placeholder="https://exemplo.com/imagem.jpg"
           required
-          className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="videoUrl" className="text-text">URL do Vídeo (YouTube)</Label>
+        <Label htmlFor="videoUrl">URL do Vídeo (YouTube)</Label>
         <Input
           id="videoUrl"
           type="url"
           value={accessory.videoUrl}
           onChange={(e) => setAccessory(prev => ({ ...prev, videoUrl: e.target.value }))}
           placeholder="https://youtube.com/watch?v=..."
-          className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
         />
       </div>
 
@@ -135,21 +128,20 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
             checked={accessory.emPromocao}
             onCheckedChange={(checked) => setAccessory(prev => ({ ...prev, emPromocao: checked }))}
           />
-          <Label htmlFor="emPromocao" className="text-text">Em Promoção</Label>
+          <Label htmlFor="emPromocao">Em Promoção</Label>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="quantidadeVendas" className="text-text">Quantidade de Vendas</Label>
+          <Label htmlFor="quantidadeVendas">Quantidade de Vendas</Label>
           <Input
             id="quantidadeVendas"
             type="number"
             value={accessory.quantidadeVendas}
             onChange={(e) => setAccessory(prev => ({ ...prev, quantidadeVendas: Number(e.target.value) }))}
-            className="border text-text placeholder-gray-500 focus:ring-primary focus:border-primary"
           />
         </div>
       </div>
 
-      <Button type="submit" className="w-full bg-button hover:bg-buttonHover text-white py-2 rounded-md shadow-md">
+      <Button type="submit" className="w-full">
         Salvar Acessório
       </Button>
     </form>
