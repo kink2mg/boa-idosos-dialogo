@@ -54,7 +54,7 @@ const PlanCard = ({
   }
 
   const whatsappNumber = "5511999999999"; // This would come from your admin settings
-  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
+  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${price ? formatPrice(price) : 'Preço indisponível'}/mês.`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -115,7 +115,7 @@ const PlanCard = ({
             <div className="text-sm text-gray-500">Por apenas</div>
             <div className="flex items-baseline">
               <span className="text-3xl font-bold text-primary">
-                {formatPrice(price)}
+                {price ? formatPrice(price) : 'Preço indisponível'}
               </span>
               <span className="text-gray-500 ml-2">/mês</span>
             </div>
