@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Menu, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const whatsappNumber = "5538998622897";
   const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -34,7 +37,11 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Button variant="ghost" className="text-gray-700 lg:hidden">
+            <Button
+              variant="ghost"
+              className="text-gray-700 lg:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)} // Alterna o estado do menu
+            >
               <Menu className="w-6 h-6" />
             </Button>
             <Link to="/" className="text-orange-500 text-2xl font-bold">NETMAX</Link>
@@ -78,6 +85,7 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+              disabled={isMenuOpen} // Desabilita os botões se o menu estiver aberto
             >
               PLANOS
             </Button>
@@ -86,6 +94,7 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+              disabled={isMenuOpen} // Desabilita os botões se o menu estiver aberto
             >
               ACESSÓRIOS
             </Button>
@@ -94,6 +103,7 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+              disabled={isMenuOpen} // Desabilita os botões se o menu estiver aberto
             >
               NOTÍCIAS
             </Button>
