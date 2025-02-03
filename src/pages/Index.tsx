@@ -36,7 +36,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#A5CAD2] to-[#5E72EB]">
+    <div className="min-h-screen bg-gradient-to-br from-[#051A2D] to-[#0D0745] text-white">
       <Navbar />
       
       <main className="container mx-auto px-4 py-12">
@@ -46,8 +46,8 @@ const Index = () => {
               key={index} 
               {...plan} 
               isPopular={index === 0}
-              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl bg-white shadow-md rounded-lg border border-[#0D0745]"
-              buttonClassName="bg-[#FF7B89] hover:bg-[#EE4392] text-white"
+              className="transform transition-all duration-300 hover:scale-105 hover:shadow-2xl bg-[#0D0745]/80 backdrop-blur-lg border border-[#5E72EB] shadow-[0_0_20px_#438BD3] rounded-xl p-6"
+              buttonClassName="bg-[#5E72EB] hover:bg-[#438BD3] text-white shadow-[0_0_10px_#438BD3]"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
@@ -56,13 +56,13 @@ const Index = () => {
         </div>
       </main>
       
-      <div className="fixed bottom-6 right-6 animate-bounce">
+      <div className="fixed bottom-6 right-6 animate-pulse">
         <a 
           href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de suporte.")}`}
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <Button className="bg-gradient-to-r from-[#FF9190] to-[#FEC195] hover:from-[#EE4392] hover:to-[#FF7B89] text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+          <Button className="bg-[#438BD3] hover:bg-[#5E72EB] text-white shadow-[0_0_15px_#438BD3] rounded-full w-16 h-16 flex items-center justify-center">
             <MessageCircle className="w-7 h-7" />
           </Button>
         </a>
