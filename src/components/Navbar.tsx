@@ -80,12 +80,13 @@ const Navbar = () => {
           </div>
         </div>
         
-        {/* Condicionando a visibilidade dos botões com base no estado isMenuOpen */}
-        <div className={`flex justify-center py-2 border-t border-gray-300 space-x-4 ${isMenuOpen ? "hidden" : ""}`}>
+        {/* Os botões vão ser desabilitados quando o menu estiver aberto */}
+        <div className="flex justify-center py-2 border-t border-gray-300 space-x-4">
           <Link to="/">
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               PLANOS
             </Button>
@@ -94,6 +95,7 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               ACESSÓRIOS
             </Button>
@@ -102,6 +104,7 @@ const Navbar = () => {
             <Button 
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
+              disabled={isMenuOpen} // Botão desabilitado se o menu estiver aberto
             >
               NOTÍCIAS
             </Button>
