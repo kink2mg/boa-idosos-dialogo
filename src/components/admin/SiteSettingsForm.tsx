@@ -1,40 +1,26 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import type { Json } from "@/integrations/supabase/types";
+import ThemeColorsForm from "./ThemeColorsForm";
+import ContactInfoForm from "./ContactInfoForm";
+import type { SiteSettings, SupabaseSiteSettings, ThemeColors, ContactInfo } from "@/types/site-settings";
 
-interface ThemeColors {
-  text: string;
-  buttons: string;
-  primary: string;
-  container: string;
-  background: string;
-}
+const defaultThemeColors: ThemeColors = {
+  text: "#000000",
+  buttons: "#ea580c",
+  primary: "#ea580c",
+  container: "#f3f4f6",
+  background: "#ffffff"
+};
 
-interface ContactInfo {
-  logo_url: string;
-  whatsapp: string;
-  share_text: string;
-  whatsapp_message: string;
-}
-
-interface SiteSettings {
-  id: string;
-  theme_colors: ThemeColors;
-  contact_info: ContactInfo;
-}
-
-interface SupabaseSiteSettings {
-  id: string;
-  theme_colors: Json;
-  contact_info: Json;
-  created_at: string;
-  updated_at: string;
-}
+const defaultContactInfo: ContactInfo = {
+  logo_url: "",
+  whatsapp: "5538998622897",
+  share_text: "Clique aqui",
+  whatsapp_message: "Olá! Gostaria de saber mais sobre os planos."
+};
 
 const SiteSettingsForm = () => {
   const { toast } = useToast();
@@ -54,14 +40,34 @@ const SiteSettingsForm = () => {
 
       if (error) throw error;
 
-      // Transform Supabase data to our frontend format with proper type assertions
-      const transformedData: SiteSettings = {
-        id: data.id,
-        theme_colors: data.theme_colors as unknown as ThemeColors,
-        contact_info: data.contact_info as unknown as ContactInfo,
-      };
+      if (data) {
+        const transformedData: SiteSettings = {
+          id: data.id,
+          theme_colors: data.theme_colors as unknown as ThemeColors || defaultThemeColors,
+          contact_info: data.contact_info as unknown as ContactInfo || defaultContactInfo,
+        };
+        setSettings(transformedData);
+      } else {
+        // Se não houver configurações, criar uma nova entrada com valores padrão
+        const { data: newSettings, error: createError } = await supabase
+          .from("site_settings")
+          .insert([{
+            theme_colors: defaultThemeColors,
+            contact_info: defaultContactInfo,
+          }])
+          .select()
+          .single();
 
-      setSettings(transformedData);
+        if (createError) throw createError;
+
+        if (newSettings) {
+          setSettings({
+            id: newSettings.id,
+            theme_colors: newSettings.theme_colors as unknown as ThemeColors,
+            contact_info: newSettings.contact_info as unknown as ContactInfo,
+          });
+        }
+      }
     } catch (error) {
       console.error("Erro ao carregar configurações:", error);
       toast({
@@ -79,7 +85,6 @@ const SiteSettingsForm = () => {
     if (!settings?.id) return;
 
     try {
-      // Transform our frontend data to Supabase format with proper type assertions
       const supabaseData: Partial<SupabaseSiteSettings> = {
         theme_colors: settings.theme_colors as unknown as Json,
         contact_info: settings.contact_info as unknown as Json,
@@ -118,166 +123,18 @@ const SiteSettingsForm = () => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Cores do Tema</h3>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="text-color">Cor do Texto</Label>
-            <Input
-              id="text-color"
-              type="color"
-              value={settings.theme_colors.text}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  theme_colors: {
-                    ...settings.theme_colors,
-                    text: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div>
-            <Label htmlFor="buttons-color">Cor dos Botões</Label>
-            <Input
-              id="buttons-color"
-              type="color"
-              value={settings.theme_colors.buttons}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  theme_colors: {
-                    ...settings.theme_colors,
-                    buttons: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div>
-            <Label htmlFor="primary-color">Cor Primária</Label>
-            <Input
-              id="primary-color"
-              type="color"
-              value={settings.theme_colors.primary}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  theme_colors: {
-                    ...settings.theme_colors,
-                    primary: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div>
-            <Label htmlFor="container-color">Cor do Container</Label>
-            <Input
-              id="container-color"
-              type="color"
-              value={settings.theme_colors.container}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  theme_colors: {
-                    ...settings.theme_colors,
-                    container: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div>
-            <Label htmlFor="background-color">Cor do Fundo</Label>
-            <Input
-              id="background-color"
-              type="color"
-              value={settings.theme_colors.background}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  theme_colors: {
-                    ...settings.theme_colors,
-                    background: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </div>
+        <ThemeColorsForm
+          themeColors={settings.theme_colors}
+          onChange={(theme_colors) => setSettings({ ...settings, theme_colors })}
+        />
       </Card>
 
       <Card className="p-6">
         <h3 className="text-lg font-semibold mb-4">Informações de Contato</h3>
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="logo-url">URL do Logo</Label>
-            <Input
-              id="logo-url"
-              type="url"
-              value={settings.contact_info.logo_url}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  contact_info: {
-                    ...settings.contact_info,
-                    logo_url: e.target.value,
-                  },
-                })
-              }
-              placeholder="https://exemplo.com/logo.png"
-            />
-          </div>
-          <div>
-            <Label htmlFor="whatsapp">WhatsApp</Label>
-            <Input
-              id="whatsapp"
-              value={settings.contact_info.whatsapp}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  contact_info: {
-                    ...settings.contact_info,
-                    whatsapp: e.target.value,
-                  },
-                })
-              }
-              placeholder="5538998622897"
-            />
-          </div>
-          <div>
-            <Label htmlFor="share-text">Texto do Compartilhamento</Label>
-            <Input
-              id="share-text"
-              value={settings.contact_info.share_text}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  contact_info: {
-                    ...settings.contact_info,
-                    share_text: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div>
-            <Label htmlFor="whatsapp-message">Mensagem do WhatsApp</Label>
-            <Input
-              id="whatsapp-message"
-              value={settings.contact_info.whatsapp_message}
-              onChange={(e) =>
-                setSettings({
-                  ...settings,
-                  contact_info: {
-                    ...settings.contact_info,
-                    whatsapp_message: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </div>
+        <ContactInfoForm
+          contactInfo={settings.contact_info}
+          onChange={(contact_info) => setSettings({ ...settings, contact_info })}
+        />
       </Card>
 
       <Button type="submit" className="w-full">
