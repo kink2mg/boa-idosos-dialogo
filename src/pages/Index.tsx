@@ -47,7 +47,7 @@ const Index = () => {
               {...plan} 
               isPopular={index === 0}
               className="bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName="bg-gray-700 hover:bg-gray-800 text-white"
+              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white" // Alterado para laranja
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
@@ -63,7 +63,7 @@ const Index = () => {
           rel="noopener noreferrer"
         >
           <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-            <MessageCircle className="w-8 h-8" /> {/* Ícone aumentado */}
+            <MessageCircle className="w-8 h-8" />
           </Button>
         </a>
       </div>
