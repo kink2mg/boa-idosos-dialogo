@@ -10,7 +10,7 @@ const Accessories = () => {
   const { toast } = useToast();
   
   const formatarVendas = (quantidade: number): string =>
-    quantidade >= 1000 ? `${(quantidade / 1000).toFixed(1).replace(".", ",")} mil` : quantidade.toString();
+    quantidade >= 1000 ? `${(quantidade / 1000).toFixed(1).replace(".", ",")} MIL` : quantidade.toString();
 
   const produtos: Accessory[] = [
     {
@@ -20,7 +20,7 @@ const Accessories = () => {
       precoAntigo: 9999.9,
       descricao: "MacBook Pro com processador M1, 8GB RAM",
       imagem: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-      categoria: "Eletrônicos",
+      categoria: "ELETRÔNICOS",
       emPromocao: true,
       quantidadeVendas: 1200,
       videoUrl: "https://youtube.com/watch?v=exemplo1",
@@ -31,7 +31,7 @@ const Accessories = () => {
       preco: 4599.9,
       descricao: "Laptop para trabalho e estudos",
       imagem: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-      categoria: "Informática",
+      categoria: "INFORMÁTICA",
       emPromocao: false,
       quantidadeVendas: 850,
     },
@@ -42,7 +42,7 @@ const Accessories = () => {
       precoAntigo: 3999.9,
       descricao: "Notebook leve e portátil",
       imagem: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-      categoria: "Promoções",
+      categoria: "PROMOÇÕES",
       emPromocao: true,
       quantidadeVendas: 2000,
       videoUrl: "https://youtube.com/watch?v=exemplo2",
@@ -51,8 +51,8 @@ const Accessories = () => {
 
   const adicionarAoCarrinho = (nomeProduto: string) => {
     toast({
-      title: "✅ Sucesso",
-      description: `${nomeProduto} adicionado ao carrinho!`,
+      title: "✅ SUCESSO",
+      description: `${nomeProduto} ADICIONADO AO CARRINHO!`,
     });
   };
 
@@ -71,8 +71,8 @@ const Accessories = () => {
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             {produto.emPromocao && (
-              <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md animate-pulse">
-                Promoção
+              <div className="absolute top-2 left-2 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-md">
+                PROMOÇÃO
               </div>
             )}
           </div>
@@ -81,7 +81,7 @@ const Accessories = () => {
         <CardContent className="p-4 space-y-3">
           <div className="flex justify-between items-start">
             <CardTitle className="text-xl font-bold text-gray-800">{produto.nome}</CardTitle>
-            <span className="text-sm bg-gray-200 px-2 py-1 rounded">{produto.categoria}</span>
+            <span className="text-sm bg-orange-600 text-white px-2 py-1 rounded">{produto.categoria}</span>
           </div>
 
           <p className="text-gray-600 text-sm line-clamp-2">{produto.descricao}</p>
@@ -99,7 +99,7 @@ const Accessories = () => {
 
             {produto.precoAntigo && (
               <p className="text-sm text-gray-500 line-through">
-                De R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
+                DE R$ {produto.precoAntigo.toFixed(2).replace(".", ",")}
               </p>
             )}
           </div>
@@ -111,7 +111,7 @@ const Accessories = () => {
             onClick={() => adicionarAoCarrinho(produto.nome)}
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            Comprar Agora
+            COMPRAR AGORA
           </Button>
         </CardFooter>
       </Card>
@@ -126,8 +126,8 @@ const Accessories = () => {
         {/* Seção de Promoções */}
         <section>
           <div className="bg-gray-100 rounded-lg p-4 mb-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-orange-600">
-              ⚡ Promoções Imperdíveis
+            <h2 className="text-3xl md:text-4xl font-bold text-orange-600 uppercase">
+              ⚡ PROMOÇÕES IMPERDÍVEIS
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -140,8 +140,8 @@ const Accessories = () => {
         {/* Seção de Todos os Produtos */}
         <section>
           <div className="bg-gray-100 rounded-lg p-4 mb-6 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-orange-600">
-              🛒 Nossos Acessórios
+            <h2 className="text-3xl md:text-4xl font-bold text-orange-600 uppercase">
+              🛒 NOSSOS ACESSÓRIOS
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
