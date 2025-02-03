@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import type { Json } from "@/integrations/supabase/types";
 
 interface ThemeColors {
   text: string;
@@ -27,6 +28,14 @@ interface SiteSettings {
   contact_info: ContactInfo;
 }
 
+interface SupabaseSiteSettings {
+  id: string;
+  theme_colors: Json;
+  contact_info: Json;
+  created_at: string;
+  updated_at: string;
+}
+
 const SiteSettingsForm = () => {
   const { toast } = useToast();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
@@ -44,7 +53,15 @@ const SiteSettingsForm = () => {
         .single();
 
       if (error) throw error;
-      setSettings(data);
+
+      // Transform Supabase data to our frontend format
+      const transformedData: SiteSettings = {
+        id: data.id,
+        theme_colors: data.theme_colors as ThemeColors,
+        contact_info: data.contact_info as ContactInfo,
+      };
+
+      setSettings(transformedData);
     } catch (error) {
       console.error("Erro ao carregar configurações:", error);
       toast({
@@ -62,12 +79,15 @@ const SiteSettingsForm = () => {
     if (!settings?.id) return;
 
     try {
+      // Transform our frontend data to Supabase format
+      const supabaseData: Partial<SupabaseSiteSettings> = {
+        theme_colors: settings.theme_colors as Json,
+        contact_info: settings.contact_info as Json,
+      };
+
       const { error } = await supabase
         .from("site_settings")
-        .update({
-          theme_colors: settings.theme_colors,
-          contact_info: settings.contact_info,
-        })
+        .update(supabaseData)
         .eq("id", settings.id);
 
       if (error) throw error;
