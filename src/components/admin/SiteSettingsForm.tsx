@@ -54,11 +54,11 @@ const SiteSettingsForm = () => {
 
       if (error) throw error;
 
-      // Transform Supabase data to our frontend format
+      // Transform Supabase data to our frontend format with proper type assertions
       const transformedData: SiteSettings = {
         id: data.id,
-        theme_colors: data.theme_colors as ThemeColors,
-        contact_info: data.contact_info as ContactInfo,
+        theme_colors: data.theme_colors as unknown as ThemeColors,
+        contact_info: data.contact_info as unknown as ContactInfo,
       };
 
       setSettings(transformedData);
@@ -79,10 +79,10 @@ const SiteSettingsForm = () => {
     if (!settings?.id) return;
 
     try {
-      // Transform our frontend data to Supabase format
+      // Transform our frontend data to Supabase format with proper type assertions
       const supabaseData: Partial<SupabaseSiteSettings> = {
-        theme_colors: settings.theme_colors as Json,
-        contact_info: settings.contact_info as Json,
+        theme_colors: settings.theme_colors as unknown as Json,
+        contact_info: settings.contact_info as unknown as Json,
       };
 
       const { error } = await supabase
