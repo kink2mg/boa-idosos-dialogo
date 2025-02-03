@@ -8,7 +8,7 @@ const Index = () => {
     {
       title: "NET FAMÍLIA",
       category: "Plano Premium",
-      price: 50.90,
+      price: 50.99,
       mega: 50,
       sales: 1200,
       features: [
