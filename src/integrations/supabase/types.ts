@@ -9,7 +9,123 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      news: {
+        Row: {
+          category: string | null
+          content: string
+          created_at: string
+          id: string
+          image_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      plans: {
+        Row: {
+          category: string
+          created_at: string
+          features: Json | null
+          id: string
+          image_url: string | null
+          is_popular: boolean | null
+          mega: number
+          price: number
+          sales_count: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          features?: Json | null
+          id?: string
+          image_url?: string | null
+          is_popular?: boolean | null
+          mega: number
+          price: number
+          sales_count?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          features?: Json | null
+          id?: string
+          image_url?: string | null
+          is_popular?: boolean | null
+          mega?: number
+          price?: number
+          sales_count?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          role: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          role?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          contact_info: Json | null
+          created_at: string
+          id: string
+          theme_colors: Json | null
+          updated_at: string
+        }
+        Insert: {
+          contact_info?: Json | null
+          created_at?: string
+          id?: string
+          theme_colors?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          contact_info?: Json | null
+          created_at?: string
+          id?: string
+          theme_colors?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
