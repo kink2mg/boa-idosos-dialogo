@@ -11,8 +11,13 @@ export const PlansTab = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [showPlanForm, setShowPlanForm] = useState(false);
 
-  const handleAddPlan = (newPlan: Omit<Plan, "id">) => {
-    const plan = { ...newPlan, id: String(plans.length + 1) };
+  const handleAddPlan = (newPlan: Omit<Plan, "id" | "created_at" | "updated_at">) => {
+    const plan: Plan = {
+      ...newPlan,
+      id: String(plans.length + 1),
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
     setPlans([...plans, plan]);
     setShowPlanForm(false);
     toast({
