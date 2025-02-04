@@ -6,13 +6,15 @@ export interface ThemeColors {
   primary: string;
   container: string;
   background: string;
+  orangeButtons: string;
+  logo: string;
 }
 
 export interface ContactInfo {
-  logo_url: string;
-  whatsapp: string;
-  share_text: string;
-  whatsapp_message: string;
+  sales_number: string;
+  support_number: string;
+  sales_message: string;
+  support_message: string;
 }
 
 export interface SiteSettings {

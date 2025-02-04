@@ -4,6 +4,9 @@ import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePlanFormatter } from "@/hooks/usePlanFormatter";
 import LoadingSkeleton from "./LoadingSkeleton";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
 
 type PlanFeature = {
   text: string;
@@ -38,20 +41,33 @@ const PlanCard = ({
   salesText
 }: PlanProps) => {
   const { formatPrice, formatSales } = usePlanFormatter();
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
-  const buttonClasses = {
-    default: 'bg-primary hover:bg-primary/90',
-    orange: 'bg-orange-500 hover:bg-orange-600',
-    premium: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'
-  };
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("*")
+        .single();
+
+      if (!error && data) {
+        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
+        setSettings(transformedData);
+      }
+    };
+
+    fetchSettings();
+  }, []);
 
   if (isLoading) {
     return <LoadingSkeleton />;
   }
 
-  const whatsappNumber = "5538998622897";
-  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappMessage = settings?.contact_info.sales_message 
+    ? `${settings.contact_info.sales_message} plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`
+    : `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
+
+  const whatsappUrl = `https://wa.me/${settings?.contact_info.sales_number}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <motion.div
@@ -101,7 +117,8 @@ const PlanCard = ({
           <div className="space-y-2">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
-                className={`w-full text-white ${buttonClasses[buttonVariant]} ${buttonClassName}`}
+                className={`w-full text-white ${buttonClassName}`}
+                style={{ backgroundColor: settings?.theme_colors.buttons }}
                 aria-label={`Contratar plano ${title}`}
               >
                 Contrate Agora

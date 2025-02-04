@@ -14,17 +14,19 @@ import {
 
 const defaultThemeColors = {
   text: "#000000",
-  buttons: "#ea580c",
-  primary: "#ea580c",
-  container: "#f3f4f6",
-  background: "#ffffff"
+  buttons: "#DC2626",
+  primary: "#DC2626",
+  container: "#FFFFFF",
+  background: "#F3F4F6",
+  orangeButtons: "#F97316",
+  logo: "#F97316"
 };
 
 const defaultContactInfo = {
-  logo_url: "",
-  whatsapp: "5538998622897",
-  share_text: "Clique aqui",
-  whatsapp_message: "Olá! Gostaria de saber mais sobre os planos."
+  sales_number: "5538998622897",
+  support_number: "5538998622897",
+  sales_message: "Olá! Gostaria de contratar o",
+  support_message: "Olá! Gostaria de suporte."
 };
 
 const SiteSettingsForm = () => {
@@ -37,7 +39,7 @@ const SiteSettingsForm = () => {
       const { data, error } = await supabase
         .from("site_settings")
         .select("*")
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 
@@ -81,15 +83,14 @@ const SiteSettingsForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!settings?.id) return;
+    if (!settings) return;
 
     try {
-      const updateData = settingsToSupabaseSettings(settings);
-
       const { error } = await supabase
         .from("site_settings")
-        .update(updateData)
-        .eq("id", settings.id);
+        .upsert(settingsToSupabaseSettings(settings))
+        .select()
+        .single();
 
       if (error) throw error;
 

@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlansTab } from "@/components/admin/tabs/PlansTab";
 import { AccessoriesTab } from "@/components/admin/tabs/AccessoriesTab";
 import { NewsTab } from "@/components/admin/tabs/NewsTab";
 import NavbarConfig from "@/components/admin/NavbarConfig";
-import { Newspaper, Navigation } from "lucide-react";
+import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
+import { Newspaper, Navigation, Settings } from "lucide-react";
 
 const Admin = () => {
   return (
@@ -23,7 +23,10 @@ const Admin = () => {
             <Navigation className="w-4 h-4" />
             Navbar
           </TabsTrigger>
-          <TabsTrigger value="settings">Configurações</TabsTrigger>
+          <TabsTrigger value="settings" className="flex items-center gap-2">
+            <Settings className="w-4 h-4" />
+            Configurações
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="plans" className="space-y-4">
@@ -43,7 +46,7 @@ const Admin = () => {
         </TabsContent>
 
         <TabsContent value="settings" className="space-y-4">
-          <h2>Configurações do Site</h2>
+          <SiteSettingsForm />
         </TabsContent>
       </Tabs>
     </div>
