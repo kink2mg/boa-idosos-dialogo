@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Edit, Trash } from "lucide-react";
 import NewsForm from "@/components/admin/NewsForm";
 import { useToast } from "@/hooks/use-toast";
-import { useNews } from "@/hooks/useNews";
 
 interface NewsItem {
   id: string;
@@ -12,20 +11,67 @@ interface NewsItem {
   content: string;
   date: string;
   image: string;
-  videoUrl?: string;
   category: string;
   sendNotification: boolean;
 }
 
 export const NewsTab = () => {
   const { toast } = useToast();
-  const { news, addNews, deleteNews, updateNews, isLoading } = useNews();
+  const [news, setNews] = useState<NewsItem[]>([
+    {
+      id: "1",
+      title: "Nova Cobertura de Fibra Óptica",
+      content: "Estamos expandindo nossa rede de fibra óptica para mais bairros da cidade. Agora os moradores poderão desfrutar de internet ultra rápida.",
+      date: new Date().toISOString(),
+      image: "https://exemplo.com/fibra.jpg",
+      category: "Infraestrutura",
+      sendNotification: false
+    },
+    {
+      id: "2",
+      title: "Promoção de Natal",
+      content: "Aproveite as ofertas especiais de Natal com descontos incríveis em todos os planos de internet.",
+      date: new Date().toISOString(),
+      image: "https://exemplo.com/natal.jpg",
+      category: "Promoções",
+      sendNotification: true
+    },
+    {
+      id: "3",
+      title: "Novo Plano Empresarial",
+      content: "Lançamos um novo plano dedicado para empresas com necessidades específicas de conexão.",
+      date: new Date().toISOString(),
+      image: "https://exemplo.com/empresa.jpg",
+      category: "Produtos",
+      sendNotification: false
+    },
+    {
+      id: "4",
+      title: "Manutenção Programada",
+      content: "Informamos que haverá manutenção programada na rede para melhorias no serviço.",
+      date: new Date().toISOString(),
+      image: "https://exemplo.com/manutencao.jpg",
+      category: "Avisos",
+      sendNotification: true
+    },
+    {
+      id: "5",
+      title: "Novo Centro de Atendimento",
+      content: "Inauguramos um novo centro de atendimento para melhor servir nossos clientes.",
+      date: new Date().toISOString(),
+      image: "https://exemplo.com/atendimento.jpg",
+      category: "Institucional",
+      sendNotification: false
+    }
+  ]);
   const [showNewsForm, setShowNewsForm] = useState(false);
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
 
   const handleAddNews = async (newNews: Omit<NewsItem, "id">) => {
     try {
-      await addNews(newNews);
+      const id = (news.length + 1).toString();
+      const newsItem = { ...newNews, id };
+      setNews([newsItem, ...news]);
       setShowNewsForm(false);
       toast({
         title: "Sucesso",
@@ -43,7 +89,7 @@ export const NewsTab = () => {
 
   const handleEditNews = async (updatedNews: NewsItem) => {
     try {
-      await updateNews(updatedNews);
+      setNews(news.map(item => (item.id === updatedNews.id ? updatedNews : item)));
       setEditingNews(null);
       toast({
         title: "Sucesso",
@@ -61,7 +107,7 @@ export const NewsTab = () => {
 
   const handleDeleteNews = async (id: string) => {
     try {
-      await deleteNews(id);
+      setNews(news.filter(item => item.id !== id));
       toast({
         title: "Sucesso",
         description: "Notícia removida com sucesso!"
@@ -75,10 +121,6 @@ export const NewsTab = () => {
       });
     }
   };
-
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
 
   return (
     <div className="space-y-4">
