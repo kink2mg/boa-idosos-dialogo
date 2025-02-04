@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 import { usePlanFormatter } from "@/hooks/usePlanFormatter";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
+import { type SiteSettings, defaultSettings } from "@/types/site-settings";
 
 type PlanFeature = {
   text: string;
@@ -41,22 +40,13 @@ const PlanCard = ({
   salesText
 }: PlanProps) => {
   const { formatPrice, formatSales } = usePlanFormatter();
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
 
   useEffect(() => {
-    const fetchSettings = async () => {
-      const { data, error } = await supabase
-        .from("site_settings")
-        .select("*")
-        .single();
-
-      if (!error && data) {
-        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
-        setSettings(transformedData);
-      }
-    };
-
-    fetchSettings();
+    const storedSettings = localStorage.getItem('site_settings');
+    if (storedSettings) {
+      setSettings(JSON.parse(storedSettings));
+    }
   }, []);
 
   if (isLoading) {

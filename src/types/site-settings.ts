@@ -11,6 +11,7 @@ export interface ThemeColors {
   softBlue: string;
   vividPurple: string;
   brightOrange: string;
+  buttons: string;
 }
 
 export interface ContactInfo {
@@ -42,7 +43,8 @@ export const defaultSettings: SiteSettings = {
     softPurple: "#E5DEFF",
     softBlue: "#D3E4FD",
     vividPurple: "#8B5CF6",
-    brightOrange: "#F97316"
+    brightOrange: "#F97316",
+    buttons: "#F97316"
   },
   contact_info: {
     logo_text: "Net",
