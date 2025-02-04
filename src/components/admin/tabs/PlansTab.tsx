@@ -2,115 +2,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Package, Trash, Edit } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import PlanForm from "../PlanForm";
 import { Plan } from "@/types/plans";
 
 export const PlansTab = () => {
   const { toast } = useToast();
-  const [plans, setPlans] = useState<Plan[]>([
-    {
-      id: "1",
-      title: "Internet Básica",
-      category: "Residencial",
-      price: 89.90,
-      mega: 200,
-      features: [
-        { text: "Wi-Fi Grátis" },
-        { text: "Instalação Gratuita" },
-        { text: "Suporte 24/7" }
-      ],
-      is_popular: false,
-      sales_count: 150,
-      description: "Plano ideal para uso básico da internet",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: "2",
-      title: "Internet Plus",
-      category: "Residencial",
-      price: 119.90,
-      mega: 400,
-      features: [
-        { text: "Wi-Fi Grátis" },
-        { text: "Instalação Gratuita" },
-        { text: "Suporte 24/7" },
-        { text: "IP Fixo" }
-      ],
-      is_popular: true,
-      sales_count: 280,
-      description: "Plano perfeito para streaming e jogos",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: "3",
-      title: "Internet Premium",
-      category: "Residencial",
-      price: 149.90,
-      mega: 600,
-      features: [
-        { text: "Wi-Fi Grátis" },
-        { text: "Instalação Gratuita" },
-        { text: "Suporte 24/7" },
-        { text: "IP Fixo" },
-        { text: "Prioridade no Atendimento" }
-      ],
-      is_popular: false,
-      sales_count: 200,
-      description: "Nossa melhor internet para toda família",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: "4",
-      title: "Internet Business",
-      category: "Empresarial",
-      price: 299.90,
-      mega: 800,
-      features: [
-        { text: "Wi-Fi Corporativo" },
-        { text: "Instalação Especializada" },
-        { text: "Suporte Prioritário" },
-        { text: "IP Fixo" },
-        { text: "SLA Garantido" }
-      ],
-      is_popular: false,
-      sales_count: 80,
-      description: "Internet dedicada para empresas",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: "5",
-      title: "Internet Enterprise",
-      category: "Empresarial",
-      price: 499.90,
-      mega: 1000,
-      features: [
-        { text: "Wi-Fi Corporativo" },
-        { text: "Instalação Especializada" },
-        { text: "Suporte VIP" },
-        { text: "IP Fixo" },
-        { text: "SLA Premium" },
-        { text: "Link Dedicado" }
-      ],
-      is_popular: false,
-      sales_count: 45,
-      description: "Solução completa para grandes empresas",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }
-  ]);
+  const [plans, setPlans] = useState<Plan[]>([]);
   const [showPlanForm, setShowPlanForm] = useState(false);
 
-  const handleAddPlan = (newPlan: Omit<Plan, "id">) => {
+  const handleAddPlan = (newPlan: Omit<Plan, "id" | "created_at" | "updated_at">) => {
     const plan: Plan = {
       ...newPlan,
       id: String(plans.length + 1),
-      is_popular: newPlan.is_popular || false,
-      sales_count: newPlan.sales_count || 0,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
@@ -180,5 +84,3 @@ export const PlansTab = () => {
     </div>
   );
 };
-
-export default PlansTab;

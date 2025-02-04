@@ -3,52 +3,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
 
 interface NewsItem {
-  id: string;
+  id: number;
   title: string;
   content: string;
   date: string;
   image: string;
   videoUrl?: string;
   category: string;
-  sendNotification: boolean;
 }
 
 interface NewsFormProps {
   onSubmit: (news: Omit<NewsItem, "id">) => void;
-  initialData?: NewsItem;
 }
 
-const NewsForm = ({ onSubmit, initialData }: NewsFormProps) => {
-  const { toast } = useToast();
+const NewsForm = ({ onSubmit }: NewsFormProps) => {
   const [news, setNews] = useState<Omit<NewsItem, "id">>({
-    title: initialData?.title || "",
-    content: initialData?.content || "",
-    date: initialData?.date || new Date().toISOString().split('T')[0],
-    image: initialData?.image || "",
-    videoUrl: initialData?.videoUrl || "",
-    category: initialData?.category || "",
-    sendNotification: initialData?.sendNotification || false
+    title: "",
+    content: "",
+    date: new Date().toISOString().split('T')[0],
+    image: "",
+    videoUrl: "",
+    category: ""
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      onSubmit(news);
-      toast({
-        title: "Sucesso",
-        description: "Notícia salva com sucesso!",
-      });
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Erro ao salvar a notícia.",
-        variant: "destructive",
-      });
-    }
+    onSubmit(news);
   };
 
   return (
@@ -121,17 +103,8 @@ const NewsForm = ({ onSubmit, initialData }: NewsFormProps) => {
         />
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="sendNotification"
-          checked={news.sendNotification}
-          onCheckedChange={(checked) => setNews(prev => ({ ...prev, sendNotification: checked }))}
-        />
-        <Label htmlFor="sendNotification">Enviar notificação</Label>
-      </div>
-
       <Button type="submit" className="w-full">
-        {initialData ? "Atualizar Notícia" : "Salvar Notícia"}
+        Salvar Notícia
       </Button>
     </form>
   );

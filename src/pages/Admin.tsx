@@ -1,31 +1,15 @@
-import { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlansTab } from "@/components/admin/tabs/PlansTab";
 import { AccessoriesTab } from "@/components/admin/tabs/AccessoriesTab";
 import { NewsTab } from "@/components/admin/tabs/NewsTab";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/hooks/useAuth";
-import { Newspaper, Navigation, Settings, LogOut } from "lucide-react";
-import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
 import NavbarConfig from "@/components/admin/NavbarConfig";
-import { Toaster } from "@/components/ui/toaster";
+import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
+import { Newspaper, Navigation, Settings } from "lucide-react";
 
 const Admin = () => {
-  const { checkAuth, logout } = useAuth();
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
   return (
     <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Painel Administrativo</h1>
-        <Button variant="outline" onClick={logout} className="flex items-center gap-2">
-          <LogOut className="w-4 h-4" />
-          Sair
-        </Button>
-      </div>
+      <h1 className="text-2xl font-bold mb-6">Painel Administrativo</h1>
       
       <Tabs defaultValue="plans" className="space-y-4">
         <TabsList className="grid grid-cols-5 gap-4">
@@ -65,8 +49,6 @@ const Admin = () => {
           <SiteSettingsForm />
         </TabsContent>
       </Tabs>
-
-      <Toaster />
     </div>
   );
 };

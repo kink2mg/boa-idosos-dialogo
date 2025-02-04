@@ -1,34 +1,35 @@
-
+import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
 import PlanCard from "@/components/PlanCard";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
+import { supabase } from "@/integrations/supabase/client";
+import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
 
 const Index = () => {
-  const [plans, setPlans] = useState([]);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
-    // Fetch plans from localStorage
-    const storedPlans = localStorage.getItem('plans');
-    console.log('Stored plans in Index:', storedPlans); // Debug log
-    if (storedPlans) {
-      try {
-        const parsedPlans = JSON.parse(storedPlans);
-        console.log('Parsed plans in Index:', parsedPlans); // Debug log
-        setPlans(parsedPlans);
-      } catch (error) {
-        console.error('Error parsing plans:', error);
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("*")
+        .single();
+
+      if (!error && data) {
+        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
+        setSettings(transformedData);
       }
-    }
+    };
+
+    fetchSettings();
   }, []);
 
-  // Fallback plans if no plans are found in localStorage
-  const defaultPlans = [
+  const plans = [
     {
-      title: "NET PÓS",
+      title: "NET FAMÍLIA",
       category: "Plano Premium",
-      price: 119.90,
+      price: 50.99,
       mega: 50,
       sales: 1200,
       features: [
@@ -41,8 +42,8 @@ const Index = () => {
     {
       title: "NET CONTROLE",
       category: "Plano Essencial",
-      price: 54.90,
-      mega: 25,
+      price: 100.99,
+      mega: 100,
       sales: 800,
       features: [
         { text: "5G mais rápido do Brasil" },
@@ -53,24 +54,31 @@ const Index = () => {
     }
   ];
 
-  const displayPlans = plans.length > 0 ? plans : defaultPlans;
+  const style = settings?.theme_colors ? {
+    backgroundColor: settings.theme_colors.background,
+    color: settings.theme_colors.text,
+  } : {};
+
+  const containerStyle = settings?.theme_colors ? {
+    backgroundColor: settings.theme_colors.container,
+  } : {};
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
+    <div className="min-h-screen" style={style}>
       <Navbar />
       
-      <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {displayPlans.map((plan, index) => (
+      <main className="container mx-auto px-4 py-12" style={containerStyle}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {plans.map((plan, index) => (
             <PlanCard 
-              key={index}
-              {...plan}
-              isPopular={index === 0}
+              key={index} 
+              {...plan} 
               className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
+              buttonClassName={`bg-[${settings?.theme_colors.buttons}] hover:bg-opacity-90 text-white`}
               salesText={plan.sales >= 1000 ? 
-                `${(plan.sales/1000).toFixed(1).replace('.', ',')}k vendas` : 
+                `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
+              salesCount={plan.sales}
             />
           ))}
         </div>
@@ -78,12 +86,15 @@ const Index = () => {
       
       <div className="fixed bottom-6 right-6 animate-bounce">
         <a 
-          href={`https://wa.me/5511999999999?text=${encodeURIComponent("Olá! Gostaria de suporte.")}`}
+          href={`https://wa.me/${settings?.contact_info.support_number}?text=${encodeURIComponent(settings?.contact_info.support_message || "")}`}
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
-            <MessageCircle className="w-7 h-7" />
+          <Button 
+            className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
+            style={{ backgroundColor: settings?.theme_colors.buttons }}
+          >
+            <MessageCircle className="w-8 h-8" />
           </Button>
         </a>
       </div>
