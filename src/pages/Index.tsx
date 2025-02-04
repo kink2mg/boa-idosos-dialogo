@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
-import { type Plan, supabasePlanToPlan } from "@/types/plans";
+import { supabasePlanToPlan } from "@/types/plans";
 import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [plans, setPlans] = useState<Plan[]>([]);
+  const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -37,6 +37,8 @@ const Index = () => {
           title: "Erro",
           description: "Não foi possível carregar os planos. Tente novamente mais tarde."
         });
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -54,8 +56,6 @@ const Index = () => {
         }
       } catch (error) {
         console.error("Erro ao buscar configurações:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -90,10 +90,10 @@ const Index = () => {
                 {...plan}
                 className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
                 buttonClassName={`bg-[${settings?.theme_colors.buttons}] hover:bg-opacity-90 text-white`}
-                salesText={plan.sales_count >= 1000 ? 
-                  `${(plan.sales_count/1000).toFixed(1).replace('.', ',')} mil vendas` : 
-                  `${plan.sales_count} vendas`}
-                sales_count={plan.sales_count}
+                salesText={plan.salesCount >= 1000 ? 
+                  `${(plan.salesCount/1000).toFixed(1).replace('.', ',')} mil vendas` : 
+                  `${plan.salesCount} vendas`}
+                salesCount={plan.salesCount}
               />
             ))
           ) : (
