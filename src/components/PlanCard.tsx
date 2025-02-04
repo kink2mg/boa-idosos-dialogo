@@ -1,27 +1,11 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
-import { usePlanFormatter } from "@/hooks/usePlanFormatter";
-import LoadingSkeleton from "./LoadingSkeleton";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
+import { type Plan } from "@/types/plans";
 
-type PlanFeature = {
-  text: string;
-  info?: string;
-};
-
-type PlanProps = {
-  title: string;
-  category: string;
-  price: number;
-  features: PlanFeature[];
-  mega?: number;
-  salesCount?: number;
-  isLoading?: boolean;
-  buttonVariant?: 'default' | 'orange' | 'premium';
+type PlanCardProps = Plan & {
   className?: string;
   buttonClassName?: string;
   salesText?: string;
@@ -33,41 +17,20 @@ const PlanCard = ({
   price,
   features,
   mega,
-  salesCount,
-  isLoading = false,
-  buttonVariant = 'orange',
-  className,
-  buttonClassName,
-  salesText
-}: PlanProps) => {
-  const { formatPrice, formatSales } = usePlanFormatter();
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
+  sales_count,
+  className = "",
+  buttonClassName = "",
+  salesText,
+}: PlanCardProps) => {
+  const formatPrice = (value: number) => {
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+  };
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      const { data, error } = await supabase
-        .from("site_settings")
-        .select("*")
-        .single();
-
-      if (!error && data) {
-        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
-        setSettings(transformedData);
-      }
-    };
-
-    fetchSettings();
-  }, []);
-
-  if (isLoading) {
-    return <LoadingSkeleton />;
-  }
-
-  const whatsappMessage = settings?.contact_info.sales_message 
-    ? `${settings.contact_info.sales_message} plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`
-    : `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
-
-  const whatsappUrl = `https://wa.me/${settings?.contact_info.sales_number}?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
+  const whatsappUrl = `https://wa.me/5538998622897?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <motion.div
@@ -95,11 +58,9 @@ const PlanCard = ({
 
           <ul className="space-y-3 mb-6">
             {features.map((feature, index) => (
-              <li key={index} className="group flex items-start">
+              <li key={index} className="flex items-start">
                 <Check className="w-5 h-5 text-primary mr-2 flex-shrink-0" />
-                <span className="text-gray-600 relative">
-                  {feature.text}
-                </span>
+                <span className="text-gray-600">{feature.text}</span>
               </li>
             ))}
           </ul>
@@ -118,16 +79,15 @@ const PlanCard = ({
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
                 className={`w-full text-white ${buttonClassName}`}
-                style={{ backgroundColor: settings?.theme_colors.buttons }}
                 aria-label={`Contratar plano ${title}`}
               >
                 Contrate Agora
               </Button>
             </a>
             
-            {salesCount && (
+            {sales_count && (
               <div className="text-center text-sm text-gray-500">
-                {formatSales(salesCount)} na última semana
+                {salesText}
               </div>
             )}
           </div>
