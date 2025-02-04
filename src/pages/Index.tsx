@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
+import { Plan } from "@/types/plans";
 
 const Index = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [plans, setPlans] = useState<Plan[]>([]);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -22,37 +24,20 @@ const Index = () => {
       }
     };
 
-    fetchSettings();
-  }, []);
+    const fetchPlans = async () => {
+      const { data, error } = await supabase
+        .from("plans")
+        .select("*")
+        .order('mega', { ascending: true });
 
-  const plans = [
-    {
-      title: "NET FAMÍLIA",
-      category: "Plano Premium",
-      price: 50.99,
-      mega: 50,
-      sales: 1200,
-      features: [
-        { text: "Passaporte Américas para usar seu celular no exterior" },
-        { text: "GB para redes sociais e vídeos" },
-        { text: "WhatsApp ilimitado" },
-        { text: "Internet de uso livre" }
-      ]
-    },
-    {
-      title: "NET CONTROLE",
-      category: "Plano Essencial",
-      price: 100.99,
-      mega: 100,
-      sales: 800,
-      features: [
-        { text: "5G mais rápido do Brasil" },
-        { text: "Ligações ilimitadas" },
-        { text: "YouTube ilimitado" },
-        { text: "+2GB bônus todo mês" }
-      ]
-    }
-  ];
+      if (!error && data) {
+        setPlans(data);
+      }
+    };
+
+    fetchSettings();
+    fetchPlans();
+  }, []);
 
   const style = settings?.theme_colors ? {
     backgroundColor: settings.theme_colors.background,
@@ -69,16 +54,18 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-12" style={containerStyle}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan, index) => (
+          {plans.map((plan) => (
             <PlanCard 
-              key={index} 
-              {...plan} 
+              key={plan.id}
+              title={plan.title}
+              category={plan.category}
+              price={plan.price}
+              mega={plan.mega}
+              features={plan.features}
+              isPopular={plan.is_popular}
               className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
               buttonClassName={`bg-[${settings?.theme_colors.buttons}] hover:bg-opacity-90 text-white`}
-              salesText={plan.sales >= 1000 ? 
-                `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
-                `${plan.sales} vendas`}
-              salesCount={plan.sales}
+              salesCount={plan.sales_count}
             />
           ))}
         </div>
