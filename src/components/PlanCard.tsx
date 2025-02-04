@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Info } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePlanFormatter } from "@/hooks/usePlanFormatter";
 import LoadingSkeleton from "./LoadingSkeleton";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
+import { type SiteSettings } from "@/types/site-settings";
 
 type PlanFeature = {
   text: string;
@@ -19,7 +19,9 @@ type PlanProps = {
   price: number;
   features: PlanFeature[];
   mega?: number;
-  salesCount?: number;
+  image?: string;
+  isPopular?: boolean;
+  sales_count?: number;
   isLoading?: boolean;
   buttonVariant?: 'default' | 'orange' | 'premium';
   className?: string;
@@ -33,7 +35,9 @@ const PlanCard = ({
   price,
   features,
   mega,
-  salesCount,
+  image,
+  isPopular = false,
+  sales_count,
   isLoading = false,
   buttonVariant = 'orange',
   className,
@@ -51,8 +55,7 @@ const PlanCard = ({
         .single();
 
       if (!error && data) {
-        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
-        setSettings(transformedData);
+        setSettings(data as SiteSettings);
       }
     };
 
@@ -63,11 +66,15 @@ const PlanCard = ({
     return <LoadingSkeleton />;
   }
 
-  const whatsappMessage = settings?.contact_info.sales_message 
-    ? `${settings.contact_info.sales_message} plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`
-    : `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
+  const buttonClasses = {
+    default: 'bg-primary hover:bg-primary/90',
+    orange: 'bg-orange-500 hover:bg-orange-600',
+    premium: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'
+  };
 
-  const whatsappUrl = `https://wa.me/${settings?.contact_info.sales_number}?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappNumber = settings?.contact_info?.whatsapp || "5538998622897";
+  const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
+  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
     <motion.div
@@ -85,7 +92,23 @@ const PlanCard = ({
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mt-1">{title}</h3>
             </div>
+            {isPopular && (
+              <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+                Popular
+              </span>
+            )}
           </div>
+
+          {image && (
+            <div className="mb-4 relative">
+              <img
+                src={image}
+                alt={`Ilustração do plano ${title}`}
+                className="w-full rounded-lg object-cover h-48"
+                loading="lazy"
+              />
+            </div>
+          )}
 
           {mega && (
             <div className="text-primary text-4xl font-bold mb-4">
@@ -99,6 +122,9 @@ const PlanCard = ({
                 <Check className="w-5 h-5 text-primary mr-2 flex-shrink-0" />
                 <span className="text-gray-600 relative">
                   {feature.text}
+                  {feature.info && (
+                    <Info className="w-4 h-4 ml-2 text-gray-400 inline-block cursor-help" />
+                  )}
                 </span>
               </li>
             ))}
@@ -117,17 +143,19 @@ const PlanCard = ({
           <div className="space-y-2">
             <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <Button 
-                className={`w-full text-white ${buttonClassName}`}
-                style={{ backgroundColor: settings?.theme_colors.buttons }}
-                aria-label={`Contratar plano ${title}`}
+                className={`w-full text-white ${buttonClasses[buttonVariant]} ${buttonClassName}`}
+                style={{ 
+                  backgroundColor: settings?.theme_colors?.buttons || '#ea580c',
+                  color: '#ffffff'
+                }}
               >
                 Contrate Agora
               </Button>
             </a>
             
-            {salesCount && (
+            {sales_count && (
               <div className="text-center text-sm text-gray-500">
-                {formatSales(salesCount)} na última semana
+                {formatSales(sales_count)} na última semana
               </div>
             )}
           </div>

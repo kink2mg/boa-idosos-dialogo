@@ -5,25 +5,20 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
-import { 
-  type SiteSettings, 
-  type SupabaseSiteSettings, 
-  supabaseSettingsToSettings, 
-  settingsToSupabaseSettings 
-} from "@/types/site-settings";
+import { type SiteSettings } from "@/types/site-settings";
 
 const defaultThemeColors = {
   text: "#000000",
-  buttons: "#DC2626",
-  primary: "#DC2626",
-  container: "#FFFFFF",
-  background: "#F3F4F6",
-  orangeButtons: "#F97316",
-  logo: "#F97316"
+  buttons: "#ea580c",
+  primary: "#ea580c",
+  container: "#ffffff",
+  background: "#f3f4f6",
+  orangeButtons: "#f97316",
+  logo: "#f97316"
 };
 
 const defaultContactInfo = {
-  sales_number: "5538998622897",
+  whatsapp: "5538998622897",
   support_number: "5538998622897",
   sales_message: "Olá! Gostaria de contratar o",
   support_message: "Olá! Gostaria de suporte."
@@ -34,50 +29,49 @@ const SiteSettingsForm = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchSettings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("site_settings")
-        .select("*")
-        .maybeSingle();
-
-      if (error) throw error;
-
-      if (data) {
-        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
-        setSettings(transformedData);
-      } else {
-        const defaultSettings = {
-          theme_colors: defaultThemeColors,
-          contact_info: defaultContactInfo,
-        };
-
-        const { data: newSettings, error: createError } = await supabase
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data, error } = await supabase
           .from("site_settings")
-          .insert([defaultSettings])
-          .select()
+          .select("*")
           .single();
 
-        if (createError) throw createError;
+        if (error) throw error;
 
-        if (newSettings) {
-          const transformedNewSettings = supabaseSettingsToSettings(newSettings as SupabaseSiteSettings);
-          setSettings(transformedNewSettings);
+        if (data) {
+          setSettings(data as SiteSettings);
+        } else {
+          // If no settings exist, create default settings
+          const defaultSettings = {
+            theme_colors: defaultThemeColors,
+            contact_info: defaultContactInfo,
+          };
+
+          const { data: newSettings, error: createError } = await supabase
+            .from("site_settings")
+            .insert([defaultSettings])
+            .select()
+            .single();
+
+          if (createError) throw createError;
+
+          if (newSettings) {
+            setSettings(newSettings as SiteSettings);
+          }
         }
+      } catch (error) {
+        console.error("Erro ao carregar configurações:", error);
+        toast({
+          title: "Erro",
+          description: "Não foi possível carregar as configurações do site.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Erro ao carregar configurações:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar as configurações do site.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
     fetchSettings();
   }, []);
 
@@ -88,7 +82,7 @@ const SiteSettingsForm = () => {
     try {
       const { error } = await supabase
         .from("site_settings")
-        .upsert(settingsToSupabaseSettings(settings))
+        .upsert(settings)
         .select()
         .single();
 
