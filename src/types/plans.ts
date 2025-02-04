@@ -1,5 +1,3 @@
-import { Json } from "@/integrations/supabase/types";
-
 export interface PlanFeature {
   text: string;
   info?: string;
@@ -25,7 +23,7 @@ export interface SupabasePlan {
   category: string;
   price: number;
   mega: number;
-  features: Json;
+  features: PlanFeature[];
   image_url?: string;
   is_popular: boolean;
   sales_count: number;
@@ -35,7 +33,7 @@ export interface SupabasePlan {
 
 export const supabasePlanToPlan = (plan: SupabasePlan): Plan => ({
   ...plan,
-  features: plan.features as unknown as PlanFeature[]
+  features: plan.features as PlanFeature[]
 });
 
 export const planToSupabasePlan = (plan: Plan): Omit<SupabasePlan, 'id' | 'created_at' | 'updated_at'> => ({
@@ -43,7 +41,7 @@ export const planToSupabasePlan = (plan: Plan): Omit<SupabasePlan, 'id' | 'creat
   category: plan.category,
   price: plan.price,
   mega: plan.mega,
-  features: plan.features as unknown as Json,
+  features: plan.features,
   image_url: plan.image_url,
   is_popular: plan.is_popular,
   sales_count: plan.sales_count
