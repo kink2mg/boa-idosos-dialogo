@@ -80,51 +80,9 @@ export const useNews = () => {
     }
   };
 
-  const updateNews = async (updatedNews: NewsItem) => {
-    try {
-      const { error } = await supabase
-        .from("news")
-        .update({
-          title: updatedNews.title,
-          content: updatedNews.content,
-          image_url: updatedNews.image,
-          video_url: updatedNews.videoUrl,
-          category: updatedNews.category
-        })
-        .eq("id", updatedNews.id);
-
-      if (error) throw error;
-
-      setNews(news.map(item => 
-        item.id === updatedNews.id ? updatedNews : item
-      ));
-    } catch (error) {
-      console.error("Error updating news:", error);
-      throw error;
-    }
-  };
-
-  const deleteNews = async (id: string) => {
-    try {
-      const { error } = await supabase
-        .from("news")
-        .delete()
-        .eq("id", id);
-
-      if (error) throw error;
-
-      setNews(news.filter(item => item.id !== id));
-    } catch (error) {
-      console.error("Error deleting news:", error);
-      throw error;
-    }
-  };
-
   return {
     news,
     addNews,
-    updateNews,
-    deleteNews,
     isLoading
   };
 };
