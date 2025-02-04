@@ -1,5 +1,5 @@
 
-import { Menu, Share2 } from "lucide-react";
+import { Menu, Share2, Facebook, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -88,21 +88,13 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0">
-                <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb2.png" 
-                  alt="Facebook" 
-                  className="w-5 h-5"
-                />
+                <Facebook className="w-5 h-5" />
               </Button>
             </a>
 
             <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" className="bg-gray-100 text-gray-700 rounded-full w-10 h-10 p-0">
-                <img 
-                  src="/lovable-uploads/b2f7cbf4-4974-485f-a06f-687903ad90eb.png"
-                  alt="Instagram" 
-                  className="w-5 h-5"
-                />
+                <Instagram className="w-5 h-5" />
               </Button>
             </a>
 
