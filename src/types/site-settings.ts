@@ -1,4 +1,3 @@
-
 import { Json } from "@/integrations/supabase/types";
 
 export interface ThemeColors {
@@ -7,6 +6,8 @@ export interface ThemeColors {
   primary: string;
   container: string;
   background: string;
+  orangeButtons: string;
+  logo: string;
 }
 
 export interface ContactInfo {
@@ -36,6 +37,14 @@ export const supabaseSettingsToSettings = (settings: SupabaseSiteSettings): Site
   id: settings.id,
   theme_colors: settings.theme_colors as unknown as ThemeColors,
   contact_info: settings.contact_info as unknown as ContactInfo,
+  created_at: settings.created_at,
+  updated_at: settings.updated_at
+});
+
+export const settingsToSupabaseSettings = (settings: Partial<SiteSettings>): Partial<SupabaseSiteSettings> => ({
+  id: settings.id,
+  theme_colors: settings.theme_colors as unknown as Json,
+  contact_info: settings.contact_info as unknown as Json,
   created_at: settings.created_at,
   updated_at: settings.updated_at
 });
