@@ -16,8 +16,7 @@ const Index = () => {
         { text: "GB para redes sociais e vídeos" },
         { text: "WhatsApp ilimitado" },
         { text: "Internet de uso livre" }
-      ],
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=500"
+      ]
     },
     {
       title: "NET CONTROLE",
@@ -30,8 +29,7 @@ const Index = () => {
         { text: "Ligações ilimitadas" },
         { text: "YouTube ilimitado" },
         { text: "+2GB bônus todo mês" }
-      ],
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500"
+      ]
     }
   ];
 
@@ -45,12 +43,12 @@ const Index = () => {
             <PlanCard 
               key={index} 
               {...plan} 
-              isPopular={index === 0}
               className="bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white" // Alterado para laranja
+              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
+              salesCount={plan.sales}
             />
           ))}
         </div>

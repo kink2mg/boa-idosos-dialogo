@@ -1,0 +1,136 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+
+type AccessoryFormProps = {
+  onSubmit: (accessory: Omit<Accessory, "id">) => void;
+};
+
+interface Accessory {
+  id: number;
+  nome: string;
+  preco: number;
+  precoAntigo?: number;
+  descricao: string;
+  imagem: string;
+  videoUrl?: string;
+  categoria: string;
+  emPromocao: boolean;
+  quantidadeVendas: number;
+}
+
+const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
+  const [accessory, setAccessory] = useState<Omit<Accessory, "id">>({
+    nome: "",
+    preco: 0,
+    precoAntigo: 0,
+    descricao: "",
+    imagem: "",
+    videoUrl: "",
+    categoria: "",
+    emPromocao: false,
+    quantidadeVendas: 0
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(accessory);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-2">
+        <Label htmlFor="nome">Nome do Acessório</Label>
+        <Input
+          id="nome"
+          value={accessory.nome}
+          onChange={(e) => setAccessory(prev => ({ ...prev, nome: e.target.value }))}
+          required
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="preco">Preço (R$)</Label>
+          <Input
+            id="preco"
+            type="number"
+            step="0.01"
+            value={accessory.preco}
+            onChange={(e) => setAccessory(prev => ({ ...prev, preco: Number(e.target.value) }))}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="precoAntigo">Preço Antigo (R$)</Label>
+          <Input
+            id="precoAntigo"
+            type="number"
+            step="0.01"
+            value={accessory.precoAntigo}
+            onChange={(e) => setAccessory(prev => ({ ...prev, precoAntigo: Number(e.target.value) }))}
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="descricao">Descrição</Label>
+        <Textarea
+          id="descricao"
+          value={accessory.descricao}
+          onChange={(e) => setAccessory(prev => ({ ...prev, descricao: e.target.value }))}
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="categoria">Categoria</Label>
+        <Input
+          id="categoria"
+          value={accessory.categoria}
+          onChange={(e) => setAccessory(prev => ({ ...prev, categoria: e.target.value }))}
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="imagem">URL da Imagem</Label>
+        <Input
+          id="imagem"
+          type="url"
+          value={accessory.imagem}
+          onChange={(e) => setAccessory(prev => ({ ...prev, imagem: e.target.value }))}
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="videoUrl">URL do Vídeo</Label>
+        <Input
+          id="videoUrl"
+          type="url"
+          value={accessory.videoUrl}
+          onChange={(e) => setAccessory(prev => ({ ...prev, videoUrl: e.target.value }))}
+        />
+      </div>
+
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="emPromocao"
+          checked={accessory.emPromocao}
+          onCheckedChange={(checked) => setAccessory(prev => ({ ...prev, emPromocao: checked }))}
+        />
+        <Label htmlFor="emPromocao">Em Promoção</Label>
+      </div>
+
+      <Button type="submit" className="w-full">
+        Salvar Acessório
+      </Button>
+    </form>
+  );
+};
+
+export default AccessoryForm;
