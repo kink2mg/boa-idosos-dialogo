@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import PlanCard from "@/components/PlanCard";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
+import { supabasePlanToPlan } from "@/types/plans";
 
 const Index = () => {
   const plans = [
@@ -47,7 +48,7 @@ const Index = () => {
               {...plan} 
               isPopular={index === 0}
               className="bg-white transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white" // Alterado para laranja
+              buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
               salesText={plan.sales >= 1000 ? 
                 `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                 `${plan.sales} vendas`}
