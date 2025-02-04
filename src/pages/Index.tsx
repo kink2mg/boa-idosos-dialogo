@@ -19,40 +19,36 @@ const Index = () => {
     // Carregar planos do localStorage
     const storedPlans = localStorage.getItem('plans');
     if (storedPlans) {
-      setPlans(JSON.parse(storedPlans));
+      const parsedPlans = JSON.parse(storedPlans);
+      console.log("Planos carregados:", parsedPlans);
+      setPlans(parsedPlans);
     }
   }, []);
-
-  const style = settings?.theme_colors ? {
-    backgroundColor: settings.theme_colors.background,
-    color: settings.theme_colors.text,
-  } : {};
-
-  const containerStyle = settings?.theme_colors ? {
-    backgroundColor: settings.theme_colors.container,
-  } : {};
 
   const whatsappNumber = settings?.contact_info?.support_number || "5511999999999";
   const whatsappMessage = settings?.contact_info?.support_message || "Olá! Gostaria de suporte.";
 
   return (
-    <div className="min-h-screen" style={style}>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-12" style={containerStyle}>
+      <main className="container mx-auto px-4 py-12">
         {plans.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {plans.map((plan) => (
+            {plans.map((plan, index) => (
               <PlanCard 
-                key={plan.id}
+                key={plan.id || index}
                 title={plan.title}
                 category={plan.category}
                 price={plan.price}
-                mega={plan.mega}
-                features={plan.features}
+                gb={plan.mega}
+                features={plan.features || []}
+                isPopular={plan.is_popular}
                 className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                buttonClassName={`bg-[${settings?.theme_colors?.buttons}] hover:bg-opacity-90 text-white`}
-                salesCount={plan.sales_count}
+                buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
+                salesText={plan.sales_count >= 1000 ? 
+                  `${(plan.sales_count/1000).toFixed(1).replace('.', ',')} mil vendas` : 
+                  `${plan.sales_count} vendas`}
               />
             ))}
           </div>
@@ -74,11 +70,8 @@ const Index = () => {
           target="_blank" 
           rel="noopener noreferrer"
         >
-          <Button 
-            className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
-            style={{ backgroundColor: settings?.theme_colors?.buttons }}
-          >
-            <MessageCircle className="w-8 h-8" />
+          <Button className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
+            <MessageCircle className="w-7 h-7" />
           </Button>
         </a>
       </div>

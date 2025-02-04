@@ -10,9 +10,11 @@ interface Accessory {
   nome: string;
   preco: number;
   precoAntigo?: number;
-  imagem: string;
   descricao: string;
+  imagem: string;
+  categoria: string;
   emPromocao: boolean;
+  quantidadeVendas: number;
 }
 
 const Accessories = () => {
@@ -22,6 +24,7 @@ const Accessories = () => {
   useEffect(() => {
     const storedAccessories = localStorage.getItem('accessories');
     if (storedAccessories) {
+      console.log("Acessórios carregados:", JSON.parse(storedAccessories));
       setAccessories(JSON.parse(storedAccessories));
     }
   }, []);
@@ -48,7 +51,7 @@ const Accessories = () => {
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
-        {produtosEmPromocao.length > 0 && (
+        {accessories.length > 0 ? (
           <>
             <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
               ⚡ Promoção Relâmpago ⚡
@@ -82,10 +85,15 @@ const Accessories = () => {
                           <p className="text-2xl font-bold text-primary">
                             R$ {produto.preco.toFixed(2).replace('.', ',')}
                           </p>
-                          <span className="text-xs font-semibold text-orange-600">
-                            {desconto}% OFF
-                          </span>
+                          {desconto && (
+                            <span className="text-xs font-semibold text-orange-600">
+                              {desconto}% OFF
+                            </span>
+                          )}
                         </div>
+                        <p className="text-sm text-gray-500">
+                          Vendas: {formatarVendas(produto.quantidadeVendas)}
+                        </p>
                       </div>
 
                       {produto.precoAntigo && (
@@ -108,60 +116,59 @@ const Accessories = () => {
                 );
               })}
             </div>
-          </>
-        )}
 
-        {produtosRegulares.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
-              ✨ Destaques Exclusivos ✨
-            </h2>
+            <div className="mt-8">
+              <h2 className="text-4xl font-extrabold text-orange-600 mb-6 text-center uppercase tracking-wide drop-shadow-md">
+                ✨ Destaques Exclusivos ✨
+              </h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {produtosRegulares.map((produto) => (
-                <Card 
-                  key={produto.id} 
-                  className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
-                >
-                  <CardHeader className="relative">
-                    <img 
-                      src={produto.imagem} 
-                      alt={produto.nome} 
-                      className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
-                    />
-                  </CardHeader>
-                  <CardContent className="p-4">
-                    <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
-                    <p className="text-gray-600 mb-2">{produto.descricao}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {produtosRegulares.map((produto) => (
+                  <Card 
+                    key={produto.id} 
+                    className="overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105 transition-transform duration-300"
+                  >
+                    <CardHeader className="relative">
+                      <img 
+                        src={produto.imagem} 
+                        alt={produto.nome} 
+                        className="w-full h-60 object-cover rounded-t-lg transform hover:scale-105 transition-transform duration-300"
+                      />
+                    </CardHeader>
+                    <CardContent className="p-4">
+                      <CardTitle className="text-xl font-semibold text-gray-800 mb-2">{produto.nome}</CardTitle>
+                      <p className="text-gray-600 mb-2">{produto.descricao}</p>
 
-                    <div className="flex justify-between items-center">
-                      <p className="text-2xl font-bold text-primary">
-                        R$ {produto.preco.toFixed(2).replace('.', ',')}
-                      </p>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
-                    <Button 
-                      className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
-                      onClick={() => adicionarAoCarrinho(produto.nome)}
-                    >
-                      <ShoppingCart className="mr-2" />
-                      Comprar Agora
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
+                      <div className="flex justify-between items-center">
+                        <p className="text-2xl font-bold text-primary">
+                          R$ {produto.preco.toFixed(2).replace('.', ',')}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Vendas: {formatarVendas(produto.quantidadeVendas)}
+                        </p>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="p-4 bg-gray-50 rounded-b-lg">
+                      <Button 
+                        className="w-full text-white bg-orange-600 hover:bg-orange-700 rounded-lg py-2 shadow-md hover:shadow-lg transition-all duration-200"
+                        onClick={() => adicionarAoCarrinho(produto.nome)}
+                      >
+                        <ShoppingCart className="mr-2" />
+                        Comprar Agora
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-
-        {accessories.length === 0 && (
+          </>
+        ) : (
           <div className="text-center py-12">
             <h2 className="text-2xl font-semibold text-gray-600">
-              Nenhum acessório cadastrado ainda
+              Nenhum Acessório cadastrado ainda
             </h2>
             <p className="text-gray-500 mt-2">
-              Os acessórios serão exibidos aqui após serem adicionados pelo painel administrativo
+              Os Acessórios serão exibidos aqui após serem adicionados pelo painel administrativo
             </p>
           </div>
         )}

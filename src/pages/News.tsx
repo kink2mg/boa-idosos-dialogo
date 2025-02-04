@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 interface NewsItem {
-  id: number;
+  id: string;
   title: string;
   date: string;
   image: string;
   content: string;
+  category: string;
 }
 
 const News = () => {
@@ -19,6 +20,7 @@ const News = () => {
   useEffect(() => {
     const storedNews = localStorage.getItem('news');
     if (storedNews) {
+      console.log("Notícias carregadas:", JSON.parse(storedNews));
       setNews(JSON.parse(storedNews));
     }
   }, []);
@@ -48,6 +50,9 @@ const News = () => {
                       </h2>
                       <p className="text-gray-500 text-sm mt-1">
                         {new Date(article.date).toLocaleDateString('pt-BR')}
+                      </p>
+                      <p className="text-orange-600 text-sm font-medium">
+                        {article.category}
                       </p>
                     </CardHeader>
                     <CardContent>
