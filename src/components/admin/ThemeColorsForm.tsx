@@ -15,15 +15,6 @@ const ThemeColorsForm = ({ themeColors, onChange }: ThemeColorsFormProps) => {
   return (
     <div className="grid grid-cols-2 gap-4">
       <div>
-        <Label htmlFor="logo-color">Cor da Logo</Label>
-        <Input
-          id="logo-color"
-          type="color"
-          value={themeColors.logo}
-          onChange={(e) => handleChange("logo", e.target.value)}
-        />
-      </div>
-      <div>
         <Label htmlFor="text-color">Cor do Texto</Label>
         <Input
           id="text-color"
@@ -39,15 +30,6 @@ const ThemeColorsForm = ({ themeColors, onChange }: ThemeColorsFormProps) => {
           type="color"
           value={themeColors.buttons}
           onChange={(e) => handleChange("buttons", e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor="orange-buttons-color">Cor dos Botões Laranjas</Label>
-        <Input
-          id="orange-buttons-color"
-          type="color"
-          value={themeColors.orangeButtons}
-          onChange={(e) => handleChange("orangeButtons", e.target.value)}
         />
       </div>
       <div>
