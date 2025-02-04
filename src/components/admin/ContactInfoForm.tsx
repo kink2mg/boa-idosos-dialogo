@@ -3,10 +3,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 type ContactInfo = {
-  logo_url: string;
-  whatsapp: string;
-  share_text: string;
-  whatsapp_message: string;
+  sales_number: string;
+  support_number: string;
+  sales_message: string;
+  support_message: string;
 };
 
 type ContactInfoFormProps = {
@@ -18,42 +18,42 @@ const ContactInfoForm = ({ contactInfo, onChange }: ContactInfoFormProps) => {
   return (
     <div className="space-y-4">
       <div>
-        <Label htmlFor="logo_url">URL do Logo</Label>
+        <Label htmlFor="sales_number">Número de Vendas (WhatsApp)</Label>
         <Input
-          id="logo_url"
-          value={contactInfo.logo_url}
-          onChange={(e) => onChange({ ...contactInfo, logo_url: e.target.value })}
-          placeholder="https://exemplo.com/logo.png"
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="whatsapp">WhatsApp</Label>
-        <Input
-          id="whatsapp"
-          value={contactInfo.whatsapp}
-          onChange={(e) => onChange({ ...contactInfo, whatsapp: e.target.value })}
+          id="sales_number"
+          value={contactInfo.sales_number}
+          onChange={(e) => onChange({ ...contactInfo, sales_number: e.target.value })}
           placeholder="5511999999999"
         />
       </div>
 
       <div>
-        <Label htmlFor="share_text">Texto de Compartilhamento</Label>
+        <Label htmlFor="support_number">Número de Suporte (WhatsApp)</Label>
         <Input
-          id="share_text"
-          value={contactInfo.share_text}
-          onChange={(e) => onChange({ ...contactInfo, share_text: e.target.value })}
-          placeholder="Clique aqui"
+          id="support_number"
+          value={contactInfo.support_number}
+          onChange={(e) => onChange({ ...contactInfo, support_number: e.target.value })}
+          placeholder="5511999999999"
         />
       </div>
 
       <div>
-        <Label htmlFor="whatsapp_message">Mensagem Padrão do WhatsApp</Label>
+        <Label htmlFor="sales_message">Mensagem de Vendas</Label>
         <Textarea
-          id="whatsapp_message"
-          value={contactInfo.whatsapp_message}
-          onChange={(e) => onChange({ ...contactInfo, whatsapp_message: e.target.value })}
-          placeholder="Olá! Gostaria de saber mais sobre os planos."
+          id="sales_message"
+          value={contactInfo.sales_message}
+          onChange={(e) => onChange({ ...contactInfo, sales_message: e.target.value })}
+          placeholder="Olá! Gostaria de contratar o"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="support_message">Mensagem de Suporte</Label>
+        <Textarea
+          id="support_message"
+          value={contactInfo.support_message}
+          onChange={(e) => onChange({ ...contactInfo, support_message: e.target.value })}
+          placeholder="Olá! Gostaria de suporte."
         />
       </div>
     </div>

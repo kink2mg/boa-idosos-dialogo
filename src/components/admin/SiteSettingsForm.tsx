@@ -14,17 +14,17 @@ import {
 
 const defaultThemeColors = {
   text: "#000000",
-  buttons: "#ea580c",
-  primary: "#ea580c",
-  container: "#f3f4f6",
-  background: "#ffffff"
+  buttons: "#DC2626",
+  primary: "#DC2626",
+  container: "#FFFFFF",
+  background: "#F3F4F6"
 };
 
 const defaultContactInfo = {
-  logo_url: "",
-  whatsapp: "5538998622897",
-  share_text: "Clique aqui",
-  whatsapp_message: "Olá! Gostaria de saber mais sobre os planos."
+  sales_number: "5538998622897",
+  support_number: "5538998622897",
+  sales_message: "Olá! Gostaria de contratar o",
+  support_message: "Olá! Gostaria de suporte."
 };
 
 const SiteSettingsForm = () => {
