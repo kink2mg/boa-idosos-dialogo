@@ -1,3 +1,4 @@
+
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,9 +24,20 @@ const Accessories = () => {
   
   useEffect(() => {
     const storedAccessories = localStorage.getItem('accessories');
+    console.log("Carregando acessórios do localStorage:", storedAccessories);
     if (storedAccessories) {
-      console.log("Acessórios carregados:", JSON.parse(storedAccessories));
-      setAccessories(JSON.parse(storedAccessories));
+      try {
+        const parsedAccessories = JSON.parse(storedAccessories);
+        console.log("Acessórios parseados:", parsedAccessories);
+        setAccessories(parsedAccessories);
+      } catch (error) {
+        console.error("Erro ao parsear acessórios:", error);
+        toast({
+          title: "Erro",
+          description: "Erro ao carregar os acessórios",
+          variant: "destructive"
+        });
+      }
     }
   }, []);
 

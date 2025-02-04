@@ -1,3 +1,4 @@
+
 import Navbar from "@/components/Navbar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,9 +20,17 @@ const News = () => {
 
   useEffect(() => {
     const storedNews = localStorage.getItem('news');
+    console.log("Carregando notícias do localStorage:", storedNews);
     if (storedNews) {
-      console.log("Notícias carregadas:", JSON.parse(storedNews));
-      setNews(JSON.parse(storedNews));
+      try {
+        const parsedNews = JSON.parse(storedNews);
+        console.log("Notícias parseadas:", parsedNews);
+        setNews(parsedNews);
+      } catch (error) {
+        console.error("Erro ao parsear notícias:", error);
+      }
+    } else {
+      console.log("Nenhuma notícia encontrada no localStorage");
     }
   }, []);
 
@@ -30,7 +39,7 @@ const News = () => {
       <Navbar />
 
       <main className="container mx-auto px-4 py-10">
-        {news.length > 0 ? (
+        {news && news.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {news.map((article) => (
               <Card key={article.id} className="overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-shadow bg-white">
