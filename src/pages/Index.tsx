@@ -1,3 +1,4 @@
+
 import PlanCard from "@/components/PlanCard";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
@@ -35,8 +36,7 @@ const Index = () => {
         { text: "GB para redes sociais e vídeos" },
         { text: "WhatsApp ilimitado" },
         { text: "Internet de uso livre" }
-      ],
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=500"
+      ]
     },
     {
       title: "NET CONTROLE",
@@ -49,8 +49,7 @@ const Index = () => {
         { text: "Ligações ilimitadas" },
         { text: "YouTube ilimitado" },
         { text: "+2GB bônus todo mês" }
-      ],
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=500"
+      ]
     }
   ];
 

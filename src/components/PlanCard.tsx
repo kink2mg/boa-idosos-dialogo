@@ -1,6 +1,7 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, Info } from "lucide-react";
+import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePlanFormatter } from "@/hooks/usePlanFormatter";
 import LoadingSkeleton from "./LoadingSkeleton";
@@ -16,7 +17,6 @@ type PlanProps = {
   price: number;
   features: PlanFeature[];
   mega?: number;
-  image?: string;
   isPopular?: boolean;
   sales?: number;
   isLoading?: boolean;
@@ -32,16 +32,14 @@ const PlanCard = ({
   price,
   features,
   mega,
-  image,
   isPopular = false,
-  sales,
   isLoading = false,
   buttonVariant = 'orange',
   className,
   buttonClassName,
   salesText
 }: PlanProps) => {
-  const { formatPrice, formatSales } = usePlanFormatter();
+  const { formatPrice } = usePlanFormatter();
 
   const buttonClasses = {
     default: 'bg-primary hover:bg-primary/90',
@@ -80,17 +78,6 @@ const PlanCard = ({
             )}
           </div>
 
-          {image && (
-            <div className="mb-4 relative">
-              <img
-                src={image}
-                alt={`Ilustração do plano ${title}`}
-                className="w-full rounded-lg object-cover h-48"
-                loading="lazy"
-              />
-            </div>
-          )}
-
           {mega && (
             <div className="text-primary text-4xl font-bold mb-4">
               {mega} Mega
@@ -103,9 +90,6 @@ const PlanCard = ({
                 <Check className="w-5 h-5 text-primary mr-2 flex-shrink-0" />
                 <span className="text-gray-600 relative">
                   {feature.text}
-                  {feature.info && (
-                    <Info className="w-4 h-4 ml-2 text-gray-400 inline-block cursor-help" />
-                  )}
                 </span>
               </li>
             ))}
