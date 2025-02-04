@@ -19,9 +19,7 @@ type PlanProps = {
   price: number;
   features: PlanFeature[];
   mega?: number;
-  image_url?: string;
-  is_popular?: boolean;
-  sales_count?: number;
+  salesCount?: number;
   isLoading?: boolean;
   buttonVariant?: 'default' | 'orange' | 'premium';
   className?: string;
@@ -35,9 +33,7 @@ const PlanCard = ({
   price,
   features,
   mega,
-  image_url,
-  is_popular = false,
-  sales_count,
+  salesCount,
   isLoading = false,
   buttonVariant = 'orange',
   className,
@@ -52,8 +48,7 @@ const PlanCard = ({
       const { data, error } = await supabase
         .from("site_settings")
         .select("*")
-        .limit(1)
-        .maybeSingle();
+        .single();
 
       if (!error && data) {
         const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
@@ -90,23 +85,7 @@ const PlanCard = ({
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mt-1">{title}</h3>
             </div>
-            {is_popular && (
-              <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                Popular
-              </span>
-            )}
           </div>
-
-          {image_url && (
-            <div className="mb-4 relative">
-              <img
-                src={image_url}
-                alt={`Ilustração do plano ${title}`}
-                className="w-full rounded-lg object-cover h-48"
-                loading="lazy"
-              />
-            </div>
-          )}
 
           {mega && (
             <div className="text-primary text-4xl font-bold mb-4">
@@ -146,9 +125,9 @@ const PlanCard = ({
               </Button>
             </a>
             
-            {sales_count && (
+            {salesCount && (
               <div className="text-center text-sm text-gray-500">
-                {formatSales(sales_count)} na última semana
+                {formatSales(salesCount)} na última semana
               </div>
             )}
           </div>
