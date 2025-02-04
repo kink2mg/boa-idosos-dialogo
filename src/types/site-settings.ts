@@ -15,8 +15,6 @@ export interface ContactInfo {
   support_number: string;
   sales_message: string;
   support_message: string;
-  logo_text?: string;
-  share_message?: string;
 }
 
 export interface SiteSettings {
