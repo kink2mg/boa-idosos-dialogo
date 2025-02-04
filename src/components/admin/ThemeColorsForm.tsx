@@ -15,43 +15,7 @@ const ThemeColorsForm = ({ themeColors, onChange }: ThemeColorsFormProps) => {
   return (
     <div className="grid grid-cols-2 gap-4">
       <div>
-        <Label htmlFor="logo-color">Cor da Logo</Label>
-        <Input
-          id="logo-color"
-          type="color"
-          value={themeColors.logo}
-          onChange={(e) => handleChange("logo", e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor="text-color">Cor do Texto</Label>
-        <Input
-          id="text-color"
-          type="color"
-          value={themeColors.text}
-          onChange={(e) => handleChange("text", e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor="buttons-color">Cor dos Botões</Label>
-        <Input
-          id="buttons-color"
-          type="color"
-          value={themeColors.buttons}
-          onChange={(e) => handleChange("buttons", e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor="orange-buttons-color">Cor dos Botões Laranjas</Label>
-        <Input
-          id="orange-buttons-color"
-          type="color"
-          value={themeColors.orangeButtons}
-          onChange={(e) => handleChange("orangeButtons", e.target.value)}
-        />
-      </div>
-      <div>
-        <Label htmlFor="primary-color">Cor Primária</Label>
+        <Label htmlFor="primary-color">Cor Primária (Cabeçalho e elementos principais)</Label>
         <Input
           id="primary-color"
           type="color"
@@ -60,7 +24,34 @@ const ThemeColorsForm = ({ themeColors, onChange }: ThemeColorsFormProps) => {
         />
       </div>
       <div>
-        <Label htmlFor="container-color">Cor do Container</Label>
+        <Label htmlFor="text-color">Cor do Texto (Textos gerais)</Label>
+        <Input
+          id="text-color"
+          type="color"
+          value={themeColors.text}
+          onChange={(e) => handleChange("text", e.target.value)}
+        />
+      </div>
+      <div>
+        <Label htmlFor="buttons-color">Cor dos Botões (Botões principais)</Label>
+        <Input
+          id="buttons-color"
+          type="color"
+          value={themeColors.buttons}
+          onChange={(e) => handleChange("buttons", e.target.value)}
+        />
+      </div>
+      <div>
+        <Label htmlFor="orange-buttons-color">Cor dos Botões Secundários</Label>
+        <Input
+          id="orange-buttons-color"
+          type="color"
+          value={themeColors.orangeButtons}
+          onChange={(e) => handleChange("orangeButtons", e.target.value)}
+        />
+      </div>
+      <div>
+        <Label htmlFor="container-color">Cor do Container (Fundo dos cards)</Label>
         <Input
           id="container-color"
           type="color"
@@ -69,12 +60,21 @@ const ThemeColorsForm = ({ themeColors, onChange }: ThemeColorsFormProps) => {
         />
       </div>
       <div>
-        <Label htmlFor="background-color">Cor do Fundo</Label>
+        <Label htmlFor="background-color">Cor do Fundo (Background geral)</Label>
         <Input
           id="background-color"
           type="color"
           value={themeColors.background}
           onChange={(e) => handleChange("background", e.target.value)}
+        />
+      </div>
+      <div>
+        <Label htmlFor="logo-color">Cor da Logo (Logo no cabeçalho)</Label>
+        <Input
+          id="logo-color"
+          type="color"
+          value={themeColors.logo}
+          onChange={(e) => handleChange("logo", e.target.value)}
         />
       </div>
     </div>
