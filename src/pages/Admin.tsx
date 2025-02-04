@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash } from "lucide-react"; // Added Trash import
+import { Edit, Trash } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import PlanForm from "@/components/admin/PlanForm";
 import AccessoryForm from "@/components/admin/AccessoryForm";
@@ -154,6 +154,9 @@ const Admin = () => {
                             </span>
                           )}
                         </div>
+                        <div className="mt-2 text-sm text-gray-600">
+                          Vendas: {plan.salesCount || 0}
+                        </div>
                       </div>
                       <div className="flex space-x-2">
                         <Button variant="outline" size="icon">
@@ -201,6 +204,9 @@ const Admin = () => {
                               R$ {accessory.precoAntigo.toFixed(2)}
                             </span>
                           )}
+                        </div>
+                        <div className="mt-2 text-sm text-gray-600">
+                          Vendas: {accessory.quantidadeVendas || 0}
                         </div>
                       </div>
                       <div className="flex space-x-2">

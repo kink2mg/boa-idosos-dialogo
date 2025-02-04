@@ -29,9 +29,10 @@ const Index = () => {
       }
 
       console.log("Plans fetched successfully:", data);
-      // Transform the data using supabasePlanToPlan helper
-      const transformedPlans = data?.map(plan => supabasePlanToPlan(plan)) || [];
-      setPlans(transformedPlans);
+      if (data) {
+        const formattedPlans = data.map(plan => supabasePlanToPlan(plan));
+        setPlans(formattedPlans);
+      }
     } catch (error) {
       console.error("Error fetching plans:", error);
       toast({
