@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import PlanForm from "@/components/admin/PlanForm";
 import AccessoryForm from "@/components/admin/AccessoryForm";
 import NewsForm from "@/components/admin/NewsForm";
+import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
 
 interface PlanFeature {
   text: string;
@@ -119,12 +120,20 @@ const Admin = () => {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
 
-        <Tabs defaultValue="plans" className="space-y-4">
+        <Tabs defaultValue="settings" className="space-y-4">
           <TabsList>
+            <TabsTrigger value="settings">Configurações do Site</TabsTrigger>
             <TabsTrigger value="plans">Planos</TabsTrigger>
             <TabsTrigger value="accessories">Acessórios</TabsTrigger>
             <TabsTrigger value="news">Notícias</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="settings">
+            <Card className="p-6">
+              <h2 className="text-2xl font-semibold mb-6">Configurações Gerais</h2>
+              <SiteSettingsForm />
+            </Card>
+          </TabsContent>
 
           <TabsContent value="plans">
             <div className="space-y-4">
@@ -153,9 +162,6 @@ const Admin = () => {
                               R$ {plan.precoAntigo.toFixed(2)}
                             </span>
                           )}
-                        </div>
-                        <div className="mt-2 text-sm text-gray-600">
-                          Vendas: {plan.salesCount || 0}
                         </div>
                       </div>
                       <div className="flex space-x-2">
