@@ -93,6 +93,7 @@ export type Database = {
           created_at: string
           features: Json | null
           id: string
+          is_popular: boolean | null
           mega: number
           price: number
           sales_count: number | null
@@ -104,6 +105,7 @@ export type Database = {
           created_at?: string
           features?: Json | null
           id?: string
+          is_popular?: boolean | null
           mega: number
           price: number
           sales_count?: number | null
@@ -115,6 +117,7 @@ export type Database = {
           created_at?: string
           features?: Json | null
           id?: string
+          is_popular?: boolean | null
           mega?: number
           price?: number
           sales_count?: number | null

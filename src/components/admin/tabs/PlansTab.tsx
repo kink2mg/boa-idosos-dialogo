@@ -2,37 +2,37 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Package, Trash, Edit } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import PlanForm from "../PlanForm";
 import { Plan } from "@/types/plans";
+import { usePlans } from "@/hooks/usePlans";
+import { LoadingSkeleton } from "@/components/LoadingSkeleton";
 
 export const PlansTab = () => {
-  const { toast } = useToast();
-  const [plans, setPlans] = useState<Plan[]>([]);
+  const { plans, addPlan, deletePlan, updatePlan, isLoading } = usePlans();
   const [showPlanForm, setShowPlanForm] = useState(false);
+  const [editingPlan, setEditingPlan] = useState<Plan | null>(null);
 
-  const handleAddPlan = (newPlan: Omit<Plan, "id" | "created_at" | "updated_at">) => {
-    const plan: Plan = {
-      ...newPlan,
-      id: String(plans.length + 1),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
-    setPlans([...plans, plan]);
-    setShowPlanForm(false);
-    toast({
-      title: "Sucesso",
-      description: "Plano adicionado com sucesso!"
-    });
+  const handleAddPlan = async (newPlan: Omit<Plan, "id" | "created_at" | "updated_at">) => {
+    try {
+      await addPlan(newPlan);
+      setShowPlanForm(false);
+    } catch (error) {
+      console.error("Error in handleAddPlan:", error);
+    }
   };
 
-  const handleDeletePlan = (id: string) => {
-    setPlans(plans.filter(plan => plan.id !== id));
-    toast({
-      title: "Sucesso",
-      description: "Plano removido com sucesso!"
-    });
+  const handleEditPlan = async (plan: Plan) => {
+    try {
+      await updatePlan(plan);
+      setEditingPlan(null);
+    } catch (error) {
+      console.error("Error in handleEditPlan:", error);
+    }
   };
+
+  if (isLoading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="space-y-4">
@@ -41,13 +41,19 @@ export const PlansTab = () => {
         <h3 className="text-lg font-semibold">Planos</h3>
       </div>
 
-      <Button onClick={() => setShowPlanForm(!showPlanForm)}>
+      <Button onClick={() => {
+        setEditingPlan(null);
+        setShowPlanForm(!showPlanForm);
+      }}>
         {showPlanForm ? "Cancelar" : "Adicionar Novo Plano"}
       </Button>
 
-      {showPlanForm && (
+      {(showPlanForm || editingPlan) && (
         <Card className="p-6">
-          <PlanForm onSubmit={handleAddPlan} />
+          <PlanForm 
+            onSubmit={editingPlan ? handleEditPlan : handleAddPlan}
+            initialData={editingPlan}
+          />
         </Card>
       )}
 
@@ -66,13 +72,17 @@ export const PlansTab = () => {
                 </div>
               </div>
               <div className="flex space-x-2">
-                <Button variant="outline" size="icon">
+                <Button 
+                  variant="outline" 
+                  size="icon"
+                  onClick={() => setEditingPlan(plan)}
+                >
                   <Edit className="w-4 h-4" />
                 </Button>
                 <Button 
                   variant="destructive" 
                   size="icon"
-                  onClick={() => handleDeletePlan(plan.id)}
+                  onClick={() => deletePlan(plan.id)}
                 >
                   <Trash className="w-4 h-4" />
                 </Button>
