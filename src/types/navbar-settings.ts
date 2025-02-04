@@ -1,3 +1,5 @@
+import { Json } from "@/integrations/supabase/types";
+
 export interface WelcomeMessages {
   greeting: string;
   brandName: string;
@@ -23,13 +25,14 @@ export interface NavbarSettings {
 
 export interface SupabaseNavbarSettings {
   id: string;
-  settings: NavbarSettings;
+  settings: Json;
   created_at?: string;
   updated_at?: string;
 }
 
-export const supabaseNavbarToSettings = (data: SupabaseNavbarSettings): NavbarSettings => data.settings;
+export const supabaseNavbarToSettings = (data: SupabaseNavbarSettings): NavbarSettings => 
+  data.settings as NavbarSettings;
 
 export const settingsToSupabaseNavbar = (settings: NavbarSettings): Partial<SupabaseNavbarSettings> => ({
-  settings
+  settings: settings as Json
 });

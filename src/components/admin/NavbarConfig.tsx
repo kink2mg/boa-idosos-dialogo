@@ -5,25 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-
-interface NavbarSettings {
-  whatsappNumber: string;
-  whatsappLink: string;
-  instagramUser: string;
-  facebookUser: string;
-  welcomeMessages: {
-    greeting: string;
-    brandName: string;
-    tagline: string;
-  };
-  menuLabels: {
-    plans: string;
-    accessories: string;
-    news: string;
-    brand: string;
-    share: string;
-  };
-}
+import { NavbarSettings, supabaseNavbarToSettings, settingsToSupabaseNavbar } from "@/types/navbar-settings";
 
 const NavbarConfig = () => {
   const { toast } = useToast();
@@ -53,17 +35,17 @@ const NavbarConfig = () => {
   const loadSettings = async () => {
     try {
       const { data, error } = await supabase
-        .from('navbar_settings')
-        .select('*')
+        .from("navbar_settings")
+        .select("*")
         .single();
 
       if (error) throw error;
 
       if (data) {
-        setSettings(data.settings);
+        setSettings(supabaseNavbarToSettings(data));
       }
     } catch (error) {
-      console.error('Erro ao carregar configurações:', error);
+      console.error("Erro ao carregar configurações:", error);
       toast({
         title: "Erro",
         description: "Não foi possível carregar as configurações da navbar",
@@ -75,11 +57,8 @@ const NavbarConfig = () => {
   const handleSave = async () => {
     try {
       const { error } = await supabase
-        .from('navbar_settings')
-        .upsert({ 
-          id: 1, // usando um ID fixo já que só teremos uma configuração
-          settings 
-        });
+        .from("navbar_settings")
+        .upsert(settingsToSupabaseNavbar(settings));
 
       if (error) throw error;
 
@@ -88,7 +67,7 @@ const NavbarConfig = () => {
         description: "Configurações da navbar salvas com sucesso!"
       });
     } catch (error) {
-      console.error('Erro ao salvar configurações:', error);
+      console.error("Erro ao salvar configurações:", error);
       toast({
         title: "Erro",
         description: "Não foi possível salvar as configurações",

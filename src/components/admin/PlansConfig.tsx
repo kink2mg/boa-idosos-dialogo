@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/components/ui/use-toast";
-import { Plus, Trash } from "lucide-react";
+import { Package, Trash, Edit } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Plan, SupabasePlan, supabasePlanToPlan, planToSupabasePlan } from "@/types/plans";
 
@@ -66,7 +63,7 @@ const PlansConfig = () => {
       if (error) throw error;
 
       if (data) {
-        const formattedPlan = supabasePlanToPlan(data as SupabasePlan);
+        const formattedPlan = supabasePlanToPlan(data);
         setPlans([formattedPlan, ...plans]);
         setSelectedPlan(formattedPlan);
         toast({
