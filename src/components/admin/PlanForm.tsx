@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Plus } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
 interface PlanFeature {
   text: string;
@@ -13,7 +12,7 @@ interface PlanFeature {
 }
 
 interface Plan {
-  id: number;
+  id: string;
   title: string;
   category: string;
   price: number;
@@ -22,10 +21,11 @@ interface Plan {
   features: PlanFeature[];
   imageUrl?: string;
   videoUrl?: string;
-  isPopular?: boolean;
-  salesCount?: number;
+  is_popular: boolean;
+  sales_count: number;
   description?: string;
-  sendNotification: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 interface PlanFormProps {
@@ -33,7 +33,6 @@ interface PlanFormProps {
 }
 
 const PlanForm = ({ onSubmit }: PlanFormProps) => {
-  const { toast } = useToast();
   const [features, setFeatures] = useState<PlanFeature[]>([]);
   const [newFeature, setNewFeature] = useState({ text: "", info: "" });
   const [plan, setPlan] = useState<Omit<Plan, "id">>({
@@ -45,10 +44,11 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
     features: [],
     imageUrl: "",
     videoUrl: "",
-    isPopular: false,
-    salesCount: 0,
+    is_popular: false,
+    sales_count: 0,
     description: "",
-    sendNotification: false
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
   });
 
   const handleAddFeature = () => {
@@ -60,19 +60,7 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      onSubmit({ ...plan, features });
-      toast({
-        title: "Sucesso",
-        description: "Plano salvo com sucesso!"
-      });
-    } catch (error) {
-      toast({
-        title: "Erro",
-        description: "Erro ao salvar o plano.",
-        variant: "destructive",
-      });
-    }
+    onSubmit({ ...plan, features });
   };
 
   return (
@@ -138,8 +126,8 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
           <Input
             id="salesCount"
             type="number"
-            value={plan.salesCount}
-            onChange={(e) => setPlan(prev => ({ ...prev, salesCount: Number(e.target.value) }))}
+            value={plan.sales_count}
+            onChange={(e) => setPlan(prev => ({ ...prev, sales_count: Number(e.target.value) }))}
           />
         </div>
       </div>
@@ -176,23 +164,13 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="isPopular"
-            checked={plan.isPopular}
-            onCheckedChange={(checked) => setPlan(prev => ({ ...prev, isPopular: checked }))}
-          />
-          <Label htmlFor="isPopular">Plano Popular</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="sendNotification"
-            checked={plan.sendNotification}
-            onCheckedChange={(checked) => setPlan(prev => ({ ...prev, sendNotification: checked }))}
-          />
-          <Label htmlFor="sendNotification">Enviar notificação</Label>
-        </div>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="isPopular"
+          checked={plan.is_popular}
+          onCheckedChange={(checked) => setPlan(prev => ({ ...prev, is_popular: checked }))}
+        />
+        <Label htmlFor="isPopular">Plano Popular</Label>
       </div>
 
       <div className="space-y-2">
