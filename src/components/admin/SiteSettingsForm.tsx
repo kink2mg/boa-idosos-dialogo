@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import ThemeColorsForm from "./ThemeColorsForm";
 import ContactInfoForm from "./ContactInfoForm";
 import { 
@@ -29,28 +28,21 @@ const defaultContactInfo = {
   support_message: "Olá! Gostaria de suporte."
 };
 
+const STORAGE_KEY = 'site_settings';
+
 const SiteSettingsForm = () => {
   const { toast } = useToast();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchSettings = async () => {
+  const fetchSettings = () => {
     try {
-      console.log("Buscando configurações do site...");
-      const { data, error } = await supabase
-        .from("site_settings")
-        .select("*")
-        .maybeSingle();
+      console.log("Buscando configurações do site do localStorage...");
+      const storedSettings = localStorage.getItem(STORAGE_KEY);
 
-      if (error) {
-        console.error("Erro ao buscar configurações:", error);
-        throw error;
-      }
-
-      if (data) {
-        console.log("Configurações encontradas:", data);
-        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
-        setSettings(transformedData);
+      if (storedSettings) {
+        console.log("Configurações encontradas:", storedSettings);
+        setSettings(JSON.parse(storedSettings));
       } else {
         console.log("Nenhuma configuração encontrada. Criando padrões...");
         const defaultSettings = {
@@ -60,19 +52,9 @@ const SiteSettingsForm = () => {
           updated_at: new Date().toISOString()
         };
 
-        const { data: newSettings, error: createError } = await supabase
-          .from("site_settings")
-          .insert([defaultSettings])
-          .select()
-          .single();
-
-        if (createError) throw createError;
-
-        if (newSettings) {
-          console.log("Configurações padrão criadas:", newSettings);
-          const transformedNewSettings = supabaseSettingsToSettings(newSettings as SupabaseSiteSettings);
-          setSettings(transformedNewSettings);
-        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultSettings));
+        console.log("Configurações padrão criadas:", defaultSettings);
+        setSettings(defaultSettings);
       }
     } catch (error) {
       console.error("Erro ao carregar configurações:", error);
@@ -97,19 +79,13 @@ const SiteSettingsForm = () => {
     try {
       console.log("Salvando configurações:", settings);
       const updatedSettings = {
-        ...settingsToSupabaseSettings(settings),
+        ...settings,
         updated_at: new Date().toISOString()
       };
 
-      const { error } = await supabase
-        .from("site_settings")
-        .upsert(updatedSettings)
-        .select()
-        .single();
-
-      if (error) throw error;
-
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings));
       console.log("Configurações salvas com sucesso!");
+      
       toast({
         title: "Sucesso",
         description: "Configurações atualizadas com sucesso!",
