@@ -6,6 +6,8 @@ export interface ThemeColors {
   primary: string;
   container: string;
   background: string;
+  orangeButtons: string;
+  logo: string;
 }
 
 export interface ContactInfo {
