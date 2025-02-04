@@ -1,6 +1,7 @@
 import { ContactInfo } from "@/types/site-settings";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ContactInfoFormProps {
   contactInfo: ContactInfo;
@@ -52,7 +53,7 @@ const ContactInfoForm = ({ contactInfo, onChange }: ContactInfoFormProps) => {
       </div>
       <div>
         <Label htmlFor="sales-message">Mensagem Padrão de Vendas</Label>
-        <Input
+        <Textarea
           id="sales-message"
           value={contactInfo.sales_message}
           onChange={(e) => handleChange("sales_message", e.target.value)}
@@ -61,7 +62,7 @@ const ContactInfoForm = ({ contactInfo, onChange }: ContactInfoFormProps) => {
       </div>
       <div>
         <Label htmlFor="support-message">Mensagem Padrão de Suporte</Label>
-        <Input
+        <Textarea
           id="support-message"
           value={contactInfo.support_message}
           onChange={(e) => handleChange("support_message", e.target.value)}

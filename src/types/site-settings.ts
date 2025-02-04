@@ -1,52 +1,57 @@
-import { Json } from "@/integrations/supabase/types";
-
 export interface ThemeColors {
   text: string;
-  buttons: string;
   primary: string;
-  container: string;
+  secondary: string;
+  tertiary: string;
+  darkPurple: string;
   background: string;
-  orangeButtons: string;
-  logo: string;
+  softGreen: string;
+  softYellow: string;
+  softPurple: string;
+  softBlue: string;
+  vividPurple: string;
+  brightOrange: string;
 }
 
 export interface ContactInfo {
+  logo_text: string;
+  share_message: string;
   sales_number: string;
   support_number: string;
   sales_message: string;
   support_message: string;
-  logo_text?: string;
-  share_message?: string;
 }
 
 export interface SiteSettings {
-  id?: string;
   theme_colors: ThemeColors;
   contact_info: ContactInfo;
   created_at: string;
   updated_at: string;
 }
 
-export interface SupabaseSiteSettings {
-  id?: string;
-  theme_colors: Json;
-  contact_info: Json;
-  created_at: string;
-  updated_at: string;
-}
-
-export const supabaseSettingsToSettings = (settings: SupabaseSiteSettings): SiteSettings => ({
-  id: settings.id,
-  theme_colors: settings.theme_colors as unknown as ThemeColors,
-  contact_info: settings.contact_info as unknown as ContactInfo,
-  created_at: settings.created_at,
-  updated_at: settings.updated_at
-});
-
-export const settingsToSupabaseSettings = (settings: Partial<SiteSettings>): Partial<SupabaseSiteSettings> => ({
-  id: settings.id,
-  theme_colors: settings.theme_colors as unknown as Json,
-  contact_info: settings.contact_info as unknown as Json,
-  created_at: settings.created_at,
-  updated_at: settings.updated_at
-});
+export const defaultSettings: SiteSettings = {
+  theme_colors: {
+    text: "#333333",
+    primary: "#9b87f5",
+    secondary: "#7E69AB",
+    tertiary: "#6E59A5",
+    darkPurple: "#1A1F2C",
+    background: "#FFFFFF",
+    softGreen: "#F2FCE2",
+    softYellow: "#FEF7CD",
+    softPurple: "#E5DEFF",
+    softBlue: "#D3E4FD",
+    vividPurple: "#8B5CF6",
+    brightOrange: "#F97316"
+  },
+  contact_info: {
+    logo_text: "Net",
+    share_message: "Compartilhe nosso site",
+    sales_number: "5511999999999",
+    support_number: "5511999999999",
+    sales_message: "Olá! Gostaria de saber mais sobre os planos.",
+    support_message: "Olá! Preciso de suporte."
+  },
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};

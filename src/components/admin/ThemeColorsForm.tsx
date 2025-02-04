@@ -14,67 +14,131 @@ const ThemeColorsForm = ({ themeColors, onChange }: ThemeColorsFormProps) => {
 
   return (
     <div className="grid grid-cols-2 gap-4">
+      {/* Cores Principais */}
+      <div className="col-span-2">
+        <h3 className="font-semibold mb-2">Cores Principais</h3>
+      </div>
       <div>
-        <Label htmlFor="primary-color">Cor Primária (Cabeçalho e elementos principais)</Label>
+        <Label htmlFor="primary">Roxo Primário (Elementos principais)</Label>
         <Input
-          id="primary-color"
+          id="primary"
           type="color"
-          value={themeColors.primary}
+          value={themeColors.primary || "#9b87f5"}
           onChange={(e) => handleChange("primary", e.target.value)}
         />
       </div>
       <div>
-        <Label htmlFor="text-color">Cor do Texto (Textos gerais)</Label>
+        <Label htmlFor="secondary">Roxo Secundário</Label>
         <Input
-          id="text-color"
+          id="secondary"
           type="color"
-          value={themeColors.text}
-          onChange={(e) => handleChange("text", e.target.value)}
+          value={themeColors.secondary || "#7E69AB"}
+          onChange={(e) => handleChange("secondary", e.target.value)}
         />
       </div>
       <div>
-        <Label htmlFor="buttons-color">Cor dos Botões (Botões principais)</Label>
+        <Label htmlFor="tertiary">Roxo Terciário</Label>
         <Input
-          id="buttons-color"
+          id="tertiary"
           type="color"
-          value={themeColors.buttons}
-          onChange={(e) => handleChange("buttons", e.target.value)}
+          value={themeColors.tertiary || "#6E59A5"}
+          onChange={(e) => handleChange("tertiary", e.target.value)}
         />
       </div>
       <div>
-        <Label htmlFor="orange-buttons-color">Cor dos Botões Secundários</Label>
+        <Label htmlFor="darkPurple">Roxo Escuro</Label>
         <Input
-          id="orange-buttons-color"
+          id="darkPurple"
           type="color"
-          value={themeColors.orangeButtons}
-          onChange={(e) => handleChange("orangeButtons", e.target.value)}
+          value={themeColors.darkPurple || "#1A1F2C"}
+          onChange={(e) => handleChange("darkPurple", e.target.value)}
+        />
+      </div>
+
+      {/* Cores Suaves */}
+      <div className="col-span-2 mt-4">
+        <h3 className="font-semibold mb-2">Cores Suaves</h3>
+      </div>
+      <div>
+        <Label htmlFor="softGreen">Verde Suave</Label>
+        <Input
+          id="softGreen"
+          type="color"
+          value={themeColors.softGreen || "#F2FCE2"}
+          onChange={(e) => handleChange("softGreen", e.target.value)}
         />
       </div>
       <div>
-        <Label htmlFor="container-color">Cor do Container (Fundo dos cards)</Label>
+        <Label htmlFor="softYellow">Amarelo Suave</Label>
         <Input
-          id="container-color"
+          id="softYellow"
           type="color"
-          value={themeColors.container}
-          onChange={(e) => handleChange("container", e.target.value)}
+          value={themeColors.softYellow || "#FEF7CD"}
+          onChange={(e) => handleChange("softYellow", e.target.value)}
         />
       </div>
       <div>
-        <Label htmlFor="background-color">Cor do Fundo (Background geral)</Label>
+        <Label htmlFor="softPurple">Roxo Suave</Label>
         <Input
-          id="background-color"
+          id="softPurple"
           type="color"
-          value={themeColors.background}
+          value={themeColors.softPurple || "#E5DEFF"}
+          onChange={(e) => handleChange("softPurple", e.target.value)}
+        />
+      </div>
+      <div>
+        <Label htmlFor="softBlue">Azul Suave</Label>
+        <Input
+          id="softBlue"
+          type="color"
+          value={themeColors.softBlue || "#D3E4FD"}
+          onChange={(e) => handleChange("softBlue", e.target.value)}
+        />
+      </div>
+
+      {/* Cores Vibrantes */}
+      <div className="col-span-2 mt-4">
+        <h3 className="font-semibold mb-2">Cores Vibrantes</h3>
+      </div>
+      <div>
+        <Label htmlFor="vividPurple">Roxo Vibrante</Label>
+        <Input
+          id="vividPurple"
+          type="color"
+          value={themeColors.vividPurple || "#8B5CF6"}
+          onChange={(e) => handleChange("vividPurple", e.target.value)}
+        />
+      </div>
+      <div>
+        <Label htmlFor="brightOrange">Laranja Brilhante</Label>
+        <Input
+          id="brightOrange"
+          type="color"
+          value={themeColors.brightOrange || "#F97316"}
+          onChange={(e) => handleChange("brightOrange", e.target.value)}
+        />
+      </div>
+
+      {/* Cores de Interface */}
+      <div className="col-span-2 mt-4">
+        <h3 className="font-semibold mb-2">Cores de Interface</h3>
+      </div>
+      <div>
+        <Label htmlFor="background">Fundo Principal</Label>
+        <Input
+          id="background"
+          type="color"
+          value={themeColors.background || "#FFFFFF"}
           onChange={(e) => handleChange("background", e.target.value)}
         />
       </div>
       <div>
-        <Label htmlFor="logo-color">Cor da Logo (Logo no cabeçalho)</Label>
+        <Label htmlFor="text">Texto Principal</Label>
         <Input
-          id="logo-color"
+          id="text"
           type="color"
-          value={themeColors.logo}
-          onChange={(e) => handleChange("logo", e.target.value)}
+          value={themeColors.text || "#333333"}
+          onChange={(e) => handleChange("text", e.target.value)}
         />
       </div>
     </div>
