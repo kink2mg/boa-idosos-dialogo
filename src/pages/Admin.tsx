@@ -6,7 +6,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { Trash } from "lucide-react"; // Added this import
 
 interface NewsItem {
   id: number;
