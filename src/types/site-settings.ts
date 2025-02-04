@@ -18,7 +18,7 @@ export interface ContactInfo {
 }
 
 export interface SiteSettings {
-  id: string;
+  id?: string;
   theme_colors: ThemeColors;
   contact_info: ContactInfo;
   created_at: string;
@@ -26,7 +26,7 @@ export interface SiteSettings {
 }
 
 export interface SupabaseSiteSettings {
-  id: string;
+  id?: string;
   theme_colors: Json;
   contact_info: Json;
   created_at: string;

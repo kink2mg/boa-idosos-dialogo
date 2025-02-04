@@ -36,20 +36,28 @@ const SiteSettingsForm = () => {
 
   const fetchSettings = async () => {
     try {
+      console.log("Buscando configurações do site...");
       const { data, error } = await supabase
         .from("site_settings")
         .select("*")
         .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erro ao buscar configurações:", error);
+        throw error;
+      }
 
       if (data) {
+        console.log("Configurações encontradas:", data);
         const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
         setSettings(transformedData);
       } else {
+        console.log("Nenhuma configuração encontrada. Criando padrões...");
         const defaultSettings = {
           theme_colors: defaultThemeColors,
           contact_info: defaultContactInfo,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         };
 
         const { data: newSettings, error: createError } = await supabase
@@ -61,6 +69,7 @@ const SiteSettingsForm = () => {
         if (createError) throw createError;
 
         if (newSettings) {
+          console.log("Configurações padrão criadas:", newSettings);
           const transformedNewSettings = supabaseSettingsToSettings(newSettings as SupabaseSiteSettings);
           setSettings(transformedNewSettings);
         }
@@ -86,18 +95,28 @@ const SiteSettingsForm = () => {
     if (!settings) return;
 
     try {
+      console.log("Salvando configurações:", settings);
+      const updatedSettings = {
+        ...settingsToSupabaseSettings(settings),
+        updated_at: new Date().toISOString()
+      };
+
       const { error } = await supabase
         .from("site_settings")
-        .upsert(settingsToSupabaseSettings(settings))
+        .upsert(updatedSettings)
         .select()
         .single();
 
       if (error) throw error;
 
+      console.log("Configurações salvas com sucesso!");
       toast({
         title: "Sucesso",
         description: "Configurações atualizadas com sucesso!",
       });
+
+      // Recarrega as configurações para garantir sincronização
+      fetchSettings();
     } catch (error) {
       console.error("Erro ao salvar configurações:", error);
       toast({
