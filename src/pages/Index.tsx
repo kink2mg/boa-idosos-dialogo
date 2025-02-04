@@ -27,7 +27,11 @@ const Index = () => {
         }
 
         if (data) {
-          const formattedPlans = data.map((plan) => supabasePlanToPlan(plan));
+          const formattedPlans = data.map((plan) => ({
+            ...plan,
+            is_popular: false, // Set a default value for is_popular
+            features: plan.features || [] // Ensure features is never undefined
+          })).map(supabasePlanToPlan);
           setPlans(formattedPlans);
         }
       } catch (error) {
@@ -93,7 +97,6 @@ const Index = () => {
                 salesText={plan.sales_count >= 1000 ? 
                   `${(plan.sales_count/1000).toFixed(1).replace('.', ',')} mil vendas` : 
                   `${plan.sales_count} vendas`}
-                salesCount={plan.sales_count}
               />
             ))
           ) : (
