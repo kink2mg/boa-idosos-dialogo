@@ -6,32 +6,23 @@ import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import { Plus, Trash } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { Plan, SupabasePlan, supabasePlanToPlan, planToSupabasePlan } from "@/types/plans";
+import { Plan } from "@/types/plans";
 
 const PlansConfig = () => {
   const { toast } = useToast();
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
-  const [newFeature, setNewFeature] = useState("");
 
   useEffect(() => {
     fetchPlans();
   }, []);
 
-  const fetchPlans = async () => {
+  const fetchPlans = () => {
     try {
-      const { data, error } = await supabase
-        .from("plans")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      if (data) {
-        const formattedPlans = data.map((plan: SupabasePlan) => supabasePlanToPlan(plan));
-        setPlans(formattedPlans);
+      const storedPlans = localStorage.getItem('plans');
+      if (storedPlans) {
+        setPlans(JSON.parse(storedPlans));
       }
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -45,8 +36,9 @@ const PlansConfig = () => {
     }
   };
 
-  const handleAddPlan = async () => {
-    const newPlan: Omit<Plan, 'id' | 'created_at' | 'updated_at'> = {
+  const handleAddPlan = () => {
+    const newPlan: Plan = {
+      id: Date.now().toString(),
       title: "Novo Plano",
       category: "",
       price: 0,
@@ -54,26 +46,19 @@ const PlansConfig = () => {
       features: [],
       is_popular: false,
       sales_count: 0,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     try {
-      const { data, error } = await supabase
-        .from("plans")
-        .insert([planToSupabasePlan(newPlan as Plan)])
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      if (data) {
-        const formattedPlan = supabasePlanToPlan(data as SupabasePlan);
-        setPlans([formattedPlan, ...plans]);
-        setSelectedPlan(formattedPlan);
-        toast({
-          title: "Sucesso",
-          description: "Plano criado com sucesso!",
-        });
-      }
+      const updatedPlans = [newPlan, ...plans];
+      localStorage.setItem('plans', JSON.stringify(updatedPlans));
+      setPlans(updatedPlans);
+      setSelectedPlan(newPlan);
+      toast({
+        title: "Sucesso",
+        description: "Plano criado com sucesso!",
+      });
     } catch (error) {
       console.error("Error adding plan:", error);
       toast({
@@ -86,14 +71,9 @@ const PlansConfig = () => {
 
   const handleUpdatePlan = async (updatedPlan: Plan) => {
     try {
-      const { error } = await supabase
-        .from("plans")
-        .update(planToSupabasePlan(updatedPlan))
-        .eq("id", updatedPlan.id);
-
-      if (error) throw error;
-
-      setPlans(plans.map(p => p.id === updatedPlan.id ? updatedPlan : p));
+      const updatedPlans = plans.map(p => p.id === updatedPlan.id ? updatedPlan : p);
+      localStorage.setItem('plans', JSON.stringify(updatedPlans));
+      setPlans(updatedPlans);
       toast({
         title: "Sucesso",
         description: "Plano atualizado com sucesso!",
@@ -110,14 +90,9 @@ const PlansConfig = () => {
 
   const handleDeletePlan = async (planId: string) => {
     try {
-      const { error } = await supabase
-        .from("plans")
-        .delete()
-        .eq("id", planId);
-
-      if (error) throw error;
-
-      setPlans(plans.filter(p => p.id !== planId));
+      const updatedPlans = plans.filter(p => p.id !== planId);
+      localStorage.setItem('plans', JSON.stringify(updatedPlans));
+      setPlans(updatedPlans);
       if (selectedPlan?.id === planId) {
         setSelectedPlan(null);
       }
