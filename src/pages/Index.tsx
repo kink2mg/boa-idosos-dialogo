@@ -2,9 +2,28 @@ import Navbar from "@/components/Navbar";
 import PlanCard from "@/components/PlanCard";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Index = () => {
-  const plans = [
+  const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+    // Fetch plans from localStorage
+    const storedPlans = localStorage.getItem('plans');
+    console.log('Stored plans:', storedPlans); // Debug log
+    if (storedPlans) {
+      try {
+        const parsedPlans = JSON.parse(storedPlans);
+        console.log('Parsed plans:', parsedPlans); // Debug log
+        setPlans(parsedPlans);
+      } catch (error) {
+        console.error('Error parsing plans:', error);
+      }
+    }
+  }, []);
+
+  // Fallback plans if no plans are found in localStorage
+  const defaultPlans = [
     {
       title: "NET PÓS",
       category: "Plano Premium",
@@ -35,16 +54,18 @@ const Index = () => {
     }
   ];
 
+  const displayPlans = plans.length > 0 ? plans : defaultPlans;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
       <Navbar />
       
       <main className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          {displayPlans.map((plan, index) => (
             <PlanCard 
-              key={index} 
-              {...plan} 
+              key={index}
+              {...plan}
               isPopular={index === 0}
               className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
               buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
