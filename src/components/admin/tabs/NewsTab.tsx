@@ -14,6 +14,7 @@ interface NewsItem {
   image: string;
   videoUrl?: string;
   category: string;
+  sendNotification: boolean;
 }
 
 export const NewsTab = () => {

@@ -15,4 +15,5 @@ export interface Plan {
   sales_count: number;
   created_at: string;
   updated_at: string;
+  sendNotification?: boolean;
 }

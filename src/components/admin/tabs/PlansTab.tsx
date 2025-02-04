@@ -11,12 +11,14 @@ export const PlansTab = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [showPlanForm, setShowPlanForm] = useState(false);
 
-  const handleAddPlan = (newPlan: Omit<Plan, "id" | "created_at" | "updated_at">) => {
+  const handleAddPlan = (newPlan: Omit<Plan, "id">) => {
     const plan: Plan = {
       ...newPlan,
       id: String(plans.length + 1),
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
+      is_popular: newPlan.is_popular || false,
+      sales_count: newPlan.sales_count || 0
     };
     setPlans([...plans, plan]);
     setShowPlanForm(false);
