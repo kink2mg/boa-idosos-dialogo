@@ -58,8 +58,10 @@ const Index = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-lg text-gray-600">
-              Nenhum Plano cadastrado ainda<br />
+            <h2 className="text-2xl font-semibold text-gray-600">
+              Nenhum Plano cadastrado ainda
+            </h2>
+            <p className="text-gray-500 mt-2">
               Os Planos serão exibidos aqui após serem adicionados pelo painel administrativo
             </p>
           </div>
