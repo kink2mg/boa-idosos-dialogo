@@ -1,17 +1,57 @@
 import { Menu, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+interface NavbarSettings {
+  whatsappNumber: string;
+  whatsappMessage: string;
+  instagramUser: string;
+  facebookUser: string;
+  welcomeMessages: {
+    greeting: string;
+    brandName: string;
+    tagline: string;
+  };
+  menuLabels: {
+    plans: string;
+    accessories: string;
+    news: string;
+    brand: string;
+    share: string;
+  };
+}
+
+const defaultSettings: NavbarSettings = {
+  whatsappNumber: "5538998622897",
+  whatsappMessage: "Olá! Gostaria de saber mais sobre os planos.",
+  instagramUser: "m.vinizxxp1",
+  facebookUser: "marcosviniciusmg03",
+  welcomeMessages: {
+    greeting: "👋 Bem-vindo(a) à",
+    brandName: "NETMAX",
+    tagline: "Conectando você ao melhor da internet! 🚀"
+  },
+  menuLabels: {
+    plans: "PLANOS",
+    accessories: "ACESSÓRIOS",
+    news: "NOTÍCIAS",
+    brand: "NETMAX",
+    share: "Compartilhar"
+  }
+};
 
 const Navbar = () => {
-  const whatsappNumber = "5538998622897";
-  const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const [settings, setSettings] = useState<NavbarSettings>(defaultSettings);
 
-  const facebookUser = "marcosviniciusmg03";
-  const facebookUrl = `https://www.facebook.com/${facebookUser}`;
-
-  const instagramUser = "m.vinizxxp1";
-  const instagramUrl = `https://www.instagram.com/${instagramUser}`;
+  useEffect(() => {
+    const storedSettings = localStorage.getItem('navbar_settings');
+    if (storedSettings) {
+      setSettings(JSON.parse(storedSettings));
+    } else {
+      localStorage.setItem('navbar_settings', JSON.stringify(defaultSettings));
+    }
+  }, []);
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -29,6 +69,10 @@ const Navbar = () => {
     }
   };
 
+  const whatsappUrl = `https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(settings.whatsappMessage)}`;
+  const facebookUrl = `https://www.facebook.com/${settings.facebookUser}`;
+  const instagramUrl = `https://www.instagram.com/${settings.instagramUser}`;
+
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-4">
@@ -37,7 +81,7 @@ const Navbar = () => {
             <Button variant="ghost" className="text-gray-700 lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
-            <Link to="/" className="text-orange-500 text-2xl font-bold">NETMAX</Link>
+            <Link to="/" className="text-orange-500 text-2xl font-bold">{settings.menuLabels.brand}</Link>
           </div>
           
           <div className="flex items-center space-x-4">
@@ -61,14 +105,13 @@ const Navbar = () => {
               </Button>
             </a>
 
-            {/* Botão de Compartilhar (laranja) */}
             <Button 
               variant="secondary" 
               className="bg-orange-500 text-white hover:bg-orange-600 border-none flex items-center gap-2"
               onClick={handleShare}
             >
               <Share2 className="w-5 h-5" />
-              Compartilhar
+              {settings.menuLabels.share}
             </Button>
           </div>
         </div>
@@ -79,7 +122,7 @@ const Navbar = () => {
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
             >
-              PLANOS
+              {settings.menuLabels.plans}
             </Button>
           </Link>
           <Link to="/accessories">
@@ -87,7 +130,7 @@ const Navbar = () => {
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
             >
-              ACESSÓRIOS
+              {settings.menuLabels.accessories}
             </Button>
           </Link>
           <Link to="/news">
@@ -95,7 +138,7 @@ const Navbar = () => {
               variant="ghost" 
               className="text-white bg-orange-500 px-4 py-2 rounded-lg shadow-md hover:bg-orange-600 transition"
             >
-              NOTÍCIAS
+              {settings.menuLabels.news}
             </Button>
           </Link>
         </div>
@@ -103,9 +146,9 @@ const Navbar = () => {
         <div className="mt-4 flex justify-center">
           <div className="bg-gray-100 p-4 rounded-lg shadow-md text-center w-full max-w-md">
             <p className="text-lg font-semibold text-gray-700">
-              👋 Bem-vindo(a) à <span className="font-bold text-orange-500">NETMAX</span>!
+              {settings.welcomeMessages.greeting} <span className="font-bold text-orange-500">{settings.welcomeMessages.brandName}</span>
             </p>
-            <p className="text-gray-600">Conectando você ao melhor da internet! 🚀</p>
+            <p className="text-gray-600">{settings.welcomeMessages.tagline}</p>
           </div>
         </div>
       </div>
