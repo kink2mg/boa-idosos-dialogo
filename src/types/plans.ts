@@ -12,7 +12,9 @@ export interface Plan {
   price: number;
   mega: number;
   features: PlanFeature[];
-  salesCount?: number;
+  image_url?: string;
+  is_popular: boolean;
+  sales_count: number;
   created_at: string;
   updated_at: string;
 }
@@ -24,19 +26,25 @@ export interface SupabasePlan {
   price: number;
   mega: number;
   features: Json;
+  image_url?: string;
+  is_popular: boolean;
   sales_count: number;
   created_at: string;
   updated_at: string;
 }
 
 export const supabasePlanToPlan = (plan: SupabasePlan): Plan => ({
-  id: plan.id,
+  ...plan,
+  features: plan.features as unknown as PlanFeature[]
+});
+
+export const planToSupabasePlan = (plan: Plan): Omit<SupabasePlan, 'id' | 'created_at' | 'updated_at'> => ({
   title: plan.title,
   category: plan.category,
   price: plan.price,
   mega: plan.mega,
-  features: plan.features as unknown as PlanFeature[],
-  salesCount: plan.sales_count,
-  created_at: plan.created_at,
-  updated_at: plan.updated_at
+  features: plan.features as unknown as Json,
+  image_url: plan.image_url,
+  is_popular: plan.is_popular,
+  sales_count: plan.sales_count
 });
