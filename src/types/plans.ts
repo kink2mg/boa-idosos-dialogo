@@ -1,4 +1,3 @@
-
 import { Json } from "@/integrations/supabase/types";
 
 export interface PlanFeature {
@@ -36,7 +35,7 @@ export interface SupabasePlan {
 
 export const supabasePlanToPlan = (plan: SupabasePlan): Plan => ({
   ...plan,
-  features: plan.features as PlanFeature[] || []
+  features: plan.features as unknown as PlanFeature[]
 });
 
 export const planToSupabasePlan = (plan: Plan): Omit<SupabasePlan, 'id' | 'created_at' | 'updated_at'> => ({

@@ -1,30 +1,45 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Package, Trash, Edit } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import AccessoryForm from "../AccessoryForm";
-import { useAccessories, Accessory } from "@/hooks/useAccessories";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+
+interface Accessory {
+  id: number;
+  nome: string;
+  preco: number;
+  precoAntigo?: number;
+  descricao: string;
+  imagem: string;
+  videoUrl?: string;
+  categoria: string;
+  emPromocao: boolean;
+  quantidadeVendas: number;
+}
 
 export const AccessoriesTab = () => {
   const { toast } = useToast();
-  const { accessories, addAccessory, deleteAccessory, isLoading } = useAccessories();
+  const [accessories, setAccessories] = useState<Accessory[]>([]);
   const [showAccessoryForm, setShowAccessoryForm] = useState(false);
 
-  const handleAddAccessory = async (newAccessory: Omit<Accessory, "id" | "created_at" | "updated_at">) => {
-    try {
-      await addAccessory(newAccessory);
-      setShowAccessoryForm(false);
-    } catch (error) {
-      console.error("Error in handleAddAccessory:", error);
-    }
+  const handleAddAccessory = (newAccessory: Omit<Accessory, "id">) => {
+    const accessory = { ...newAccessory, id: accessories.length + 1 };
+    setAccessories([...accessories, accessory]);
+    setShowAccessoryForm(false);
+    toast({
+      title: "Sucesso",
+      description: "Acessório adicionado com sucesso!"
+    });
   };
 
-  if (isLoading) {
-    return <LoadingSkeleton />;
-  }
+  const handleDeleteAccessory = (id: number) => {
+    setAccessories(accessories.filter(acc => acc.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Acessório removido com sucesso!"
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -55,9 +70,9 @@ export const AccessoriesTab = () => {
                   <span className="font-bold">
                     R$ {accessory.preco.toFixed(2)}
                   </span>
-                  {accessory.preco_antigo && (
+                  {accessory.precoAntigo && (
                     <span className="text-gray-500 line-through ml-2">
-                      R$ {accessory.preco_antigo.toFixed(2)}
+                      R$ {accessory.precoAntigo.toFixed(2)}
                     </span>
                   )}
                 </div>
@@ -69,7 +84,7 @@ export const AccessoriesTab = () => {
                 <Button 
                   variant="destructive" 
                   size="icon"
-                  onClick={() => deleteAccessory(accessory.id)}
+                  onClick={() => handleDeleteAccessory(accessory.id)}
                 >
                   <Trash className="w-4 h-4" />
                 </Button>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 interface NewsItem {
   id: string;
@@ -15,7 +14,6 @@ interface NewsItem {
 export const useNews = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchNews();
@@ -41,19 +39,14 @@ export const useNews = () => {
       }));
 
       setNews(formattedNews);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching news:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar as notícias.",
-        variant: "destructive",
-      });
-    } finally {
       setIsLoading(false);
     }
   };
 
-  const addNews = async (newNews: Omit<NewsItem, "id" | "date">) => {
+  const addNews = async (newNews: Omit<NewsItem, "id">) => {
     try {
       const { data, error } = await supabase
         .from("news")
@@ -80,18 +73,9 @@ export const useNews = () => {
       };
 
       setNews([formattedNews, ...news]);
-      toast({
-        title: "Sucesso",
-        description: "Notícia adicionada com sucesso!",
-      });
       return formattedNews;
     } catch (error) {
       console.error("Error adding news:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível adicionar a notícia.",
-        variant: "destructive",
-      });
       throw error;
     }
   };
@@ -114,18 +98,8 @@ export const useNews = () => {
       setNews(news.map(item => 
         item.id === updatedNews.id ? updatedNews : item
       ));
-      
-      toast({
-        title: "Sucesso",
-        description: "Notícia atualizada com sucesso!",
-      });
     } catch (error) {
       console.error("Error updating news:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível atualizar a notícia.",
-        variant: "destructive",
-      });
       throw error;
     }
   };
@@ -140,17 +114,8 @@ export const useNews = () => {
       if (error) throw error;
 
       setNews(news.filter(item => item.id !== id));
-      toast({
-        title: "Sucesso",
-        description: "Notícia removida com sucesso!",
-      });
     } catch (error) {
       console.error("Error deleting news:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível remover a notícia.",
-        variant: "destructive",
-      });
       throw error;
     }
   };

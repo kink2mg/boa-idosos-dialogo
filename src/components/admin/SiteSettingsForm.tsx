@@ -33,28 +33,20 @@ const SiteSettingsForm = () => {
   const { toast } = useToast();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
 
   const fetchSettings = async () => {
     try {
-      console.log("Buscando configurações...");
       const { data, error } = await supabase
         .from("site_settings")
         .select("*")
         .maybeSingle();
 
-      if (error) {
-        console.error("Erro ao buscar configurações:", error);
-        throw error;
-      }
-
-      console.log("Dados recebidos:", data);
+      if (error) throw error;
 
       if (data) {
         const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
         setSettings(transformedData);
       } else {
-        console.log("Nenhuma configuração encontrada, criando padrão...");
         const defaultSettings = {
           theme_colors: defaultThemeColors,
           contact_info: defaultContactInfo,
@@ -66,10 +58,7 @@ const SiteSettingsForm = () => {
           .select()
           .single();
 
-        if (createError) {
-          console.error("Erro ao criar configurações padrão:", createError);
-          throw createError;
-        }
+        if (createError) throw createError;
 
         if (newSettings) {
           const transformedNewSettings = supabaseSettingsToSettings(newSettings as SupabaseSiteSettings);
@@ -96,36 +85,26 @@ const SiteSettingsForm = () => {
     e.preventDefault();
     if (!settings) return;
 
-    setSaving(true);
     try {
-      console.log("Salvando configurações:", settings);
-      const dataToSave = settingsToSupabaseSettings(settings);
-      console.log("Dados formatados para salvar:", dataToSave);
-
       const { error } = await supabase
         .from("site_settings")
-        .upsert(dataToSave)
+        .upsert(settingsToSupabaseSettings(settings))
         .select()
         .single();
 
-      if (error) {
-        console.error("Erro ao salvar configurações:", error);
-        throw error;
-      }
+      if (error) throw error;
 
       toast({
         title: "Sucesso",
         description: "Configurações atualizadas com sucesso!",
       });
     } catch (error) {
-      console.error("Erro detalhado ao salvar configurações:", error);
+      console.error("Erro ao salvar configurações:", error);
       toast({
         title: "Erro",
-        description: "Não foi possível salvar as configurações. Por favor, tente novamente.",
+        description: "Não foi possível salvar as configurações.",
         variant: "destructive",
       });
-    } finally {
-      setSaving(false);
     }
   };
 
@@ -163,8 +142,8 @@ const SiteSettingsForm = () => {
         />
       </Card>
 
-      <Button type="submit" className="w-full" disabled={saving}>
-        {saving ? "Salvando..." : "Salvar Configurações"}
+      <Button type="submit" className="w-full">
+        Salvar Configurações
       </Button>
     </form>
   );
