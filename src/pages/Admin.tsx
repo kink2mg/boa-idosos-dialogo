@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { Newspaper, Navigation, Settings, LogOut } from "lucide-react";
 import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
+import NavbarConfig from "@/components/admin/NavbarConfig";
+import { Toaster } from "@/components/ui/toaster";
 
 const Admin = () => {
   const { checkAuth, logout } = useAuth();
@@ -55,10 +57,16 @@ const Admin = () => {
           <NewsTab />
         </TabsContent>
 
+        <TabsContent value="navbar" className="space-y-4">
+          <NavbarConfig />
+        </TabsContent>
+
         <TabsContent value="settings" className="space-y-4">
           <SiteSettingsForm />
         </TabsContent>
       </Tabs>
+
+      <Toaster />
     </div>
   );
 };

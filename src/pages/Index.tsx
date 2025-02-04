@@ -40,21 +40,30 @@ const Index = () => {
       <Navbar />
       
       <main className="container mx-auto px-4 py-12" style={containerStyle}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan) => (
-            <PlanCard 
-              key={plan.id}
-              title={plan.title}
-              category={plan.category}
-              price={plan.price}
-              mega={plan.mega}
-              features={plan.features}
-              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName={`bg-[${settings?.theme_colors?.buttons}] hover:bg-opacity-90 text-white`}
-              salesCount={plan.sales_count}
-            />
-          ))}
-        </div>
+        {plans.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {plans.map((plan) => (
+              <PlanCard 
+                key={plan.id}
+                title={plan.title}
+                category={plan.category}
+                price={plan.price}
+                mega={plan.mega}
+                features={plan.features}
+                className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                buttonClassName={`bg-[${settings?.theme_colors?.buttons}] hover:bg-opacity-90 text-white`}
+                salesCount={plan.sales_count}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-lg text-gray-600">
+              Nenhum Plano cadastrado ainda<br />
+              Os Planos serão exibidos aqui após serem adicionados pelo painel administrativo
+            </p>
+          </div>
+        )}
       </main>
       
       <div className="fixed bottom-6 right-6 animate-bounce">

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 interface NavbarSettings {
   whatsappNumber: string;
@@ -26,30 +26,42 @@ interface NavbarSettings {
 
 const NavbarConfig = () => {
   const { toast } = useToast();
-  const [settings, setSettings] = useState<NavbarSettings>({
-    whatsappNumber: "5538998622897",
-    whatsappLink: "https://wa.me/5538998622897",
-    instagramUser: "m.vinizxxp1",
-    facebookUser: "marcosviniciusmg03",
-    welcomeMessages: {
-      greeting: "👋 Bem-vindo(a)",
-      brandName: "NETMAX!",
-      tagline: "Conectando você ao melhor da internet! 🚀"
-    },
-    menuLabels: {
-      plans: "PLANOS",
-      accessories: "ACESSÓRIOS",
-      news: "NOTÍCIAS",
-      brand: "Net",
-      share: "Compartilhar"
-    }
+  const [settings, setSettings] = useState<NavbarSettings>(() => {
+    const savedSettings = localStorage.getItem('navbar_settings');
+    return savedSettings ? JSON.parse(savedSettings) : {
+      whatsappNumber: "5538998622897",
+      whatsappLink: "https://wa.me/5538998622897",
+      instagramUser: "m.vinizxxp1",
+      facebookUser: "marcosviniciusmg03",
+      welcomeMessages: {
+        greeting: "👋 Bem-vindo(a)",
+        brandName: "NETMAX!",
+        tagline: "Conectando você ao melhor da internet! 🚀"
+      },
+      menuLabels: {
+        plans: "PLANOS",
+        accessories: "ACESSÓRIOS",
+        news: "NOTÍCIAS",
+        brand: "Net",
+        share: "Compartilhar"
+      }
+    };
   });
 
   const handleSave = () => {
-    toast({
-      title: "Configurações salvas",
-      description: "As alterações foram aplicadas com sucesso!"
-    });
+    try {
+      localStorage.setItem('navbar_settings', JSON.stringify(settings));
+      toast({
+        title: "Sucesso!",
+        description: "As configurações da navbar foram salvas com sucesso.",
+      });
+    } catch (error) {
+      toast({
+        title: "Erro",
+        description: "Não foi possível salvar as configurações.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
