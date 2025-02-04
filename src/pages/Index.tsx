@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import PlanCard from "@/components/PlanCard";
@@ -5,11 +6,43 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
+import { Plan, SupabasePlan, supabasePlanToPlan } from "@/types/plans";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("plans")
+          .select("*")
+          .order('created_at', { ascending: true });
+
+        if (error) {
+          throw error;
+        }
+
+        if (data) {
+          const formattedPlans = data.map((plan: SupabasePlan) => supabasePlanToPlan(plan));
+          setPlans(formattedPlans);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar planos:", error);
+        toast({
+          variant: "destructive",
+          title: "Erro",
+          description: "Não foi possível carregar os planos. Tente novamente mais tarde."
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const fetchSettings = async () => {
       const { data, error } = await supabase
         .from("site_settings")
@@ -23,36 +56,8 @@ const Index = () => {
     };
 
     fetchSettings();
-  }, []);
-
-  const plans = [
-    {
-      title: "NET FAMÍLIA",
-      category: "Plano Premium",
-      price: 50.99,
-      mega: 50,
-      sales: 1200,
-      features: [
-        { text: "Passaporte Américas para usar seu celular no exterior" },
-        { text: "GB para redes sociais e vídeos" },
-        { text: "WhatsApp ilimitado" },
-        { text: "Internet de uso livre" }
-      ]
-    },
-    {
-      title: "NET CONTROLE",
-      category: "Plano Essencial",
-      price: 100.99,
-      mega: 100,
-      sales: 800,
-      features: [
-        { text: "5G mais rápido do Brasil" },
-        { text: "Ligações ilimitadas" },
-        { text: "YouTube ilimitado" },
-        { text: "+2GB bônus todo mês" }
-      ]
-    }
-  ];
+    fetchPlans();
+  }, [toast]);
 
   const style = settings?.theme_colors ? {
     backgroundColor: settings.theme_colors.background,
@@ -69,18 +74,29 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-12" style={containerStyle}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {plans.map((plan, index) => (
-            <PlanCard 
-              key={index} 
-              {...plan} 
-              className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              buttonClassName={`bg-[${settings?.theme_colors.buttons}] hover:bg-opacity-90 text-white`}
-              salesText={plan.sales >= 1000 ? 
-                `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
-                `${plan.sales} vendas`}
-              salesCount={plan.sales}
-            />
-          ))}
+          {loading ? (
+            <>
+              <div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>
+              <div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>
+            </>
+          ) : plans.length > 0 ? (
+            plans.map((plan) => (
+              <PlanCard 
+                key={plan.id}
+                {...plan}
+                className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                buttonClassName={`bg-[${settings?.theme_colors.buttons}] hover:bg-opacity-90 text-white`}
+                salesText={plan.sales_count >= 1000 ? 
+                  `${(plan.sales_count/1000).toFixed(1).replace('.', ',')} mil vendas` : 
+                  `${plan.sales_count} vendas`}
+                salesCount={plan.sales_count}
+              />
+            ))
+          ) : (
+            <div className="col-span-2 text-center py-8">
+              <p className="text-gray-500">Nenhum plano encontrado.</p>
+            </div>
+          )}
         </div>
       </main>
       
