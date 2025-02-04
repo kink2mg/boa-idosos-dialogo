@@ -9,10 +9,10 @@ export interface ThemeColors {
 }
 
 export interface ContactInfo {
-  sales_number: string;
-  support_number: string;
-  sales_message: string;
-  support_message: string;
+  logo_url: string;
+  whatsapp: string;
+  share_text: string;
+  whatsapp_message: string;
 }
 
 export interface SiteSettings {

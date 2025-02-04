@@ -9,30 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      site_settings: {
-        Row: {
-          contact_info: Json | null
-          created_at: string | null
-          id: string
-          theme_colors: Json | null
-          updated_at: string | null
-        }
-        Insert: {
-          contact_info?: Json | null
-          created_at?: string | null
-          id?: string
-          theme_colors?: Json | null
-          updated_at?: string | null
-        }
-        Update: {
-          contact_info?: Json | null
-          created_at?: string | null
-          id?: string
-          theme_colors?: Json | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
