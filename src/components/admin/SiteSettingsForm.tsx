@@ -17,7 +17,9 @@ const defaultThemeColors = {
   buttons: "#DC2626",
   primary: "#DC2626",
   container: "#FFFFFF",
-  background: "#F3F4F6"
+  background: "#F3F4F6",
+  orangeButtons: "#F97316",
+  logo: "#F97316"
 };
 
 const defaultContactInfo = {
@@ -37,7 +39,7 @@ const SiteSettingsForm = () => {
       const { data, error } = await supabase
         .from("site_settings")
         .select("*")
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 
@@ -81,15 +83,14 @@ const SiteSettingsForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!settings?.id) return;
+    if (!settings) return;
 
     try {
-      const updateData = settingsToSupabaseSettings(settings);
-
       const { error } = await supabase
         .from("site_settings")
-        .update(updateData)
-        .eq("id", settings.id);
+        .upsert(settingsToSupabaseSettings(settings))
+        .select()
+        .single();
 
       if (error) throw error;
 
