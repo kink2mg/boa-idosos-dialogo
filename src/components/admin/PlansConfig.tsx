@@ -21,8 +21,11 @@ const PlansConfig = () => {
   const fetchPlans = () => {
     try {
       const storedPlans = localStorage.getItem('plans');
+      console.log('Fetching stored plans:', storedPlans); // Debug log
       if (storedPlans) {
-        setPlans(JSON.parse(storedPlans));
+        const parsedPlans = JSON.parse(storedPlans);
+        console.log('Parsed plans in admin:', parsedPlans); // Debug log
+        setPlans(parsedPlans);
       }
     } catch (error) {
       console.error("Error fetching plans:", error);
@@ -40,10 +43,14 @@ const PlansConfig = () => {
     const newPlan: Plan = {
       id: Date.now().toString(),
       title: "Novo Plano",
-      category: "",
-      price: 0,
-      mega: 0,
-      features: [],
+      category: "Internet",
+      price: 99.90,
+      mega: 100,
+      features: [
+        { text: "Wi-Fi Grátis" },
+        { text: "Instalação Grátis" },
+        { text: "Suporte 24h" }
+      ],
       is_popular: false,
       sales_count: 0,
       created_at: new Date().toISOString(),
@@ -53,6 +60,7 @@ const PlansConfig = () => {
     try {
       const updatedPlans = [newPlan, ...plans];
       localStorage.setItem('plans', JSON.stringify(updatedPlans));
+      console.log('Saving plans:', updatedPlans); // Debug log
       setPlans(updatedPlans);
       setSelectedPlan(newPlan);
       toast({

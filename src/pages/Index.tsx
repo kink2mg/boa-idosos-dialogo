@@ -1,8 +1,8 @@
-import Navbar from "@/components/Navbar";
 import PlanCard from "@/components/PlanCard";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import Navbar from "@/components/Navbar";
 
 const Index = () => {
   const [plans, setPlans] = useState([]);
@@ -10,11 +10,11 @@ const Index = () => {
   useEffect(() => {
     // Fetch plans from localStorage
     const storedPlans = localStorage.getItem('plans');
-    console.log('Stored plans:', storedPlans); // Debug log
+    console.log('Stored plans in Index:', storedPlans); // Debug log
     if (storedPlans) {
       try {
         const parsedPlans = JSON.parse(storedPlans);
-        console.log('Parsed plans:', parsedPlans); // Debug log
+        console.log('Parsed plans in Index:', parsedPlans); // Debug log
         setPlans(parsedPlans);
       } catch (error) {
         console.error('Error parsing plans:', error);
@@ -70,7 +70,7 @@ const Index = () => {
               className="transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
               buttonClassName="bg-orange-500 hover:bg-orange-600 text-white"
               salesText={plan.sales >= 1000 ? 
-                `${(plan.sales/1000).toFixed(1).replace('.', ',')} mil vendas` : 
+                `${(plan.sales/1000).toFixed(1).replace('.', ',')}k vendas` : 
                 `${plan.sales} vendas`}
             />
           ))}
