@@ -114,7 +114,7 @@ export const NewsTab = () => {
                 <Button 
                   variant="outline" 
                   size="icon"
-                  onClick={() => setEditingNews({...item, sendNotification: item.sendNotification || false})}
+                  onClick={() => setEditingNews(item)}
                 >
                   <Edit className="w-4 h-4" />
                 </Button>
