@@ -4,42 +4,12 @@ import { AccessoriesTab } from "@/components/admin/tabs/AccessoriesTab";
 import { NewsTab } from "@/components/admin/tabs/NewsTab";
 import NavbarConfig from "@/components/admin/NavbarConfig";
 import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
-import { Newspaper, Navigation, Settings, Database } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { populateDatabase } from "@/utils/populateDatabase";
+import { Newspaper, Navigation, Settings } from "lucide-react";
 
 const Admin = () => {
-  const { toast } = useToast();
-
-  const handlePopulateDatabase = async () => {
-    const result = await populateDatabase();
-    if (result.success) {
-      toast({
-        title: "Sucesso",
-        description: "Dados de exemplo adicionados com sucesso!"
-      });
-    } else {
-      toast({
-        title: "Erro",
-        description: "Erro ao adicionar dados de exemplo.",
-        variant: "destructive"
-      });
-    }
-  };
-
   return (
     <div className="container mx-auto p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Painel Administrativo</h1>
-        <Button 
-          onClick={handlePopulateDatabase}
-          className="flex items-center gap-2"
-        >
-          <Database className="w-4 h-4" />
-          Adicionar Dados de Exemplo
-        </Button>
-      </div>
+      <h1 className="text-2xl font-bold mb-6">Painel Administrativo</h1>
       
       <Tabs defaultValue="plans" className="space-y-4">
         <TabsList className="grid grid-cols-5 gap-4">

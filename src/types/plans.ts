@@ -15,8 +15,8 @@ export interface Plan {
   image_url?: string;
   is_popular: boolean;
   sales_count: number;
-  created_at?: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface SupabasePlan {
@@ -29,8 +29,8 @@ export interface SupabasePlan {
   image_url?: string;
   is_popular: boolean;
   sales_count: number;
-  created_at?: string;
-  updated_at?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export const supabasePlanToPlan = (plan: SupabasePlan): Plan => ({

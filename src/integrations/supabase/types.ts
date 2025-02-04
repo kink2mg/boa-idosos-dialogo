@@ -9,164 +9,26 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      accessories: {
-        Row: {
-          categoria: string
-          created_at: string | null
-          descricao: string
-          em_promocao: boolean | null
-          id: string
-          imagem: string
-          nome: string
-          preco: number
-          preco_antigo: number | null
-          quantidade_vendas: number | null
-          updated_at: string | null
-        }
-        Insert: {
-          categoria: string
-          created_at?: string | null
-          descricao: string
-          em_promocao?: boolean | null
-          id?: string
-          imagem: string
-          nome: string
-          preco: number
-          preco_antigo?: number | null
-          quantidade_vendas?: number | null
-          updated_at?: string | null
-        }
-        Update: {
-          categoria?: string
-          created_at?: string | null
-          descricao?: string
-          em_promocao?: boolean | null
-          id?: string
-          imagem?: string
-          nome?: string
-          preco?: number
-          preco_antigo?: number | null
-          quantidade_vendas?: number | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      navbar_settings: {
-        Row: {
-          created_at: string | null
-          id: string
-          settings: Json
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          settings?: Json
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          settings?: Json
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      news: {
-        Row: {
-          category: string | null
-          content: string
-          created_at: string | null
-          id: string
-          image_url: string | null
-          title: string
-          updated_at: string | null
-          video_url: string | null
-        }
-        Insert: {
-          category?: string | null
-          content: string
-          created_at?: string | null
-          id?: string
-          image_url?: string | null
-          title: string
-          updated_at?: string | null
-          video_url?: string | null
-        }
-        Update: {
-          category?: string | null
-          content?: string
-          created_at?: string | null
-          id?: string
-          image_url?: string | null
-          title?: string
-          updated_at?: string | null
-          video_url?: string | null
-        }
-        Relationships: []
-      }
-      plans: {
-        Row: {
-          category: string
-          created_at: string | null
-          features: Json | null
-          id: string
-          image_url: string | null
-          is_popular: boolean | null
-          mega: number
-          price: number
-          sales_count: number | null
-          title: string
-          updated_at: string | null
-        }
-        Insert: {
-          category: string
-          created_at?: string | null
-          features?: Json | null
-          id?: string
-          image_url?: string | null
-          is_popular?: boolean | null
-          mega: number
-          price: number
-          sales_count?: number | null
-          title: string
-          updated_at?: string | null
-        }
-        Update: {
-          category?: string
-          created_at?: string | null
-          features?: Json | null
-          id?: string
-          image_url?: string | null
-          is_popular?: boolean | null
-          mega?: number
-          price?: number
-          sales_count?: number | null
-          title?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
       site_settings: {
         Row: {
-          contact_info: Json
+          contact_info: Json | null
           created_at: string | null
           id: string
-          theme_colors: Json
+          theme_colors: Json | null
           updated_at: string | null
         }
         Insert: {
-          contact_info?: Json
+          contact_info?: Json | null
           created_at?: string | null
           id?: string
-          theme_colors?: Json
+          theme_colors?: Json | null
           updated_at?: string | null
         }
         Update: {
-          contact_info?: Json
+          contact_info?: Json | null
           created_at?: string | null
           id?: string
-          theme_colors?: Json
+          theme_colors?: Json | null
           updated_at?: string | null
         }
         Relationships: []

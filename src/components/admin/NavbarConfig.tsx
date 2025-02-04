@@ -1,11 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { NavbarSettings, supabaseNavbarToSettings, settingsToSupabaseNavbar } from "@/types/navbar-settings";
+import { useToast } from "@/components/ui/use-toast";
+
+interface NavbarSettings {
+  whatsappNumber: string;
+  whatsappLink: string;
+  instagramUser: string;
+  facebookUser: string;
+  welcomeMessages: {
+    greeting: string;
+    brandName: string;
+    tagline: string;
+  };
+  menuLabels: {
+    plans: string;
+    accessories: string;
+    news: string;
+    brand: string;
+    share: string;
+  };
+}
 
 const NavbarConfig = () => {
   const { toast } = useToast();
@@ -28,52 +45,11 @@ const NavbarConfig = () => {
     }
   });
 
-  useEffect(() => {
-    loadSettings();
-  }, []);
-
-  const loadSettings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("navbar_settings")
-        .select("*")
-        .single();
-
-      if (error) throw error;
-
-      if (data) {
-        setSettings(supabaseNavbarToSettings(data));
-      }
-    } catch (error) {
-      console.error("Erro ao carregar configurações:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível carregar as configurações da navbar",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleSave = async () => {
-    try {
-      const { error } = await supabase
-        .from("navbar_settings")
-        .upsert(settingsToSupabaseNavbar(settings));
-
-      if (error) throw error;
-
-      toast({
-        title: "Sucesso",
-        description: "Configurações da navbar salvas com sucesso!"
-      });
-    } catch (error) {
-      console.error("Erro ao salvar configurações:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível salvar as configurações",
-        variant: "destructive",
-      });
-    }
+  const handleSave = () => {
+    toast({
+      title: "Configurações salvas",
+      description: "As alterações foram aplicadas com sucesso!"
+    });
   };
 
   return (
@@ -88,8 +64,7 @@ const NavbarConfig = () => {
               value={settings.whatsappNumber}
               onChange={(e) => setSettings(prev => ({
                 ...prev,
-                whatsappNumber: e.target.value,
-                whatsappLink: `https://wa.me/${e.target.value}`
+                whatsappNumber: e.target.value
               }))}
             />
           </div>
