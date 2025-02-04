@@ -1,11 +1,33 @@
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { type SiteSettings, type SupabaseSiteSettings, supabaseSettingsToSettings } from "@/types/site-settings";
+import { supabase } from "@/integrations/supabase/client";
 
 const Navbar = () => {
-  const whatsappNumber = "5511999999999"; // This would come from your admin settings
-  const whatsappMessage = "Olá! Gostaria de saber mais sobre os planos.";
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data, error } = await supabase
+        .from("site_settings")
+        .select("*")
+        .single();
+
+      if (!error && data) {
+        const transformedData = supabaseSettingsToSettings(data as SupabaseSiteSettings);
+        setSettings(transformedData);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+  const whatsappNumber = settings?.contact_info.sales_number || "5511999999999";
+  const whatsappMessage = settings?.contact_info.sales_message || "Olá! Gostaria de saber mais sobre os planos.";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const logoText = settings?.contact_info.logo_text || "Net";
 
   return (
     <nav className="bg-primary">
@@ -15,7 +37,7 @@ const Navbar = () => {
             <Button variant="ghost" className="text-white lg:hidden">
               <Menu className="w-6 h-6" />
             </Button>
-            <Link to="/" className="text-white text-2xl font-bold">Net</Link>
+            <Link to="/" className="text-white text-2xl font-bold">{logoText}</Link>
           </div>
           
           <div className="flex items-center space-x-4">
