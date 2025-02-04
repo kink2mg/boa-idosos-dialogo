@@ -30,9 +30,11 @@ export interface SupabaseNavbarSettings {
   updated_at?: string;
 }
 
-export const supabaseNavbarToSettings = (data: SupabaseNavbarSettings): NavbarSettings => 
-  data.settings as NavbarSettings;
+export const supabaseNavbarToSettings = (data: SupabaseNavbarSettings): NavbarSettings => {
+  const settings = data.settings as unknown as NavbarSettings;
+  return settings;
+};
 
 export const settingsToSupabaseNavbar = (settings: NavbarSettings): Partial<SupabaseNavbarSettings> => ({
-  settings: settings as Json
+  settings: settings as unknown as Json
 });

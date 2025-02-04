@@ -31,11 +31,11 @@ export interface SupabaseSiteSettings {
 }
 
 export const supabaseSettingsToSettings = (data: SupabaseSiteSettings): SiteSettings => ({
-  theme_colors: data.theme_colors as ThemeColors,
-  contact_info: data.contact_info as ContactInfo
+  theme_colors: data.theme_colors as unknown as ThemeColors,
+  contact_info: data.contact_info as unknown as ContactInfo
 });
 
 export const settingsToSupabaseSettings = (settings: SiteSettings): Partial<SupabaseSiteSettings> => ({
-  theme_colors: settings.theme_colors as Json,
-  contact_info: settings.contact_info as Json
+  theme_colors: settings.theme_colors as unknown as Json,
+  contact_info: settings.contact_info as unknown as Json
 });
