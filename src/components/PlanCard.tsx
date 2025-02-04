@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Check, Info } from "lucide-react";
+import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePlanFormatter } from "@/hooks/usePlanFormatter";
 import LoadingSkeleton from "./LoadingSkeleton";
@@ -16,8 +16,6 @@ type PlanProps = {
   price: number;
   features: PlanFeature[];
   mega?: number;
-  image?: string;
-  isPopular?: boolean;
   salesCount?: number;
   isLoading?: boolean;
   buttonVariant?: 'default' | 'orange' | 'premium';
@@ -32,8 +30,6 @@ const PlanCard = ({
   price,
   features,
   mega,
-  image,
-  isPopular = false,
   salesCount,
   isLoading = false,
   buttonVariant = 'orange',
@@ -53,7 +49,7 @@ const PlanCard = ({
     return <LoadingSkeleton />;
   }
 
-  const whatsappNumber = "5538998622897"; // This would come from your admin settings
+  const whatsappNumber = "5538998622897";
   const whatsappMessage = `Olá! Gostaria de contratar o plano ${title} de ${mega} Mega por ${formatPrice(price)}/mês.`;
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
@@ -73,23 +69,7 @@ const PlanCard = ({
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mt-1">{title}</h3>
             </div>
-            {isPopular && (
-              <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                Popular
-              </span>
-            )}
           </div>
-
-          {image && (
-            <div className="mb-4 relative">
-              <img
-                src={image}
-                alt={`Ilustração do plano ${title}`}
-                className="w-full rounded-lg object-cover h-48"
-                loading="lazy"
-              />
-            </div>
-          )}
 
           {mega && (
             <div className="text-primary text-4xl font-bold mb-4">
@@ -103,9 +83,6 @@ const PlanCard = ({
                 <Check className="w-5 h-5 text-primary mr-2 flex-shrink-0" />
                 <span className="text-gray-600 relative">
                   {feature.text}
-                  {feature.info && (
-                    <Info className="w-4 h-4 ml-2 text-gray-400 inline-block cursor-help" />
-                  )}
                 </span>
               </li>
             ))}
@@ -137,15 +114,6 @@ const PlanCard = ({
               </div>
             )}
           </div>
-
-          {isPopular && (
-            <div className="mt-4 pt-4 border-t">
-              <div className="flex items-center text-sm text-green-600">
-                <Check className="w-4 h-4 mr-1" />
-                <span>30 dias de garantia</span>
-              </div>
-            </div>
-          )}
         </div>
       </Card>
     </motion.div>
