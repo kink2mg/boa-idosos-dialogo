@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Package, Trash, Edit } from "lucide-react";
@@ -20,27 +19,64 @@ interface Accessory {
 
 export const AccessoriesTab = () => {
   const { toast } = useToast();
-  const [accessories, setAccessories] = useState<Accessory[]>([]);
+  const [accessories, setAccessories] = useState<Accessory[]>([
+    {
+      id: 1,
+      nome: "Roteador Wi-Fi 6",
+      preco: 399.90,
+      descricao: "Roteador de última geração com tecnologia Wi-Fi 6",
+      imagem: "https://exemplo.com/roteador.jpg",
+      categoria: "Roteadores",
+      emPromocao: false,
+      quantidadeVendas: 75
+    },
+    {
+      id: 2,
+      nome: "Repetidor Wi-Fi",
+      preco: 149.90,
+      precoAntigo: 199.90,
+      descricao: "Amplificador de sinal Wi-Fi para maior cobertura",
+      imagem: "https://exemplo.com/repetidor.jpg",
+      categoria: "Roteadores",
+      emPromocao: true,
+      quantidadeVendas: 120
+    },
+    {
+      id: 3,
+      nome: "Cabo de Rede 5m",
+      preco: 29.90,
+      descricao: "Cabo de rede Cat6 blindado de 5 metros",
+      imagem: "https://exemplo.com/cabo.jpg",
+      categoria: "Cabos",
+      emPromocao: false,
+      quantidadeVendas: 200
+    },
+    {
+      id: 4,
+      nome: "Switch 8 Portas",
+      preco: 89.90,
+      descricao: "Switch gigabit com 8 portas",
+      imagem: "https://exemplo.com/switch.jpg",
+      categoria: "Switches",
+      emPromocao: false,
+      quantidadeVendas: 45
+    },
+    {
+      id: 5,
+      nome: "Kit Ferramentas",
+      preco: 59.90,
+      precoAntigo: 79.90,
+      descricao: "Kit completo de ferramentas para instalação de rede",
+      imagem: "https://exemplo.com/ferramentas.jpg",
+      categoria: "Ferramentas",
+      emPromocao: true,
+      quantidadeVendas: 90
+    }
+  ]);
   const [showAccessoryForm, setShowAccessoryForm] = useState(false);
 
-  useEffect(() => {
-    const storedAccessories = localStorage.getItem('accessories');
-    if (storedAccessories) {
-      try {
-        setAccessories(JSON.parse(storedAccessories));
-      } catch (error) {
-        console.error("Erro ao carregar acessórios:", error);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('accessories', JSON.stringify(accessories));
-    console.log("Acessórios salvos no localStorage:", accessories);
-  }, [accessories]);
-
   const handleAddAccessory = (newAccessory: Omit<Accessory, "id">) => {
-    const accessory = { ...newAccessory, id: Date.now() };
+    const accessory = { ...newAccessory, id: accessories.length + 1 };
     setAccessories([...accessories, accessory]);
     setShowAccessoryForm(false);
     toast({
