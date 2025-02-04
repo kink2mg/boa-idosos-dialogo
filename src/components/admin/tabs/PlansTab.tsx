@@ -15,8 +15,8 @@ export const PlansTab = () => {
     const plan: Plan = {
       ...newPlan,
       id: String(plans.length + 1),
-      is_popular: newPlan.isPopular || false,
-      sales_count: newPlan.salesCount || 0,
+      is_popular: newPlan.is_popular || false,
+      sales_count: newPlan.sales_count || 0,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
     };
