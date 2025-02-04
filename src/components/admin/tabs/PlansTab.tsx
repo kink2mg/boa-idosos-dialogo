@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Package, Trash, Edit } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import PlanForm from "../PlanForm";
 import { Plan } from "@/types/plans";
 
