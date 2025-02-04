@@ -13,7 +13,6 @@ interface Accessory {
   precoAntigo?: number;
   descricao: string;
   imagem: string;
-  videoUrl?: string;
   categoria: string;
   emPromocao: boolean;
   quantidadeVendas: number;
@@ -26,16 +25,16 @@ interface AccessoryFormProps {
 
 const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
   const { toast } = useToast();
+  const [showOldPrice, setShowOldPrice] = useState(false);
   const [accessory, setAccessory] = useState<Omit<Accessory, "id">>({
     nome: "",
-    preco: 0,
-    precoAntigo: 0,
+    preco: undefined as any,
+    precoAntigo: undefined,
     descricao: "",
     imagem: "",
-    videoUrl: "",
     categoria: "",
     emPromocao: false,
-    quantidadeVendas: 0,
+    quantidadeVendas: undefined as any,
     enviarNotificacao: false
   });
 
@@ -86,20 +85,29 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
             id="preco"
             type="number"
             step="0.01"
-            value={accessory.preco}
+            value={accessory.preco || ""}
             onChange={(e) => setAccessory(prev => ({ ...prev, preco: Number(e.target.value) }))}
             required
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="precoAntigo">Preço Antigo (R$)</Label>
-          <Input
-            id="precoAntigo"
-            type="number"
-            step="0.01"
-            value={accessory.precoAntigo}
-            onChange={(e) => setAccessory(prev => ({ ...prev, precoAntigo: Number(e.target.value) }))}
-          />
+          <div className="flex items-center justify-between mb-2">
+            <Label htmlFor="showOldPrice">Mostrar Preço Antigo</Label>
+            <Switch
+              id="showOldPrice"
+              checked={showOldPrice}
+              onCheckedChange={setShowOldPrice}
+            />
+          </div>
+          {showOldPrice && (
+            <Input
+              id="precoAntigo"
+              type="number"
+              step="0.01"
+              value={accessory.precoAntigo || ""}
+              onChange={(e) => setAccessory(prev => ({ ...prev, precoAntigo: Number(e.target.value) }))}
+            />
+          )}
         </div>
       </div>
 
@@ -123,17 +131,6 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
           onChange={(e) => setAccessory(prev => ({ ...prev, imagem: e.target.value }))}
           placeholder="https://exemplo.com/imagem.jpg"
           required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="videoUrl">URL do Vídeo (YouTube)</Label>
-        <Input
-          id="videoUrl"
-          type="url"
-          value={accessory.videoUrl}
-          onChange={(e) => setAccessory(prev => ({ ...prev, videoUrl: e.target.value }))}
-          placeholder="https://youtube.com/watch?v=..."
         />
       </div>
 
@@ -161,7 +158,7 @@ const AccessoryForm = ({ onSubmit }: AccessoryFormProps) => {
         <Input
           id="quantidadeVendas"
           type="number"
-          value={accessory.quantidadeVendas}
+          value={accessory.quantidadeVendas || ""}
           onChange={(e) => setAccessory(prev => ({ ...prev, quantidadeVendas: Number(e.target.value) }))}
         />
       </div>

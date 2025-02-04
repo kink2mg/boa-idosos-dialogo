@@ -20,12 +20,12 @@ interface Plan {
   mega: number;
   features: PlanFeature[];
   imageUrl?: string;
-  videoUrl?: string;
   is_popular: boolean;
   sales_count: number;
   description?: string;
   created_at: string;
   updated_at: string;
+  enviarNotificacao?: boolean;
 }
 
 interface PlanFormProps {
@@ -35,20 +35,21 @@ interface PlanFormProps {
 const PlanForm = ({ onSubmit }: PlanFormProps) => {
   const [features, setFeatures] = useState<PlanFeature[]>([]);
   const [newFeature, setNewFeature] = useState({ text: "", info: "" });
+  const [showOldPrice, setShowOldPrice] = useState(false);
   const [plan, setPlan] = useState<Omit<Plan, "id">>({
     title: "",
     category: "",
-    price: 0,
-    precoAntigo: 0,
-    mega: 0,
+    price: undefined as any,
+    precoAntigo: undefined,
+    mega: undefined as any,
     features: [],
     imageUrl: "",
-    videoUrl: "",
     is_popular: false,
-    sales_count: 0,
+    sales_count: undefined as any,
     description: "",
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString()
+    updated_at: new Date().toISOString(),
+    enviarNotificacao: false
   });
 
   const handleAddFeature = () => {
@@ -93,20 +94,29 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
             id="price"
             type="number"
             step="0.01"
-            value={plan.price}
+            value={plan.price || ""}
             onChange={(e) => setPlan(prev => ({ ...prev, price: Number(e.target.value) }))}
             required
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="oldPrice">Preço Antigo (R$)</Label>
-          <Input
-            id="oldPrice"
-            type="number"
-            step="0.01"
-            value={plan.precoAntigo}
-            onChange={(e) => setPlan(prev => ({ ...prev, precoAntigo: Number(e.target.value) }))}
-          />
+          <div className="flex items-center justify-between mb-2">
+            <Label htmlFor="showOldPrice">Mostrar Preço Antigo</Label>
+            <Switch
+              id="showOldPrice"
+              checked={showOldPrice}
+              onCheckedChange={setShowOldPrice}
+            />
+          </div>
+          {showOldPrice && (
+            <Input
+              id="precoAntigo"
+              type="number"
+              step="0.01"
+              value={plan.precoAntigo || ""}
+              onChange={(e) => setPlan(prev => ({ ...prev, precoAntigo: Number(e.target.value) }))}
+            />
+          )}
         </div>
       </div>
 
@@ -116,7 +126,7 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
           <Input
             id="mega"
             type="number"
-            value={plan.mega}
+            value={plan.mega || ""}
             onChange={(e) => setPlan(prev => ({ ...prev, mega: Number(e.target.value) }))}
             required
           />
@@ -126,7 +136,7 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
           <Input
             id="salesCount"
             type="number"
-            value={plan.sales_count}
+            value={plan.sales_count || ""}
             onChange={(e) => setPlan(prev => ({ ...prev, sales_count: Number(e.target.value) }))}
           />
         </div>
@@ -153,24 +163,23 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="videoUrl">URL do Vídeo (YouTube)</Label>
-        <Input
-          id="videoUrl"
-          type="url"
-          value={plan.videoUrl}
-          onChange={(e) => setPlan(prev => ({ ...prev, videoUrl: e.target.value }))}
-          placeholder="https://youtube.com/watch?v=..."
-        />
-      </div>
-
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="isPopular"
-          checked={plan.is_popular}
-          onCheckedChange={(checked) => setPlan(prev => ({ ...prev, is_popular: checked }))}
-        />
-        <Label htmlFor="isPopular">Plano Popular</Label>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="isPopular"
+            checked={plan.is_popular}
+            onCheckedChange={(checked) => setPlan(prev => ({ ...prev, is_popular: checked }))}
+          />
+          <Label htmlFor="isPopular">Plano Popular</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="enviarNotificacao"
+            checked={plan.enviarNotificacao}
+            onCheckedChange={(checked) => setPlan(prev => ({ ...prev, enviarNotificacao: checked }))}
+          />
+          <Label htmlFor="enviarNotificacao">Enviar notificação</Label>
+        </div>
       </div>
 
       <div className="space-y-2">
