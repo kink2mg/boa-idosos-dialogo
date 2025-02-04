@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 interface NewsItem {
-  id: string;
+  id: number;
   title: string;
   content: string;
   date: string;
@@ -15,11 +15,10 @@ interface NewsItem {
 }
 
 interface NewsFormProps {
-  onSubmit: (news: NewsItem | Omit<NewsItem, "id">) => void;
-  initialData?: NewsItem | null;
+  onSubmit: (news: Omit<NewsItem, "id">) => void;
 }
 
-const NewsForm = ({ onSubmit, initialData }: NewsFormProps) => {
+const NewsForm = ({ onSubmit }: NewsFormProps) => {
   const [news, setNews] = useState<Omit<NewsItem, "id">>({
     title: "",
     content: "",
@@ -29,15 +28,9 @@ const NewsForm = ({ onSubmit, initialData }: NewsFormProps) => {
     category: ""
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setNews(initialData);
-    }
-  }, [initialData]);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(initialData ? { ...news, id: initialData.id } : news);
+    onSubmit(news);
   };
 
   return (
@@ -111,7 +104,7 @@ const NewsForm = ({ onSubmit, initialData }: NewsFormProps) => {
       </div>
 
       <Button type="submit" className="w-full">
-        {initialData ? "Atualizar Notícia" : "Salvar Notícia"}
+        Salvar Notícia
       </Button>
     </form>
   );
