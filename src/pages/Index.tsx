@@ -4,7 +4,7 @@ import PlanCard from "@/components/PlanCard";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { Plan, supabasePlanToPlan } from "@/types/plans";
+import { Plan } from "@/types/plans";
 import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
@@ -29,10 +29,7 @@ const Index = () => {
       }
 
       console.log("Plans fetched successfully:", data);
-      if (data) {
-        const formattedPlans = data.map(plan => supabasePlanToPlan(plan));
-        setPlans(formattedPlans);
-      }
+      setPlans(data || []);
     } catch (error) {
       console.error("Error fetching plans:", error);
       toast({
@@ -52,6 +49,7 @@ const Index = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {isLoading ? (
+            // Show loading state
             <>
               <PlanCard
                 title=""
@@ -69,7 +67,7 @@ const Index = () => {
               />
             </>
           ) : plans.length > 0 ? (
-            plans.map((plan) => (
+            plans.map((plan, index) => (
               <PlanCard 
                 key={plan.id}
                 title={plan.title}

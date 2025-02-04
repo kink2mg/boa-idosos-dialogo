@@ -1,40 +1,42 @@
-import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PlansTab } from "@/components/admin/tabs/PlansTab";
+import { AccessoriesTab } from "@/components/admin/tabs/AccessoriesTab";
+import NewsForm from "@/components/admin/NewsForm";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import PlanForm from "@/components/admin/PlanForm";
-import AccessoryForm from "@/components/admin/AccessoryForm";
-import NewsForm from "@/components/admin/NewsForm";
-import SiteSettingsForm from "@/components/admin/SiteSettingsForm";
+
+interface NewsItem {
+  id: number;
+  title: string;
+  content: string;
+  date: string;
+  image: string;
+  videoUrl?: string;
+  category: string;
+}
 
 const Admin = () => {
   const { toast } = useToast();
-  const [showPlanForm, setShowPlanForm] = useState(false);
-  const [showAccessoryForm, setShowAccessoryForm] = useState(false);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [showNewsForm, setShowNewsForm] = useState(false);
 
-  const handleAddPlan = (newPlan: any) => {
-    setShowPlanForm(false);
-    toast({
-      title: "Sucesso",
-      description: "Plano adicionado com sucesso!"
-    });
-  };
-
-  const handleAddAccessory = (newAccessory: any) => {
-    setShowAccessoryForm(false);
-    toast({
-      title: "Sucesso",
-      description: "Acessório adicionado com sucesso!"
-    });
-  };
-
-  const handleAddNews = (newNews: any) => {
+  const handleAddNews = (newNews: Omit<NewsItem, "id">) => {
+    const newsItem = { ...newNews, id: news.length + 1 };
+    setNews([...news, newsItem]);
     setShowNewsForm(false);
     toast({
       title: "Sucesso",
       description: "Notícia adicionada com sucesso!"
+    });
+  };
+
+  const handleDeleteNews = (id: number) => {
+    setNews(news.filter(item => item.id !== id));
+    toast({
+      title: "Sucesso",
+      description: "Notícia removida com sucesso!"
     });
   };
 
@@ -43,47 +45,19 @@ const Admin = () => {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Painel Administrativo</h1>
 
-        <Tabs defaultValue="settings" className="space-y-4">
+        <Tabs defaultValue="plans" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="settings">Configurações do Site</TabsTrigger>
             <TabsTrigger value="plans">Planos</TabsTrigger>
             <TabsTrigger value="accessories">Acessórios</TabsTrigger>
             <TabsTrigger value="news">Notícias</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="settings">
-            <Card className="p-6">
-              <h2 className="text-2xl font-semibold mb-6">Configurações Gerais</h2>
-              <SiteSettingsForm />
-            </Card>
-          </TabsContent>
-
           <TabsContent value="plans">
-            <div className="space-y-4">
-              <Button onClick={() => setShowPlanForm(!showPlanForm)}>
-                {showPlanForm ? "Cancelar" : "Adicionar Novo Plano"}
-              </Button>
-
-              {showPlanForm && (
-                <Card className="p-6">
-                  <PlanForm onSubmit={handleAddPlan} />
-                </Card>
-              )}
-            </div>
+            <PlansTab />
           </TabsContent>
 
           <TabsContent value="accessories">
-            <div className="space-y-4">
-              <Button onClick={() => setShowAccessoryForm(!showAccessoryForm)}>
-                {showAccessoryForm ? "Cancelar" : "Adicionar Novo Acessório"}
-              </Button>
-
-              {showAccessoryForm && (
-                <Card className="p-6">
-                  <AccessoryForm onSubmit={handleAddAccessory} />
-                </Card>
-              )}
-            </div>
+            <AccessoriesTab />
           </TabsContent>
 
           <TabsContent value="news">
@@ -97,6 +71,30 @@ const Admin = () => {
                   <NewsForm onSubmit={handleAddNews} />
                 </Card>
               )}
+
+              <div className="grid gap-4">
+                {news.map((item) => (
+                  <Card key={item.id} className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="text-xl font-semibold">{item.title}</h3>
+                        <p className="text-gray-500">{item.category}</p>
+                        <p className="text-sm mt-2">{item.content}</p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          {new Date(item.date).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Button 
+                        variant="destructive" 
+                        size="icon"
+                        onClick={() => handleDeleteNews(item.id)}
+                      >
+                        <Trash className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </div>
           </TabsContent>
         </Tabs>
