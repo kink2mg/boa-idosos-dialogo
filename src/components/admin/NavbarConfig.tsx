@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface NavbarSettings {
   whatsappNumber: string;
@@ -45,11 +46,55 @@ const NavbarConfig = () => {
     }
   });
 
-  const handleSave = () => {
-    toast({
-      title: "Configurações salvas",
-      description: "As alterações foram aplicadas com sucesso!"
-    });
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('navbar_settings')
+        .select('*')
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        setSettings(data.settings);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar configurações:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível carregar as configurações da navbar",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const { error } = await supabase
+        .from('navbar_settings')
+        .upsert({ 
+          id: 1, // usando um ID fixo já que só teremos uma configuração
+          settings 
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Sucesso",
+        description: "Configurações da navbar salvas com sucesso!"
+      });
+    } catch (error) {
+      console.error('Erro ao salvar configurações:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível salvar as configurações",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -64,7 +109,8 @@ const NavbarConfig = () => {
               value={settings.whatsappNumber}
               onChange={(e) => setSettings(prev => ({
                 ...prev,
-                whatsappNumber: e.target.value
+                whatsappNumber: e.target.value,
+                whatsappLink: `https://wa.me/${e.target.value}`
               }))}
             />
           </div>
