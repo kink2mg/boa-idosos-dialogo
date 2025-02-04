@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -5,7 +6,7 @@ import { Package, Trash, Edit } from "lucide-react";
 import PlanForm from "../PlanForm";
 import { Plan } from "@/types/plans";
 import { usePlans } from "@/hooks/usePlans";
-import { LoadingSkeleton } from "@/components/LoadingSkeleton";
+import LoadingSkeleton from "@/components/LoadingSkeleton";
 
 export const PlansTab = () => {
   const { plans, addPlan, deletePlan, updatePlan, isLoading } = usePlans();

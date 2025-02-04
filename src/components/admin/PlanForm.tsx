@@ -1,16 +1,17 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Plan } from "@/types/plans";
 
-interface PlanFormProps {
+export interface PlanFormProps {
   onSubmit: (plan: Omit<Plan, "id" | "created_at" | "updated_at">) => void;
+  initialData?: Plan | null;
 }
 
-const PlanForm = ({ onSubmit }: PlanFormProps) => {
+const PlanForm = ({ onSubmit, initialData }: PlanFormProps) => {
   const [plan, setPlan] = useState<Omit<Plan, "id" | "created_at" | "updated_at">>({
     title: "",
     category: "",
@@ -21,6 +22,21 @@ const PlanForm = ({ onSubmit }: PlanFormProps) => {
     sales_count: 0,
     image_url: ""
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setPlan({
+        title: initialData.title,
+        category: initialData.category,
+        price: initialData.price,
+        mega: initialData.mega,
+        features: initialData.features,
+        is_popular: initialData.is_popular,
+        sales_count: initialData.sales_count,
+        image_url: initialData.image_url
+      });
+    }
+  }, [initialData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

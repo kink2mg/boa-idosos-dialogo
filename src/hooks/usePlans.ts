@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Plan } from "@/types/plans";
+import { Plan, supabasePlanToPlan, planToSupabasePlan } from "@/types/plans";
 
 export const usePlans = () => {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -21,7 +22,7 @@ export const usePlans = () => {
 
       if (error) throw error;
 
-      setPlans(data);
+      setPlans(data.map(supabasePlanToPlan));
     } catch (error) {
       console.error("Error fetching plans:", error);
       toast({
@@ -38,18 +39,19 @@ export const usePlans = () => {
     try {
       const { data, error } = await supabase
         .from("plans")
-        .insert([newPlan])
+        .insert([planToSupabasePlan(newPlan as Plan)])
         .select()
         .single();
 
       if (error) throw error;
 
-      setPlans([data, ...plans]);
+      const transformedPlan = supabasePlanToPlan(data);
+      setPlans([transformedPlan, ...plans]);
       toast({
         title: "Sucesso",
         description: "Plano adicionado com sucesso!",
       });
-      return data;
+      return transformedPlan;
     } catch (error) {
       console.error("Error adding plan:", error);
       toast({
@@ -65,15 +67,7 @@ export const usePlans = () => {
     try {
       const { error } = await supabase
         .from("plans")
-        .update({
-          title: updatedPlan.title,
-          category: updatedPlan.category,
-          price: updatedPlan.price,
-          mega: updatedPlan.mega,
-          features: updatedPlan.features,
-          is_popular: updatedPlan.is_popular,
-          sales_count: updatedPlan.sales_count
-        })
+        .update(planToSupabasePlan(updatedPlan))
         .eq("id", updatedPlan.id);
 
       if (error) throw error;
