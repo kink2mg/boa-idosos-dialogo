@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash } from "lucide-react";
@@ -17,61 +18,32 @@ interface NewsItem {
 
 export const NewsTab = () => {
   const { toast } = useToast();
-  const [news, setNews] = useState<NewsItem[]>([
-    {
-      id: "1",
-      title: "Nova Cobertura de Fibra Óptica",
-      content: "Estamos expandindo nossa rede de fibra óptica para mais bairros da cidade. Agora os moradores poderão desfrutar de internet ultra rápida.",
-      date: new Date().toISOString(),
-      image: "https://exemplo.com/fibra.jpg",
-      category: "Infraestrutura",
-      sendNotification: false
-    },
-    {
-      id: "2",
-      title: "Promoção de Natal",
-      content: "Aproveite as ofertas especiais de Natal com descontos incríveis em todos os planos de internet.",
-      date: new Date().toISOString(),
-      image: "https://exemplo.com/natal.jpg",
-      category: "Promoções",
-      sendNotification: true
-    },
-    {
-      id: "3",
-      title: "Novo Plano Empresarial",
-      content: "Lançamos um novo plano dedicado para empresas com necessidades específicas de conexão.",
-      date: new Date().toISOString(),
-      image: "https://exemplo.com/empresa.jpg",
-      category: "Produtos",
-      sendNotification: false
-    },
-    {
-      id: "4",
-      title: "Manutenção Programada",
-      content: "Informamos que haverá manutenção programada na rede para melhorias no serviço.",
-      date: new Date().toISOString(),
-      image: "https://exemplo.com/manutencao.jpg",
-      category: "Avisos",
-      sendNotification: true
-    },
-    {
-      id: "5",
-      title: "Novo Centro de Atendimento",
-      content: "Inauguramos um novo centro de atendimento para melhor servir nossos clientes.",
-      date: new Date().toISOString(),
-      image: "https://exemplo.com/atendimento.jpg",
-      category: "Institucional",
-      sendNotification: false
-    }
-  ]);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [showNewsForm, setShowNewsForm] = useState(false);
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
 
+  useEffect(() => {
+    const storedNews = localStorage.getItem('news');
+    if (storedNews) {
+      try {
+        setNews(JSON.parse(storedNews));
+      } catch (error) {
+        console.error("Erro ao carregar notícias:", error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('news', JSON.stringify(news));
+    console.log("Notícias salvas no localStorage:", news);
+  }, [news]);
+
   const handleAddNews = async (newNews: Omit<NewsItem, "id">) => {
     try {
-      const id = (news.length + 1).toString();
+      const id = Date.now().toString();
       const newsItem = { ...newNews, id };
-      setNews([newsItem, ...news]);
+      const updatedNews = [newsItem, ...news];
+      setNews(updatedNews);
       setShowNewsForm(false);
       toast({
         title: "Sucesso",
